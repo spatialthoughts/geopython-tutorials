@@ -1,0 +1,3157 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Performing Fuzzy Table Joins &#8212; Geospatial Python Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/geopandas_fuzzy_table_join';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Geospatial Python Tutorials" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Geospatial Python Tutorials - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Geospatial Python Tutorials - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Geospatial Python Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Pandas and GeoPandas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performing Fuzzy Table Joins</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/spatialthoughts/geopython-tutorials/blob/main/docs/notebooks/geopandas_fuzzy_table_join.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/geopandas_fuzzy_table_join.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/geopandas_fuzzy_table_join.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Performing Fuzzy Table Joins</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-process-data-table">Pre-Process Data Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-process-shapefile">Pre-Process Shapefile</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-join">Table Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-join">Fuzzy Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-datasets">Save the datasets</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="performing-fuzzy-table-joins">
+<h1>Performing Fuzzy Table Joins<a class="headerlink" href="#performing-fuzzy-table-joins" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>This tutorial shows how to use GeoPandas to do a fuzzy table join. We will be covering advanced data cleaning techniques to be able to merge datasets from different sources.</p>
+<p>We will be working with 2 data layers for the Sri Lanka. Given the shapefile of Admin4 regions and a CSV file containing division-wise population statistics - we will learn how to merge them to display these indicators on a map.</p>
+<p>Input Layers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lka_admbnda_adm4_slsd_20220816.shp</span></code>: A shapefile of all Grama Niladhari (GN)Divisions (Admin Level 4) of Sri Lanka.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GN_Division_Age_Group_of_Population.csv</span></code>: Age-wise population for all GN Divisions of Sri Lanka.</p></li>
+</ul>
+<p>Output:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">srilanka.gpkg</span></code>: A geopackage containing merged dataset.</p></li>
+</ul>
+<p>Data Credit:</p>
+<ul class="simple">
+<li><p>Sri Lanka Population Statistics: Department of Census and Statistics - Sri Lanka.  Downloaded from DCS Map Portal](<a class="reference external" href="http://map.statistics.gov.lk/">http://map.statistics.gov.lk/</a>).</p></li>
+<li><p>Sri Lanka - Subnational Administrative Boundaries: Sri Lanka administrative levels 0-4 shapefiles and gazetteer. Downloaded from <a class="reference external" href="https://data.humdata.org/dataset/cod-ab-lka">HDX portal</a>.</p></li>
+</ul>
+</section>
+<section id="setup-and-data-download">
+<h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
+<p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+        <span class="err">!</span><span class="n">apt</span> <span class="n">install</span> <span class="n">libspatialindex</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span><span class="n">qq</span>
+        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">fiona</span> <span class="n">shapely</span> <span class="n">pyproj</span> <span class="n">rtree</span> <span class="o">--</span><span class="n">quiet</span>
+        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">geopandas</span> <span class="o">--</span><span class="n">quiet</span>
+        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">thefuzz</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;geopandas not found, please install via conda in your environment&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">thefuzz</span><span class="w"> </span><span class="kn">import</span> <span class="n">process</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_folder</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://storage.googleapis.com/spatialthoughts-public-data/srilanka/&#39;</span>
+
+<span class="n">shapefile</span> <span class="o">=</span> <span class="s1">&#39;lka_admbnda_adm4_slsd_20220816&#39;</span>
+<span class="n">exts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="s1">&#39;.shx&#39;</span><span class="p">,</span> <span class="s1">&#39;.dbf&#39;</span><span class="p">,</span> <span class="s1">&#39;.prj&#39;</span><span class="p">]</span>
+<span class="n">csv_file</span> <span class="o">=</span> <span class="s1">&#39;GN_Division_Age_Group_of_Population.csv&#39;</span>
+
+<span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
+  <span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="n">shapefile</span> <span class="o">+</span> <span class="n">ext</span><span class="p">)</span>
+
+<span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="n">csv_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="procedure">
+<h2>Procedure<a class="headerlink" href="#procedure" title="Link to this heading">#</a></h2>
+<section id="pre-process-data-table">
+<h3>Pre-Process Data Table<a class="headerlink" href="#pre-process-data-table" title="Link to this heading">#</a></h3>
+<p>The data table containing population couts is organized by 1 row per GN Division. We do not have a unique identifier that uniquely matches a GN Division. Since GN Division names are not unique amounf different provinces, we must create a unique identifier to be able to match it against another data source.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">csv_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>Total Population</th>
+      <th>Less than 10</th>
+      <th>10 ~ 19</th>
+      <th>20 ~ 29</th>
+      <th>30 ~ 39</th>
+      <th>40 ~ 49</th>
+      <th>50 ~ 59</th>
+      <th>60 ~ 69</th>
+      <th>70 ~ 79</th>
+      <th>80 ~ 89</th>
+      <th>90 and above</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sammanthranapura</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>7829</td>
+      <td>1604</td>
+      <td>1373</td>
+      <td>1262</td>
+      <td>1251</td>
+      <td>944</td>
+      <td>796</td>
+      <td>400</td>
+      <td>131</td>
+      <td>52</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mattakkuliya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>28003</td>
+      <td>4932</td>
+      <td>4738</td>
+      <td>4379</td>
+      <td>4220</td>
+      <td>3702</td>
+      <td>2920</td>
+      <td>1944</td>
+      <td>834</td>
+      <td>239</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Modara</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>17757</td>
+      <td>3045</td>
+      <td>2791</td>
+      <td>3101</td>
+      <td>2688</td>
+      <td>2321</td>
+      <td>1872</td>
+      <td>1271</td>
+      <td>481</td>
+      <td>159</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Madampitiya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>12970</td>
+      <td>2834</td>
+      <td>2415</td>
+      <td>2066</td>
+      <td>1940</td>
+      <td>1687</td>
+      <td>1147</td>
+      <td>581</td>
+      <td>238</td>
+      <td>52</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mahawatta</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>8809</td>
+      <td>1529</td>
+      <td>1495</td>
+      <td>1406</td>
+      <td>1357</td>
+      <td>1198</td>
+      <td>953</td>
+      <td>555</td>
+      <td>213</td>
+      <td>75</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13984</th>
+      <td>Demeda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>971</td>
+      <td>181</td>
+      <td>156</td>
+      <td>138</td>
+      <td>150</td>
+      <td>117</td>
+      <td>93</td>
+      <td>90</td>
+      <td>35</td>
+      <td>10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13985</th>
+      <td>Kosgahakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>2336</td>
+      <td>360</td>
+      <td>364</td>
+      <td>343</td>
+      <td>331</td>
+      <td>295</td>
+      <td>293</td>
+      <td>216</td>
+      <td>107</td>
+      <td>26</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13986</th>
+      <td>Yatiwala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>1882</td>
+      <td>324</td>
+      <td>268</td>
+      <td>342</td>
+      <td>249</td>
+      <td>248</td>
+      <td>210</td>
+      <td>154</td>
+      <td>67</td>
+      <td>17</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13987</th>
+      <td>Magala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>1076</td>
+      <td>158</td>
+      <td>131</td>
+      <td>147</td>
+      <td>182</td>
+      <td>131</td>
+      <td>135</td>
+      <td>108</td>
+      <td>67</td>
+      <td>17</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13988</th>
+      <td>Dikellakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>684</td>
+      <td>114</td>
+      <td>93</td>
+      <td>86</td>
+      <td>121</td>
+      <td>97</td>
+      <td>75</td>
+      <td>64</td>
+      <td>27</td>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>13989 rows × 15 columns</p>
+</div></div></div>
+</div>
+<p>GN Division names are not unique, so they can’t be used as identifiers for a join.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;GN Division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;GN Division&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>Total Population</th>
+      <th>Less than 10</th>
+      <th>10 ~ 19</th>
+      <th>20 ~ 29</th>
+      <th>30 ~ 39</th>
+      <th>40 ~ 49</th>
+      <th>50 ~ 59</th>
+      <th>60 ~ 69</th>
+      <th>70 ~ 79</th>
+      <th>80 ~ 89</th>
+      <th>90 and above</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8944</th>
+      <td>Abakolawewa North</td>
+      <td>Ambanpola</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>561</td>
+      <td>100</td>
+      <td>81</td>
+      <td>81</td>
+      <td>83</td>
+      <td>83</td>
+      <td>72</td>
+      <td>37</td>
+      <td>17</td>
+      <td>7</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6521</th>
+      <td>Abakolawewa North</td>
+      <td>Weeraketiya</td>
+      <td>Hambantota</td>
+      <td>Southern</td>
+      <td>648</td>
+      <td>131</td>
+      <td>114</td>
+      <td>93</td>
+      <td>84</td>
+      <td>85</td>
+      <td>65</td>
+      <td>37</td>
+      <td>25</td>
+      <td>11</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>8954</th>
+      <td>Abakolawewa South</td>
+      <td>Ambanpola</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>488</td>
+      <td>72</td>
+      <td>77</td>
+      <td>67</td>
+      <td>62</td>
+      <td>70</td>
+      <td>72</td>
+      <td>43</td>
+      <td>16</td>
+      <td>8</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6520</th>
+      <td>Abakolawewa South</td>
+      <td>Weeraketiya</td>
+      <td>Hambantota</td>
+      <td>Southern</td>
+      <td>322</td>
+      <td>62</td>
+      <td>47</td>
+      <td>39</td>
+      <td>40</td>
+      <td>46</td>
+      <td>41</td>
+      <td>29</td>
+      <td>11</td>
+      <td>6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6303</th>
+      <td>Abhayapura</td>
+      <td>Lunugamvehera</td>
+      <td>Hambantota</td>
+      <td>Southern</td>
+      <td>624</td>
+      <td>123</td>
+      <td>87</td>
+      <td>98</td>
+      <td>120</td>
+      <td>46</td>
+      <td>71</td>
+      <td>59</td>
+      <td>11</td>
+      <td>9</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2375</th>
+      <td>Yatiyana East</td>
+      <td>Agalawatta</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>1493</td>
+      <td>214</td>
+      <td>226</td>
+      <td>211</td>
+      <td>222</td>
+      <td>207</td>
+      <td>156</td>
+      <td>128</td>
+      <td>79</td>
+      <td>39</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>978</th>
+      <td>Yatiyana East</td>
+      <td>Minuwangoda</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>2004</td>
+      <td>324</td>
+      <td>335</td>
+      <td>269</td>
+      <td>317</td>
+      <td>299</td>
+      <td>231</td>
+      <td>152</td>
+      <td>45</td>
+      <td>25</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>13634</th>
+      <td>Yodhagama</td>
+      <td>Aranayaka</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>760</td>
+      <td>129</td>
+      <td>124</td>
+      <td>88</td>
+      <td>99</td>
+      <td>108</td>
+      <td>99</td>
+      <td>67</td>
+      <td>35</td>
+      <td>9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>13493</th>
+      <td>Yodhagama</td>
+      <td>Rambukkana</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>1421</td>
+      <td>259</td>
+      <td>223</td>
+      <td>182</td>
+      <td>204</td>
+      <td>206</td>
+      <td>168</td>
+      <td>122</td>
+      <td>41</td>
+      <td>13</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>13371</th>
+      <td>Yodhagama</td>
+      <td>Embilipitiya</td>
+      <td>Ratnapura</td>
+      <td>Sabaragamuwa</td>
+      <td>5657</td>
+      <td>966</td>
+      <td>844</td>
+      <td>902</td>
+      <td>894</td>
+      <td>795</td>
+      <td>701</td>
+      <td>381</td>
+      <td>125</td>
+      <td>40</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+<p>2511 rows × 15 columns</p>
+</div></div></div>
+</div>
+<p>Let’s create a unique idenfier by merging the Admin4, Admin3, Admin2 and Admin1 names. We also remove  whitespaces and convert the names to lowercase to ensure the match is case insensitive.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_processed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">gn_division</span> <span class="o">=</span> <span class="n">df_processed</span><span class="p">[</span><span class="s1">&#39;GN Division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">ds_division</span> <span class="o">=</span> <span class="n">df_processed</span><span class="p">[</span><span class="s1">&#39;DS Division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">district</span> <span class="o">=</span> <span class="n">df_processed</span><span class="p">[</span><span class="s1">&#39;District&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">province</span> <span class="o">=</span> <span class="n">df_processed</span><span class="p">[</span><span class="s1">&#39;Province&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">df_processed</span><span class="p">[</span><span class="s1">&#39;joinkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gn_division</span> <span class="o">+</span> <span class="n">ds_division</span> <span class="o">+</span> <span class="n">district</span> <span class="o">+</span> <span class="n">province</span>
+<span class="n">df_processed</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>Total Population</th>
+      <th>Less than 10</th>
+      <th>10 ~ 19</th>
+      <th>20 ~ 29</th>
+      <th>30 ~ 39</th>
+      <th>40 ~ 49</th>
+      <th>50 ~ 59</th>
+      <th>60 ~ 69</th>
+      <th>70 ~ 79</th>
+      <th>80 ~ 89</th>
+      <th>90 and above</th>
+      <th>joinkey</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sammanthranapura</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>7829</td>
+      <td>1604</td>
+      <td>1373</td>
+      <td>1262</td>
+      <td>1251</td>
+      <td>944</td>
+      <td>796</td>
+      <td>400</td>
+      <td>131</td>
+      <td>52</td>
+      <td>16</td>
+      <td>sammanthranapuracolombocolombowestern</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mattakkuliya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>28003</td>
+      <td>4932</td>
+      <td>4738</td>
+      <td>4379</td>
+      <td>4220</td>
+      <td>3702</td>
+      <td>2920</td>
+      <td>1944</td>
+      <td>834</td>
+      <td>239</td>
+      <td>95</td>
+      <td>mattakkuliyacolombocolombowestern</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Modara</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>17757</td>
+      <td>3045</td>
+      <td>2791</td>
+      <td>3101</td>
+      <td>2688</td>
+      <td>2321</td>
+      <td>1872</td>
+      <td>1271</td>
+      <td>481</td>
+      <td>159</td>
+      <td>28</td>
+      <td>modaracolombocolombowestern</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Madampitiya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>12970</td>
+      <td>2834</td>
+      <td>2415</td>
+      <td>2066</td>
+      <td>1940</td>
+      <td>1687</td>
+      <td>1147</td>
+      <td>581</td>
+      <td>238</td>
+      <td>52</td>
+      <td>10</td>
+      <td>madampitiyacolombocolombowestern</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mahawatta</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>8809</td>
+      <td>1529</td>
+      <td>1495</td>
+      <td>1406</td>
+      <td>1357</td>
+      <td>1198</td>
+      <td>953</td>
+      <td>555</td>
+      <td>213</td>
+      <td>75</td>
+      <td>28</td>
+      <td>mahawattacolombocolombowestern</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13984</th>
+      <td>Demeda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>971</td>
+      <td>181</td>
+      <td>156</td>
+      <td>138</td>
+      <td>150</td>
+      <td>117</td>
+      <td>93</td>
+      <td>90</td>
+      <td>35</td>
+      <td>10</td>
+      <td>1</td>
+      <td>demedaderaniyagalakegallesabaragamuwa</td>
+    </tr>
+    <tr>
+      <th>13985</th>
+      <td>Kosgahakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>2336</td>
+      <td>360</td>
+      <td>364</td>
+      <td>343</td>
+      <td>331</td>
+      <td>295</td>
+      <td>293</td>
+      <td>216</td>
+      <td>107</td>
+      <td>26</td>
+      <td>1</td>
+      <td>kosgahakandaderaniyagalakegallesabaragamuwa</td>
+    </tr>
+    <tr>
+      <th>13986</th>
+      <td>Yatiwala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>1882</td>
+      <td>324</td>
+      <td>268</td>
+      <td>342</td>
+      <td>249</td>
+      <td>248</td>
+      <td>210</td>
+      <td>154</td>
+      <td>67</td>
+      <td>17</td>
+      <td>3</td>
+      <td>yatiwaladeraniyagalakegallesabaragamuwa</td>
+    </tr>
+    <tr>
+      <th>13987</th>
+      <td>Magala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>1076</td>
+      <td>158</td>
+      <td>131</td>
+      <td>147</td>
+      <td>182</td>
+      <td>131</td>
+      <td>135</td>
+      <td>108</td>
+      <td>67</td>
+      <td>17</td>
+      <td>0</td>
+      <td>magaladeraniyagalakegallesabaragamuwa</td>
+    </tr>
+    <tr>
+      <th>13988</th>
+      <td>Dikellakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>684</td>
+      <td>114</td>
+      <td>93</td>
+      <td>86</td>
+      <td>121</td>
+      <td>97</td>
+      <td>75</td>
+      <td>64</td>
+      <td>27</td>
+      <td>6</td>
+      <td>1</td>
+      <td>dikellakandaderaniyagalakegallesabaragamuwa</td>
+    </tr>
+  </tbody>
+</table>
+<p>13989 rows × 16 columns</p>
+</div></div></div>
+</div>
+<p>We still have some duplicates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">duplicate_df</span> <span class="o">=</span> <span class="n">df_processed</span><span class="p">[</span><span class="n">df_processed</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;joinkey&#39;</span><span class="p">)</span>
+<span class="n">duplicate_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>Total Population</th>
+      <th>Less than 10</th>
+      <th>10 ~ 19</th>
+      <th>20 ~ 29</th>
+      <th>30 ~ 39</th>
+      <th>40 ~ 49</th>
+      <th>50 ~ 59</th>
+      <th>60 ~ 69</th>
+      <th>70 ~ 79</th>
+      <th>80 ~ 89</th>
+      <th>90 and above</th>
+      <th>joinkey</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>10341</th>
+      <td>Ahugoda West</td>
+      <td>Polgahawela</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>533</td>
+      <td>82</td>
+      <td>82</td>
+      <td>55</td>
+      <td>78</td>
+      <td>90</td>
+      <td>64</td>
+      <td>48</td>
+      <td>23</td>
+      <td>8</td>
+      <td>3</td>
+      <td>ahugodawestpolgahawelakurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>10335</th>
+      <td>Ahugoda West</td>
+      <td>Polgahawela</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>876</td>
+      <td>153</td>
+      <td>134</td>
+      <td>115</td>
+      <td>140</td>
+      <td>111</td>
+      <td>97</td>
+      <td>79</td>
+      <td>33</td>
+      <td>14</td>
+      <td>0</td>
+      <td>ahugodawestpolgahawelakurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>10694</th>
+      <td>Aluthwatta</td>
+      <td>Chilaw</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>1350</td>
+      <td>179</td>
+      <td>238</td>
+      <td>188</td>
+      <td>186</td>
+      <td>187</td>
+      <td>162</td>
+      <td>139</td>
+      <td>54</td>
+      <td>17</td>
+      <td>0</td>
+      <td>aluthwattachilawputtalamnorthwestern</td>
+    </tr>
+    <tr>
+      <th>10693</th>
+      <td>Aluthwatta</td>
+      <td>Chilaw</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>1582</td>
+      <td>247</td>
+      <td>250</td>
+      <td>222</td>
+      <td>274</td>
+      <td>188</td>
+      <td>187</td>
+      <td>145</td>
+      <td>57</td>
+      <td>12</td>
+      <td>0</td>
+      <td>aluthwattachilawputtalamnorthwestern</td>
+    </tr>
+    <tr>
+      <th>2781</th>
+      <td>Dewahandiya East</td>
+      <td>Udadumbara</td>
+      <td>Kandy</td>
+      <td>Central</td>
+      <td>224</td>
+      <td>38</td>
+      <td>34</td>
+      <td>33</td>
+      <td>29</td>
+      <td>40</td>
+      <td>28</td>
+      <td>12</td>
+      <td>7</td>
+      <td>3</td>
+      <td>0</td>
+      <td>dewahandiyaeastudadumbarakandycentral</td>
+    </tr>
+    <tr>
+      <th>2793</th>
+      <td>Dewahandiya East</td>
+      <td>Udadumbara</td>
+      <td>Kandy</td>
+      <td>Central</td>
+      <td>378</td>
+      <td>58</td>
+      <td>65</td>
+      <td>50</td>
+      <td>48</td>
+      <td>49</td>
+      <td>57</td>
+      <td>32</td>
+      <td>12</td>
+      <td>6</td>
+      <td>1</td>
+      <td>dewahandiyaeastudadumbarakandycentral</td>
+    </tr>
+    <tr>
+      <th>2481</th>
+      <td>Gorakadoowa</td>
+      <td>Walallavita</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>938</td>
+      <td>147</td>
+      <td>139</td>
+      <td>128</td>
+      <td>131</td>
+      <td>121</td>
+      <td>99</td>
+      <td>95</td>
+      <td>59</td>
+      <td>14</td>
+      <td>5</td>
+      <td>gorakadoowawalallavitakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>2487</th>
+      <td>Gorakadoowa</td>
+      <td>Walallavita</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>1624</td>
+      <td>288</td>
+      <td>279</td>
+      <td>244</td>
+      <td>252</td>
+      <td>195</td>
+      <td>186</td>
+      <td>107</td>
+      <td>43</td>
+      <td>23</td>
+      <td>7</td>
+      <td>gorakadoowawalallavitakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>699</th>
+      <td>Halpe</td>
+      <td>Divulapitiya</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>2219</td>
+      <td>356</td>
+      <td>361</td>
+      <td>336</td>
+      <td>356</td>
+      <td>317</td>
+      <td>227</td>
+      <td>169</td>
+      <td>66</td>
+      <td>25</td>
+      <td>6</td>
+      <td>halpedivulapitiyagampahawestern</td>
+    </tr>
+    <tr>
+      <th>757</th>
+      <td>Halpe</td>
+      <td>Divulapitiya</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>2559</td>
+      <td>450</td>
+      <td>373</td>
+      <td>335</td>
+      <td>455</td>
+      <td>330</td>
+      <td>302</td>
+      <td>179</td>
+      <td>98</td>
+      <td>30</td>
+      <td>7</td>
+      <td>halpedivulapitiyagampahawestern</td>
+    </tr>
+    <tr>
+      <th>4530</th>
+      <td>High Forest</td>
+      <td>Walapane</td>
+      <td>Nuwara Eliya</td>
+      <td>Central</td>
+      <td>1511</td>
+      <td>311</td>
+      <td>241</td>
+      <td>203</td>
+      <td>230</td>
+      <td>208</td>
+      <td>163</td>
+      <td>107</td>
+      <td>31</td>
+      <td>12</td>
+      <td>5</td>
+      <td>highforestwalapanenuwaraeliyacentral</td>
+    </tr>
+    <tr>
+      <th>4527</th>
+      <td>High Forest</td>
+      <td>Walapane</td>
+      <td>Nuwara Eliya</td>
+      <td>Central</td>
+      <td>2688</td>
+      <td>607</td>
+      <td>411</td>
+      <td>345</td>
+      <td>418</td>
+      <td>345</td>
+      <td>266</td>
+      <td>212</td>
+      <td>67</td>
+      <td>14</td>
+      <td>3</td>
+      <td>highforestwalapanenuwaraeliyacentral</td>
+    </tr>
+    <tr>
+      <th>11237</th>
+      <td>Hurulunikawewa</td>
+      <td>Galenbindunuwewa</td>
+      <td>Anuradhapura</td>
+      <td>North Central</td>
+      <td>1281</td>
+      <td>252</td>
+      <td>168</td>
+      <td>164</td>
+      <td>202</td>
+      <td>155</td>
+      <td>166</td>
+      <td>127</td>
+      <td>29</td>
+      <td>12</td>
+      <td>6</td>
+      <td>hurulunikawewagalenbindunuwewaanuradhapuranort...</td>
+    </tr>
+    <tr>
+      <th>11243</th>
+      <td>Hurulunikawewa</td>
+      <td>Galenbindunuwewa</td>
+      <td>Anuradhapura</td>
+      <td>North Central</td>
+      <td>1148</td>
+      <td>229</td>
+      <td>184</td>
+      <td>124</td>
+      <td>196</td>
+      <td>128</td>
+      <td>123</td>
+      <td>110</td>
+      <td>41</td>
+      <td>9</td>
+      <td>4</td>
+      <td>hurulunikawewagalenbindunuwewaanuradhapuranort...</td>
+    </tr>
+    <tr>
+      <th>8771</th>
+      <td>Jinna Nagar</td>
+      <td>Muttur</td>
+      <td>Trincomalee</td>
+      <td>Eastern</td>
+      <td>1008</td>
+      <td>267</td>
+      <td>218</td>
+      <td>167</td>
+      <td>112</td>
+      <td>95</td>
+      <td>95</td>
+      <td>48</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0</td>
+      <td>jinnanagarmutturtrincomaleeeastern</td>
+    </tr>
+    <tr>
+      <th>8777</th>
+      <td>Jinna Nagar</td>
+      <td>Muttur</td>
+      <td>Trincomalee</td>
+      <td>Eastern</td>
+      <td>1275</td>
+      <td>322</td>
+      <td>285</td>
+      <td>185</td>
+      <td>163</td>
+      <td>135</td>
+      <td>111</td>
+      <td>58</td>
+      <td>10</td>
+      <td>5</td>
+      <td>1</td>
+      <td>jinnanagarmutturtrincomaleeeastern</td>
+    </tr>
+    <tr>
+      <th>9074</th>
+      <td>Konwewa</td>
+      <td>Maho</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>667</td>
+      <td>116</td>
+      <td>103</td>
+      <td>94</td>
+      <td>92</td>
+      <td>98</td>
+      <td>97</td>
+      <td>35</td>
+      <td>22</td>
+      <td>10</td>
+      <td>0</td>
+      <td>konwewamahokurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>9112</th>
+      <td>Konwewa</td>
+      <td>Maho</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>704</td>
+      <td>128</td>
+      <td>109</td>
+      <td>90</td>
+      <td>111</td>
+      <td>85</td>
+      <td>93</td>
+      <td>52</td>
+      <td>25</td>
+      <td>9</td>
+      <td>2</td>
+      <td>konwewamahokurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>9114</th>
+      <td>Kumbukwewa</td>
+      <td>Maho</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>764</td>
+      <td>132</td>
+      <td>121</td>
+      <td>91</td>
+      <td>140</td>
+      <td>103</td>
+      <td>98</td>
+      <td>45</td>
+      <td>28</td>
+      <td>3</td>
+      <td>3</td>
+      <td>kumbukwewamahokurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>9106</th>
+      <td>Kumbukwewa</td>
+      <td>Maho</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>715</td>
+      <td>107</td>
+      <td>98</td>
+      <td>108</td>
+      <td>100</td>
+      <td>105</td>
+      <td>107</td>
+      <td>50</td>
+      <td>30</td>
+      <td>8</td>
+      <td>2</td>
+      <td>kumbukwewamahokurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>9111</th>
+      <td>Kumbukwewa</td>
+      <td>Maho</td>
+      <td>Kurunegala</td>
+      <td>North Western</td>
+      <td>670</td>
+      <td>115</td>
+      <td>99</td>
+      <td>76</td>
+      <td>106</td>
+      <td>105</td>
+      <td>69</td>
+      <td>50</td>
+      <td>34</td>
+      <td>14</td>
+      <td>2</td>
+      <td>kumbukwewamahokurunegalanorthwestern</td>
+    </tr>
+    <tr>
+      <th>2455</th>
+      <td>Miriswatta</td>
+      <td>Walallavita</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>1150</td>
+      <td>201</td>
+      <td>189</td>
+      <td>172</td>
+      <td>157</td>
+      <td>132</td>
+      <td>136</td>
+      <td>99</td>
+      <td>45</td>
+      <td>14</td>
+      <td>5</td>
+      <td>miriswattawalallavitakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>2488</th>
+      <td>Miriswatta</td>
+      <td>Walallavita</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>779</td>
+      <td>121</td>
+      <td>111</td>
+      <td>106</td>
+      <td>128</td>
+      <td>104</td>
+      <td>62</td>
+      <td>74</td>
+      <td>52</td>
+      <td>19</td>
+      <td>2</td>
+      <td>miriswattawalallavitakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>8305</th>
+      <td>Periyaneelavanai  Muslim Section</td>
+      <td>Kalmunai</td>
+      <td>Ampara</td>
+      <td>Eastern</td>
+      <td>2014</td>
+      <td>469</td>
+      <td>406</td>
+      <td>218</td>
+      <td>287</td>
+      <td>317</td>
+      <td>176</td>
+      <td>91</td>
+      <td>37</td>
+      <td>10</td>
+      <td>3</td>
+      <td>periyaneelavanaimuslimsectionkalmunaiamparaeas...</td>
+    </tr>
+    <tr>
+      <th>8306</th>
+      <td>Periyaneelavanai  Muslim Section</td>
+      <td>Kalmunai</td>
+      <td>Ampara</td>
+      <td>Eastern</td>
+      <td>930</td>
+      <td>247</td>
+      <td>164</td>
+      <td>128</td>
+      <td>139</td>
+      <td>131</td>
+      <td>78</td>
+      <td>25</td>
+      <td>16</td>
+      <td>2</td>
+      <td>0</td>
+      <td>periyaneelavanaimuslimsectionkalmunaiamparaeas...</td>
+    </tr>
+    <tr>
+      <th>2109</th>
+      <td>Pothupitiya North</td>
+      <td>Kalutara</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>1296</td>
+      <td>188</td>
+      <td>158</td>
+      <td>200</td>
+      <td>190</td>
+      <td>182</td>
+      <td>177</td>
+      <td>128</td>
+      <td>47</td>
+      <td>22</td>
+      <td>4</td>
+      <td>pothupitiyanorthkalutarakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>2125</th>
+      <td>Pothupitiya North</td>
+      <td>Kalutara</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>2376</td>
+      <td>379</td>
+      <td>362</td>
+      <td>369</td>
+      <td>361</td>
+      <td>310</td>
+      <td>292</td>
+      <td>190</td>
+      <td>80</td>
+      <td>30</td>
+      <td>3</td>
+      <td>pothupitiyanorthkalutarakalutarawestern</td>
+    </tr>
+    <tr>
+      <th>1389</th>
+      <td>Sapugasthenna</td>
+      <td>Attanagalla</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>1028</td>
+      <td>164</td>
+      <td>158</td>
+      <td>149</td>
+      <td>165</td>
+      <td>133</td>
+      <td>125</td>
+      <td>91</td>
+      <td>29</td>
+      <td>12</td>
+      <td>2</td>
+      <td>sapugasthennaattanagallagampahawestern</td>
+    </tr>
+    <tr>
+      <th>1334</th>
+      <td>Sapugasthenna</td>
+      <td>Attanagalla</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>2199</td>
+      <td>374</td>
+      <td>388</td>
+      <td>243</td>
+      <td>341</td>
+      <td>411</td>
+      <td>225</td>
+      <td>127</td>
+      <td>58</td>
+      <td>28</td>
+      <td>4</td>
+      <td>sapugasthennaattanagallagampahawestern</td>
+    </tr>
+    <tr>
+      <th>10559</th>
+      <td>Udappuwa</td>
+      <td>Mundel</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>1087</td>
+      <td>137</td>
+      <td>175</td>
+      <td>189</td>
+      <td>147</td>
+      <td>162</td>
+      <td>132</td>
+      <td>98</td>
+      <td>37</td>
+      <td>8</td>
+      <td>2</td>
+      <td>udappuwamundelputtalamnorthwestern</td>
+    </tr>
+    <tr>
+      <th>10560</th>
+      <td>Udappuwa</td>
+      <td>Mundel</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>3011</td>
+      <td>476</td>
+      <td>532</td>
+      <td>570</td>
+      <td>433</td>
+      <td>392</td>
+      <td>334</td>
+      <td>190</td>
+      <td>65</td>
+      <td>17</td>
+      <td>2</td>
+      <td>udappuwamundelputtalamnorthwestern</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Since these refer to the same region, we merge the data for duplicate admin4 regions. While merging the rows, we sum the population counts from each row having the same key.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_processed</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;GN Division&#39;, &#39;DS Division&#39;, &#39;District&#39;, &#39;Province&#39;,
+       &#39;Total Population&#39;, &#39;Less than 10&#39;, &#39;10 ~ 19&#39;, &#39;20 ~ 29&#39;, &#39;30 ~ 39&#39;,
+       &#39;40 ~ 49&#39;, &#39;50 ~ 59&#39;, &#39;60 ~ 69&#39;, &#39;70 ~ 79&#39;, &#39;80 ~ 89&#39;, &#39;90 and above&#39;,
+       &#39;joinkey&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_dissolved</span> <span class="o">=</span> <span class="n">df_processed</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;joinkey&#39;</span><span class="p">],</span><span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s1">&#39;GN Division&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DS Division&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;District&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Province&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Total Population&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;Less than 10&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;10 ~ 19&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;20 ~ 29&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;30 ~ 39&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;40 ~ 49&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;50 ~ 59&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;60 ~ 69&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;70 ~ 79&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;80 ~ 89&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span>
+    <span class="s1">&#39;90 and above&#39;</span><span class="p">:</span> <span class="nb">sum</span>
+<span class="p">})</span>
+<span class="n">df_dissolved</span> <span class="o">=</span> <span class="n">df_dissolved</span><span class="p">[[</span><span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="s1">&#39;Total Population&#39;</span><span class="p">,</span> <span class="s1">&#39;Less than 10&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;10 ~ 19&#39;</span><span class="p">,</span> <span class="s1">&#39;20 ~ 29&#39;</span><span class="p">,</span> <span class="s1">&#39;30 ~ 39&#39;</span><span class="p">,</span><span class="s1">&#39;40 ~ 49&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;50 ~ 59&#39;</span><span class="p">,</span> <span class="s1">&#39;60 ~ 69&#39;</span><span class="p">,</span> <span class="s1">&#39;70 ~ 79&#39;</span><span class="p">,</span> <span class="s1">&#39;80 ~ 89&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;90 and above&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of original table&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of processed table&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_dissolved</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Records of original table 13989
+Total Records of processed table 13973
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pre-process-shapefile">
+<h3>Pre-Process Shapefile<a class="headerlink" href="#pre-process-shapefile" title="Link to this heading">#</a></h3>
+<p>Our shapefile comes from a different source and thus has a different structure. We need to match each feature with a record from the data table. We process the data to create a similar ‘joinkey’ and remove duplicates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shapefile_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">shapefile</span> <span class="o">+</span> <span class="s1">&#39;.shp&#39;</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">gdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Shape_Leng</th>
+      <th>Shape_Area</th>
+      <th>ADM4_EN</th>
+      <th>ADM4_SI</th>
+      <th>ADM4_TA</th>
+      <th>ADM4_PCODE</th>
+      <th>ADM4_REF</th>
+      <th>ADM3_EN</th>
+      <th>ADM3_SI</th>
+      <th>ADM3_TA</th>
+      <th>...</th>
+      <th>ADM1_TA</th>
+      <th>ADM1_PCODE</th>
+      <th>ADM0_EN</th>
+      <th>ADM0_SI</th>
+      <th>ADM0_TA</th>
+      <th>ADM0_PCODE</th>
+      <th>date</th>
+      <th>validOn</th>
+      <th>validTo</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.019689</td>
+      <td>0.000015</td>
+      <td>Sammanthranapura</td>
+      <td>සම්මන්ත්‍රණපුර</td>
+      <td>None</td>
+      <td>LK1103005</td>
+      <td>None</td>
+      <td>Colombo</td>
+      <td>කොළඹ</td>
+      <td>கொழும்பு</td>
+      <td>...</td>
+      <td>மேல் மாகாணம்</td>
+      <td>LK1</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((79.88040 6.98093, 79.88032 6.98062, ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.072878</td>
+      <td>0.000177</td>
+      <td>Mattakkuliya</td>
+      <td>මට්ටක්කුලිය</td>
+      <td>None</td>
+      <td>LK1103010</td>
+      <td>None</td>
+      <td>Colombo</td>
+      <td>කොළඹ</td>
+      <td>கொழும்பு</td>
+      <td>...</td>
+      <td>மேல் மாகாணம்</td>
+      <td>LK1</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((79.88217 6.97996, 79.88218 6.97995, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052290</td>
+      <td>0.000064</td>
+      <td>Modara</td>
+      <td>මෝදර</td>
+      <td>None</td>
+      <td>LK1103015</td>
+      <td>None</td>
+      <td>Colombo</td>
+      <td>කොළඹ</td>
+      <td>கொழும்பு</td>
+      <td>...</td>
+      <td>மேல் மாகாணம்</td>
+      <td>LK1</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((79.87507 6.96483, 79.87504 6.96479, ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.019201</td>
+      <td>0.000023</td>
+      <td>Madampitiya</td>
+      <td>මාදම්පිටිය</td>
+      <td>None</td>
+      <td>LK1103020</td>
+      <td>None</td>
+      <td>Colombo</td>
+      <td>කොළඹ</td>
+      <td>கொழும்பு</td>
+      <td>...</td>
+      <td>மேல் மாகாணம்</td>
+      <td>LK1</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((79.87852 6.96328, 79.87849 6.96314, ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.033889</td>
+      <td>0.000042</td>
+      <td>Mahawatta</td>
+      <td>මහවත්ත</td>
+      <td>None</td>
+      <td>LK1103025</td>
+      <td>None</td>
+      <td>Colombo</td>
+      <td>කොළඹ</td>
+      <td>கொழும்பு</td>
+      <td>...</td>
+      <td>மேல் மாகாணம்</td>
+      <td>LK1</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((79.87252 6.96160, 79.87261 6.96151, ...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>14038</th>
+      <td>0.149196</td>
+      <td>0.000260</td>
+      <td>Demeda</td>
+      <td>දෙමැද</td>
+      <td>None</td>
+      <td>LK9233110</td>
+      <td>None</td>
+      <td>Deraniyagala</td>
+      <td>දැරණියගල</td>
+      <td>தெரனியாகலை</td>
+      <td>...</td>
+      <td>சபரகமுவ மாகாணம்</td>
+      <td>LK9</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((80.35891 6.87436, 80.35961 6.87238, ...</td>
+    </tr>
+    <tr>
+      <th>14039</th>
+      <td>0.143733</td>
+      <td>0.000765</td>
+      <td>Kosgahakanda</td>
+      <td>කොස්ගහකන්ද</td>
+      <td>None</td>
+      <td>LK9233115</td>
+      <td>None</td>
+      <td>Deraniyagala</td>
+      <td>දැරණියගල</td>
+      <td>தெரனியாகலை</td>
+      <td>...</td>
+      <td>சபரகமுவ மாகாணம்</td>
+      <td>LK9</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((80.37824 6.89164, 80.37861 6.89139, ...</td>
+    </tr>
+    <tr>
+      <th>14040</th>
+      <td>0.122895</td>
+      <td>0.000583</td>
+      <td>Yatiwala</td>
+      <td>යටිවල</td>
+      <td>None</td>
+      <td>LK9233120</td>
+      <td>None</td>
+      <td>Deraniyagala</td>
+      <td>දැරණියගල</td>
+      <td>தெரனியாகலை</td>
+      <td>...</td>
+      <td>சபரகமுவ மாகாணம்</td>
+      <td>LK9</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((80.40891 6.87830, 80.40845 6.87784, ...</td>
+    </tr>
+    <tr>
+      <th>14041</th>
+      <td>0.246448</td>
+      <td>0.001756</td>
+      <td>Magala</td>
+      <td>මාගල</td>
+      <td>None</td>
+      <td>LK9233125</td>
+      <td>None</td>
+      <td>Deraniyagala</td>
+      <td>දැරණියගල</td>
+      <td>தெரனியாகலை</td>
+      <td>...</td>
+      <td>சபரகமுவ மாகாணம்</td>
+      <td>LK9</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((80.41601 6.88094, 80.41600 6.88093, ...</td>
+    </tr>
+    <tr>
+      <th>14042</th>
+      <td>0.275330</td>
+      <td>0.002457</td>
+      <td>Dikellakanda</td>
+      <td>දික්ඇල්ලකන්ද</td>
+      <td>None</td>
+      <td>LK9233130</td>
+      <td>None</td>
+      <td>Deraniyagala</td>
+      <td>දැරණියගල</td>
+      <td>தெரனியாகலை</td>
+      <td>...</td>
+      <td>சபரகமுவ மாகாணம்</td>
+      <td>LK9</td>
+      <td>Sri Lanka</td>
+      <td>ශ්‍රී ලංකා</td>
+      <td>இலங்கை</td>
+      <td>LK</td>
+      <td>2022-08-02</td>
+      <td>2022-08-16</td>
+      <td>None</td>
+      <td>POLYGON ((80.50004 6.86371, 80.50005 6.86340, ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>14043 rows × 27 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf_processed</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">gdf_processed</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ADM4_EN&#39;</span><span class="p">:</span> <span class="s1">&#39;GN Division&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ADM3_EN&#39;</span><span class="p">:</span> <span class="s1">&#39;DS Division&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ADM2_EN&#39;</span><span class="p">:</span> <span class="s1">&#39;District&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ADM1_EN&#39;</span><span class="p">:</span> <span class="s1">&#39;Province&#39;</span><span class="p">})</span>
+
+<span class="n">gn_division</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;GN Division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">ds_division</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;DS Division&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">district</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;District&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">province</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;Province&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;joinkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gn_division</span> <span class="o">+</span> <span class="n">ds_division</span> <span class="o">+</span> <span class="n">district</span> <span class="o">+</span> <span class="n">province</span>
+<span class="n">gdf_processed</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[[</span><span class="s1">&#39;GN Division&#39;</span><span class="p">,</span> <span class="s1">&#39;DS Division&#39;</span><span class="p">,</span> <span class="s1">&#39;District&#39;</span><span class="p">,</span> <span class="s1">&#39;Province&#39;</span><span class="p">,</span> <span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]]</span>
+<span class="n">gdf_processed</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>joinkey</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sammanthranapura</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>sammanthranapuracolombocolombowestern</td>
+      <td>POLYGON ((79.88040 6.98093, 79.88032 6.98062, ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mattakkuliya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>mattakkuliyacolombocolombowestern</td>
+      <td>POLYGON ((79.88217 6.97996, 79.88218 6.97995, ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Modara</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>modaracolombocolombowestern</td>
+      <td>POLYGON ((79.87507 6.96483, 79.87504 6.96479, ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Madampitiya</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>madampitiyacolombocolombowestern</td>
+      <td>POLYGON ((79.87852 6.96328, 79.87849 6.96314, ...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mahawatta</td>
+      <td>Colombo</td>
+      <td>Colombo</td>
+      <td>Western</td>
+      <td>mahawattacolombocolombowestern</td>
+      <td>POLYGON ((79.87252 6.96160, 79.87261 6.96151, ...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>14038</th>
+      <td>Demeda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>demedaderaniyagalakegallesabaragamuwa</td>
+      <td>POLYGON ((80.35891 6.87436, 80.35961 6.87238, ...</td>
+    </tr>
+    <tr>
+      <th>14039</th>
+      <td>Kosgahakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>kosgahakandaderaniyagalakegallesabaragamuwa</td>
+      <td>POLYGON ((80.37824 6.89164, 80.37861 6.89139, ...</td>
+    </tr>
+    <tr>
+      <th>14040</th>
+      <td>Yatiwala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>yatiwaladeraniyagalakegallesabaragamuwa</td>
+      <td>POLYGON ((80.40891 6.87830, 80.40845 6.87784, ...</td>
+    </tr>
+    <tr>
+      <th>14041</th>
+      <td>Magala</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>magaladeraniyagalakegallesabaragamuwa</td>
+      <td>POLYGON ((80.41601 6.88094, 80.41600 6.88093, ...</td>
+    </tr>
+    <tr>
+      <th>14042</th>
+      <td>Dikellakanda</td>
+      <td>Deraniyagala</td>
+      <td>Kegalle</td>
+      <td>Sabaragamuwa</td>
+      <td>dikellakandaderaniyagalakegallesabaragamuwa</td>
+      <td>POLYGON ((80.50004 6.86371, 80.50005 6.86340, ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>14043 rows × 6 columns</p>
+</div></div></div>
+</div>
+<p>There are some duplicate polygons having the same ‘joinkey’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">duplicate_gdf</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="n">gdf_processed</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;joinkey&#39;</span><span class="p">)</span>
+<span class="n">duplicate_gdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>joinkey</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7879</th>
+      <td>[unknown]</td>
+      <td>Eravur Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>[unknown]eravurpattubatticaloaeastern</td>
+      <td>POLYGON ((81.59942 7.77887, 81.59955 7.77876, ...</td>
+    </tr>
+    <tr>
+      <th>7877</th>
+      <td>[unknown]</td>
+      <td>Eravur Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>[unknown]eravurpattubatticaloaeastern</td>
+      <td>POLYGON ((81.62471 7.78231, 81.62462 7.78238, ...</td>
+    </tr>
+    <tr>
+      <th>7876</th>
+      <td>[unknown]</td>
+      <td>Eravur Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>[unknown]eravurpattubatticaloaeastern</td>
+      <td>POLYGON ((81.60296 7.78297, 81.60295 7.78290, ...</td>
+    </tr>
+    <tr>
+      <th>7875</th>
+      <td>[unknown]</td>
+      <td>Eravur Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>[unknown]eravurpattubatticaloaeastern</td>
+      <td>POLYGON ((81.60157 7.78693, 81.60159 7.78693, ...</td>
+    </tr>
+    <tr>
+      <th>7838</th>
+      <td>[unknown]</td>
+      <td>Eravur Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>[unknown]eravurpattubatticaloaeastern</td>
+      <td>POLYGON ((81.60935 7.79416, 81.60937 7.79408, ...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2455</th>
+      <td>Miriswatta</td>
+      <td>Walallawita</td>
+      <td>Kalutara</td>
+      <td>Western</td>
+      <td>miriswattawalallawitakalutarawestern</td>
+      <td>POLYGON ((80.09314 6.43583, 80.09315 6.43582, ...</td>
+    </tr>
+    <tr>
+      <th>1389</th>
+      <td>Sapugasthenna</td>
+      <td>Attanagalla</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>sapugasthennaattanagallagampahawestern</td>
+      <td>POLYGON ((80.17102 7.10247, 80.17166 7.10118, ...</td>
+    </tr>
+    <tr>
+      <th>1334</th>
+      <td>Sapugasthenna</td>
+      <td>Attanagalla</td>
+      <td>Gampaha</td>
+      <td>Western</td>
+      <td>sapugasthennaattanagallagampahawestern</td>
+      <td>POLYGON ((80.04911 7.12307, 80.04923 7.12303, ...</td>
+    </tr>
+    <tr>
+      <th>10612</th>
+      <td>Udappuwa</td>
+      <td>Mundel</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>udappuwamundelputtalamnorthwestern</td>
+      <td>POLYGON ((79.79870 7.74958, 79.79863 7.74951, ...</td>
+    </tr>
+    <tr>
+      <th>10613</th>
+      <td>Udappuwa</td>
+      <td>Mundel</td>
+      <td>Puttalam</td>
+      <td>North Western</td>
+      <td>udappuwamundelputtalamnorthwestern</td>
+      <td>POLYGON ((79.80068 7.74515, 79.80076 7.74417, ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>73 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Plot all features and highlight duplicates</span>
+<span class="n">gdf_processed</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#bdbdbd&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">duplicate_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Zoom to a specific region</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="p">[</span><span class="n">gdf_processed</span><span class="p">[</span><span class="s1">&#39;DS Division&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Mundel&#39;</span><span class="p">]</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">selected</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Duplicate Polygons&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6f52e88e7508c396cac491393d1bc7cec7b5e844a3f0947e79ecb0b3afe51af7.png" src="../_images/6f52e88e7508c396cac491393d1bc7cec7b5e844a3f0947e79ecb0b3afe51af7.png" />
+</div>
+</div>
+<p>We dissolve (merge) these polygon boundaries to create a single region from multiple polygons having the same attributes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf_dissolved</span> <span class="o">=</span> <span class="n">gdf_processed</span><span class="o">.</span><span class="n">dissolve</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;joinkey&#39;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;GN Division&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DS Division&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;District&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Province&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">})</span>
+<span class="n">gdf_dissolved</span> <span class="o">=</span> <span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of original shapefile&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdf</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of processed shapefile&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdf_dissolved</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Records of original shapefile 14043
+Total Records of processed shapefile 13987
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="table-join">
+<h3>Table Join<a class="headerlink" href="#table-join" title="Link to this heading">#</a></h3>
+<p>Finally, we do a table join using GeoPandas merge().</p>
+<p>We have almost equal count of features between the shapefile and table now. There are still a few polygons that do not have corresponding population counts. They will be removed from the output layer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of processed shapefile&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdf_dissolved</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of processed table&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_dissolved</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Records of processed shapefile 13987
+Total Records of processed table 13973
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged</span> <span class="o">=</span> <span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_dissolved</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;joinkey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of merged shapefile&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">merged</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Records of merged shapefile 10747
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are still many records that do not have an exact match between the shapefile and the population table. This is due to small differences in their spellings. We can instead try a fuzzy match.</p>
+</section>
+<section id="fuzzy-join">
+<h3>Fuzzy Join<a class="headerlink" href="#fuzzy-join" title="Link to this heading">#</a></h3>
+<p>We use the fuzzy matching package <a class="reference external" href="https://github.com/seatgeek/thefuzz">TheFuzz</a> (formerly FuzzyWuzzy) to find the closest match to each record.</p>
+<p>Fuzzy matching for large tables can take long time, so we use <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> package to track the progress.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;joinkey&#39;</span><span class="p">:</span><span class="s1">&#39;joinkey_exact&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">getFuzzyMatch</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">joinkey</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;joinkey_exact&#39;</span><span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span><span class="n">joinkey</span><span class="p">,</span> <span class="n">df_dissolved</span><span class="o">.</span><span class="n">joinkey</span><span class="p">)</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">match</span><span class="p">,</span> <span class="n">score</span>
+
+<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
+<span class="n">gdf_dissolved</span><span class="p">[[</span><span class="s1">&#39;match&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span>
+    <span class="n">getFuzzyMatch</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">result_type</span><span class="o">=</span><span class="s1">&#39;expand&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████| 13987/13987 [7:37:11&lt;00:00,  1.96s/it]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The matches with scores less than 100 are fuzzy matches.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf_dissolved</span><span class="p">[</span><span class="n">gdf_dissolved</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">100</span><span class="p">][[</span><span class="s1">&#39;joinkey_exact&#39;</span><span class="p">,</span> <span class="s1">&#39;match&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>joinkey_exact</th>
+      <th>match</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>041/2kanuwarajanganayaanuradhapuranorthcentral</td>
+      <td>41/2kanuwarajanganayaanuradhapuranorthcentral</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>10708</th>
+      <td>puthukudiyiruppuwestputhukkudiyiruppumullaitiv...</td>
+      <td>puthukkudiyiruppuwestputhukkudiyiruppumullaiti...</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>3936</th>
+      <td>hingurakgodahigurakgodapolonnaruwanorthcentral</td>
+      <td>hingurakgodahingurakgodapolonnaruwanorthcentral</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>3933</th>
+      <td>hingurakahigurakgodapolonnaruwanorthcentral</td>
+      <td>hingurakahingurakgodapolonnaruwanorthcentral</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>3932</th>
+      <td>hingurakabandaragamahigurakgodapolonnaruwanort...</td>
+      <td>hingurakabandaragamahingurakgodapolonnaruwanor...</td>
+      <td>99</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5527</th>
+      <td>kawattikudatown&amp;gravetstrincomaleeeastern</td>
+      <td>kanniyatrincomaleetownandgravetstrincomaleeeas...</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>[unknown]ambangangamatalecentral</td>
+      <td>ambananaulamatalecentral</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>[unknown]kalmunaiamparaeastern</td>
+      <td>kalmunaikudi01kalmunaiamparaeastern</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>4473</th>
+      <td>injusternorwoodnuwaraeliyacentral</td>
+      <td>injustryambagamuwanuwaraeliyacentral</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>8969</th>
+      <td>newvalleygamanorwoodnuwaraeliyacentral</td>
+      <td>manelwalawalapanenuwaraeliyacentral</td>
+      <td>74</td>
+    </tr>
+  </tbody>
+</table>
+<p>3236 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>We can use all matches with a score of above a threshold. You need to use your discretion and local knowledge to determine the appropriate threshold. Here we see all matches with a low score.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">score_threshold</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">gdf_dissolved</span><span class="p">[</span><span class="n">gdf_dissolved</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">score_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>joinkey_exact</th>
+      <th>geometry</th>
+      <th>GN Division</th>
+      <th>DS Division</th>
+      <th>District</th>
+      <th>Province</th>
+      <th>match</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8969</th>
+      <td>newvalleygamanorwoodnuwaraeliyacentral</td>
+      <td>POLYGON ((80.61848 6.85457, 80.61893 6.85417, ...</td>
+      <td>Newvalleygama</td>
+      <td>Norwood</td>
+      <td>Nuwara Eliya</td>
+      <td>Central</td>
+      <td>manelwalawalapanenuwaraeliyacentral</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>4473</th>
+      <td>injusternorwoodnuwaraeliyacentral</td>
+      <td>POLYGON ((80.63870 6.85560, 80.63902 6.85526, ...</td>
+      <td>Injuster</td>
+      <td>Norwood</td>
+      <td>Nuwara Eliya</td>
+      <td>Central</td>
+      <td>injustryambagamuwanuwaraeliyacentral</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>[unknown]kalmunaiamparaeastern</td>
+      <td>MULTIPOLYGON (((81.81247 7.39900, 81.81038 7.4...</td>
+      <td>[unknown]</td>
+      <td>Kalmunai</td>
+      <td>Ampara</td>
+      <td>Eastern</td>
+      <td>kalmunaikudi01kalmunaiamparaeastern</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>[unknown]ambangangamatalecentral</td>
+      <td>POLYGON ((80.65829 7.56101, 80.65825 7.56086, ...</td>
+      <td>[unknown]</td>
+      <td>Ambanganga</td>
+      <td>Matale</td>
+      <td>Central</td>
+      <td>ambananaulamatalecentral</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>695</th>
+      <td>arayampathy_1manmunaipattubatticaloaeastern</td>
+      <td>POLYGON ((81.72984 7.67188, 81.72988 7.67180, ...</td>
+      <td>Arayampathy_1</td>
+      <td>Manmunai Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>araipattai1manmunaipattu(araipattai)batticaloa...</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>13575</th>
+      <td>welipathayayakalthotaratnapurasabaragamuwa</td>
+      <td>POLYGON ((80.88161 6.62168, 80.88163 6.62163, ...</td>
+      <td>Welipathayaya</td>
+      <td>Kalthota</td>
+      <td>Ratnapura</td>
+      <td>Sabaragamuwa</td>
+      <td>welipathayayabalangodaratnapurasabaragamuwa</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>[unknown]manmunaisouth&amp;eruvilpattubatticaloaea...</td>
+      <td>MULTIPOLYGON (((81.80616 7.44008, 81.80620 7.4...</td>
+      <td>[unknown]</td>
+      <td>Manmunai South &amp; Eruvil Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>mankadumanmunaisouth&amp;eruvilpattubatticaloaeastern</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>5853</th>
+      <td>kirimichchaikoralaipattunorthbatticaloaeastern</td>
+      <td>POLYGON ((81.48639 8.01400, 81.48636 8.01399, ...</td>
+      <td>Kirimichchai</td>
+      <td>Koralai Pattu North</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>kirimichaikoralaipattunorth(vaharai)batticaloa...</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>5131</th>
+      <td>kankeyanodaisouthmanmunaipattubatticaloaeastern</td>
+      <td>POLYGON ((81.73003 7.66296, 81.73003 7.66296, ...</td>
+      <td>Kankeyanodai South</td>
+      <td>Manmunai Pattu</td>
+      <td>Batticaloa</td>
+      <td>Eastern</td>
+      <td>kankeyanodaisouthmanmunaipattu(araipattai)batt...</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>8715</th>
+      <td>narangamuwalaggalamatalecentral</td>
+      <td>POLYGON ((80.83942 7.49877, 80.83943 7.49873, ...</td>
+      <td>Narangamuwa</td>
+      <td>Laggala</td>
+      <td>Matale</td>
+      <td>Central</td>
+      <td>narangamuwamatalematalecentral</td>
+      <td>89</td>
+    </tr>
+  </tbody>
+</table>
+<p>550 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p>Save the high score matches as <code class="docutils literal notranslate"><span class="pre">joinkey</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf_dissolved</span><span class="p">[</span><span class="s1">&#39;joinkey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">gdf_dissolved</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">,</span> 
+    <span class="n">gdf_dissolved</span><span class="p">[</span><span class="s1">&#39;match&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Use the new <code class="docutils literal notranslate"><span class="pre">joinkey</span></code> which contains the fuzzy matches from the <code class="docutils literal notranslate"><span class="pre">df_dissolved</span></code> table. Now we will get a lot more matches of records.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged</span> <span class="o">=</span> <span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_dissolved</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;joinkey&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total Records of merged shapefile&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">merged</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Records of merged shapefile 13437
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="save-the-datasets">
+<h3>Save the datasets<a class="headerlink" href="#save-the-datasets" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+<span class="n">output_filename</span> <span class="o">=</span> <span class="s1">&#39;srilanka.gpkg&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
+
+<span class="n">gdf_dissolved</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GPKG&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;admin4polygons&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">merged</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GPKG&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;merged&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully written output file at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully written output file at output/srilanka.gpkg
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Geospatial Python Tutorials</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-process-data-table">Pre-Process Data Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-process-shapefile">Pre-Process Shapefile</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#table-join">Table Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-join">Fuzzy Join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#save-the-datasets">Save the datasets</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ujaval Gandhi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
