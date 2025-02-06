@@ -1,0 +1,2993 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Bulk Geocoding Addresses &#8212; Geospatial Python Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-CSFQ69LBRL"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/geopandas_bulk_geocoding';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extract a Shapefile Subset from Excel" href="geopandas_extract_from_excel.html" />
+    <link rel="prev" title="Geospatial Python Tutorials" href="../introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduction.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Geospatial Python Tutorials - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Geospatial Python Tutorials - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduction.html">
+                    Geospatial Python Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Pandas and GeoPandas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Bulk Geocoding Addresses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geopandas_extract_from_excel.html">Extract a Shapefile Subset from Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geopandas_fuzzy_table_join.html">Performing Fuzzy Table Joins</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/spatialthoughts/geopython-tutorials/blob/main/notebooks/geopandas_bulk_geocoding.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/geopandas_bulk_geocoding.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/geopandas_bulk_geocoding.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Bulk Geocoding Addresses</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-1-pandas">Geocoding Method 1: Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-2-geopandas">Geocoding Method 2: GeoPandas</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="bulk-geocoding-addresses">
+<h1>Bulk Geocoding Addresses<a class="headerlink" href="#bulk-geocoding-addresses" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>We will be working with an Excel sheet containing addresses of Hurricane Evacuation Centers in New York City and geocode these addresses to create a map. We cover the following two methods for geocoding:</p>
+<ul class="simple">
+<li><p><em>Geocoding Method 1</em>: Pandas and GeoPy: This is a more flexible method that uses <a class="reference external" href="https://geopy.readthedocs.io/en/stable/">GeoPy</a> that offers more control on the process.</p></li>
+<li><p><em>Geocoding Method 2</em>: GeoPandas: A simpler method <a class="reference external" href="https://geopandas.org/en/stable/docs/reference/api/geopandas.tools.geocode.html"><code class="docutils literal notranslate"><span class="pre">geopandas.tools.geocode</span></code></a> provided by GeoPandas that is easy to use, but with less options.</p></li>
+</ul>
+<p><strong>Input Layers</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Hurricane_Evacuation_Centers.xlsx</span></code>: A spreadsheet containing names and addresses of hurricane shelters inn NYC.</p></li>
+</ul>
+<p><strong>Output</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hurricane_evacuation_centers.zip</span></code>: A zipped shapefile with geocoded locations of the hurricane evacuation centers.</p></li>
+</ul>
+<p><strong>Data Credit</strong>:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://data.cityofnewyork.us/Public-Safety/Hurricane-Evacuation-Centers-Map-/ayer-cga7">NYC Open Data Portal</a></p></li>
+</ul>
+<p><strong>Watch Video Walkthrough</strong> <a href='https://www.youtube.com/watch?v=N6itC6hbOvo' target='_blank'><img alt="../_images/yt_logo.png" src="../_images/yt_logo.png" /></a></p>
+</section>
+<section id="setup-and-data-download">
+<h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
+<p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.foliumap</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geopy.geocoders</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nominatim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geopy.extra.rate_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">RateLimiter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_folder</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/spatialthoughts/geopython-tutorials/releases/download/data/&#39;</span>
+
+<span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="s1">&#39;Hurricane_Evacuation_Centers.xlsx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="procedure">
+<h2>Procedure<a class="headerlink" href="#procedure" title="Link to this heading">#</a></h2>
+<p>Read the <code class="docutils literal notranslate"><span class="pre">Hurricane_Evacuation_Centers.xlsx</span></code> file using Pandas. This step requires the <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> package to be installed along with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. The dataset contains 64 addresses of hurricane evacuation centers in New York City.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">excel_file</span> <span class="o">=</span> <span class="s1">&#39;Hurricane_Evacuation_Centers.xlsx&#39;</span>
+<span class="n">excel_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">excel_file</span><span class="p">)</span>
+<span class="n">address_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">excel_file_path</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">address_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-ee475155-580e-4b5a-9347-27c4a1681cf4">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Flushing</td>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25 Drive</td>
+      <td>11354</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Brooklyn</td>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street</td>
+      <td>11216</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Brooklyn</td>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7 Avenue</td>
+      <td>11215</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Bronx</td>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>10468</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4 Avenue</td>
+      <td>11209</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Bronx</td>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue</td>
+      <td>10474</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Bronx</td>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue</td>
+      <td>10458</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Long Island City</td>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36 Street</td>
+      <td>11101</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Bronx</td>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street</td>
+      <td>10460</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Bronx</td>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>10453</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 7 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-ee475155-580e-4b5a-9347-27c4a1681cf4')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-ee475155-580e-4b5a-9347-27c4a1681cf4 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-ee475155-580e-4b5a-9347-27c4a1681cf4');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>The Nominatim geocoder expects the addresses with certain format. We fix our source addresses by making the street numbers as ordinal numbers.</p>
+<p>Examples</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">45-30</span> <span class="pre">36</span> <span class="pre">Street</span></code> → <code class="docutils literal notranslate"><span class="pre">45-30</span> <span class="pre">36th</span> <span class="pre">Street</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">544</span> <span class="pre">7</span> <span class="pre">Avenue</span></code> → <code class="docutils literal notranslate"><span class="pre">544</span> <span class="pre">7th</span> <span class="pre">Avenue</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_ordinal</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="mi">11</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="s1">&#39;th&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">,</span> <span class="s1">&#39;nd&#39;</span><span class="p">,</span> <span class="s1">&#39;rd&#39;</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">][</span><span class="nb">min</span><span class="p">(</span><span class="n">n</span> <span class="o">%</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">suffix</span> <span class="o">+</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">update_address</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+  <span class="n">old_address</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;ADDRESS&#39;</span><span class="p">]</span>
+  <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(\d+)(\s+(?:Street|Avenue|Blvd|Drive))&#39;</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">make_ordinal</span><span class="p">,</span> <span class="n">old_address</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">address_df</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">update_address</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">address_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+      <th>ADDRESS_FIXED</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Flushing</td>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25 Drive</td>
+      <td>11354</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>147-26 25th Drive</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Brooklyn</td>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street</td>
+      <td>11216</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>141 Macon Street</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Brooklyn</td>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7 Avenue</td>
+      <td>11215</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>544 7th Avenue</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Bronx</td>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>10468</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2780 Reservoir Avenue</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4 Avenue</td>
+      <td>11209</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>7002 4th Avenue</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Bronx</td>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue</td>
+      <td>10474</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>730 Bryant Avenue</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Bronx</td>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue</td>
+      <td>10458</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2760 Briggs Avenue</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Long Island City</td>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36 Street</td>
+      <td>11101</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>45-30 36th Street</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Bronx</td>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street</td>
+      <td>10460</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1827 Archer Street</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Bronx</td>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>10453</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 8 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>We also create a new column containing the full address. The <code class="docutils literal notranslate"><span class="pre">CITY</span></code> column in the data are actually boroughs of NYC and adding it causing many geocoding requests to fail. Instead, we use the city name ‘NYC’ for all addresses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">address_df</span><span class="p">[</span><span class="s1">&#39;Full_Address&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">address_df</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span>
+    <span class="s1">&#39;NYC&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span>
+    <span class="n">address_df</span><span class="p">[</span><span class="s1">&#39;STATE&#39;</span><span class="p">]</span><span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span>
+    <span class="n">address_df</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
+<span class="n">address_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+      <th>ADDRESS_FIXED</th>
+      <th>Full_Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Flushing</td>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25 Drive</td>
+      <td>11354</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>147-26 25th Drive</td>
+      <td>147-26 25th Drive,NYC,NY,11354</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Brooklyn</td>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street</td>
+      <td>11216</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>141 Macon Street</td>
+      <td>141 Macon Street,NYC,NY,11216</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Brooklyn</td>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7 Avenue</td>
+      <td>11215</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>544 7th Avenue</td>
+      <td>544 7th Avenue,NYC,NY,11215</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Bronx</td>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>10468</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4 Avenue</td>
+      <td>11209</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>7002 4th Avenue</td>
+      <td>7002 4th Avenue,NYC,NY,11209</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Bronx</td>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue</td>
+      <td>10474</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>730 Bryant Avenue</td>
+      <td>730 Bryant Avenue,NYC,NY,10474</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Bronx</td>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue</td>
+      <td>10458</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2760 Briggs Avenue</td>
+      <td>2760 Briggs Avenue,NYC,NY,10458</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Long Island City</td>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36 Street</td>
+      <td>11101</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>45-30 36th Street</td>
+      <td>45-30 36th Street,NYC,NY,11101</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Bronx</td>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street</td>
+      <td>10460</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1827 Archer Street</td>
+      <td>1827 Archer Street,NYC,NY,10460</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Bronx</td>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>10453</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 9 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+<section id="geocoding-method-1-pandas">
+<h2>Geocoding Method 1: Pandas<a class="headerlink" href="#geocoding-method-1-pandas" title="Link to this heading">#</a></h2>
+<p>This is the preferred method that gives you more control over the geocoding process but involves a few more steps.</p>
+<p>Now we use the <a class="reference external" href="https://geopy.readthedocs.io/en/stable/#nominatim">Nominatim Geocoder</a> from GeoPy. Nominatim geocoder is based on OpenStreetMap data.</p>
+<p>The geocoder is free to use but requires rate limiting our queries to 1 query per second. We use the <code class="docutils literal notranslate"><span class="pre">RateLimiter</span></code> provided by <code class="docutils literal notranslate"><span class="pre">geopy</span></code> package to set the delay. Since geocoding many address with the rate limit can take some time - we use a progress bar provided by the <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> package to track the progress.</p>
+<blockquote>
+<div><p>You can also install and run Nominatim on your computer without any limitations and can geocode large number of addresses easily. Here’s a good tutorial showing how to <a class="reference external" href="https://nominatim.org/release-docs/latest/admin/Installation/">Run Nominatim using Docker</a>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
+
+<span class="n">locator</span> <span class="o">=</span> <span class="n">Nominatim</span><span class="p">(</span><span class="n">user_agent</span><span class="o">=</span><span class="s1">&#39;spatialthoughts&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">geocode</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">(</span><span class="n">locator</span><span class="o">.</span><span class="n">geocode</span><span class="p">,</span> <span class="n">min_delay_seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">address_df_pd</span> <span class="o">=</span> <span class="n">address_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;Full_Address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="n">geocode</span><span class="p">)</span>
+<span class="n">address_df_pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7bf662760fe543fb9b1be7e00038db52", "version_major": 2, "version_minor": 0}</script><div class="output text_html">
+  <div id="df-1df63fc7-3597-447c-8fe9-79dcb87edb3c">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+      <th>ADDRESS_FIXED</th>
+      <th>Full_Address</th>
+      <th>location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Flushing</td>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25 Drive</td>
+      <td>11354</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>147-26 25th Drive</td>
+      <td>147-26 25th Drive,NYC,NY,11354</td>
+      <td>(Junior High School 185, 147-26, 25th Drive, L...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Brooklyn</td>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street</td>
+      <td>11216</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>141 Macon Street</td>
+      <td>141 Macon Street,NYC,NY,11216</td>
+      <td>(Junior High School 258, 141, Macon Street, Be...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Brooklyn</td>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7 Avenue</td>
+      <td>11215</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>544 7th Avenue</td>
+      <td>544 7th Avenue,NYC,NY,11215</td>
+      <td>(Middle School 88, 544, 7th Avenue, South Slop...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Bronx</td>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>10468</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
+      <td>(Celia Cruz High School of Music, 2780, Reserv...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4 Avenue</td>
+      <td>11209</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>7002 4th Avenue</td>
+      <td>7002 4th Avenue,NYC,NY,11209</td>
+      <td>(7002, 4th Avenue, Bay Ridge, Brooklyn, Kings ...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Bronx</td>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue</td>
+      <td>10474</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>730 Bryant Avenue</td>
+      <td>730 Bryant Avenue,NYC,NY,10474</td>
+      <td>(730, Bryant Avenue, Hunts Point, Bronx County...</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Bronx</td>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue</td>
+      <td>10458</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2760 Briggs Avenue</td>
+      <td>2760 Briggs Avenue,NYC,NY,10458</td>
+      <td>(2760, Briggs Avenue, Bedford Park, Bronx Coun...</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Long Island City</td>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36 Street</td>
+      <td>11101</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>45-30 36th Street</td>
+      <td>45-30 36th Street,NYC,NY,11101</td>
+      <td>(45-30, 36th Street, Sunnyside, Queens, City o...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Bronx</td>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street</td>
+      <td>10460</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1827 Archer Street</td>
+      <td>1827 Archer Street,NYC,NY,10460</td>
+      <td>(Public School 102, 1827, Archer Street, Bronx...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Bronx</td>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>10453</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
+      <td>(East 125th Street, Manhattan Community Board ...</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 10 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-1df63fc7-3597-447c-8fe9-79dcb87edb3c')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-1df63fc7-3597-447c-8fe9-79dcb87edb3c button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-1df63fc7-3597-447c-8fe9-79dcb87edb3c');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>The response of the geocoding request is a <a class="reference external" href="https://geopy.readthedocs.io/en/stable/#geopy.location.Location"><code class="docutils literal notranslate"><span class="pre">geopy.location.Location</span></code></a> object containing the address along with geocoded coordinates as latitude and longitude. We extract them and add them to separate columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">loc</span><span class="p">:</span> <span class="n">loc</span><span class="o">.</span><span class="n">latitude</span> <span class="k">if</span> <span class="n">loc</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">loc</span><span class="p">:</span> <span class="n">loc</span><span class="o">.</span><span class="n">longitude</span> <span class="k">if</span> <span class="n">loc</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">address_df_pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-4118130b-3a59-43d6-b3eb-f76a79dde24a">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+      <th>ADDRESS_FIXED</th>
+      <th>Full_Address</th>
+      <th>location</th>
+      <th>latitude</th>
+      <th>longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Flushing</td>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25 Drive</td>
+      <td>11354</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>147-26 25th Drive</td>
+      <td>147-26 25th Drive,NYC,NY,11354</td>
+      <td>(Junior High School 185, 147-26, 25th Drive, L...</td>
+      <td>40.774912</td>
+      <td>-73.818619</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Brooklyn</td>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street</td>
+      <td>11216</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>141 Macon Street</td>
+      <td>141 Macon Street,NYC,NY,11216</td>
+      <td>(Junior High School 258, 141, Macon Street, Be...</td>
+      <td>40.681918</td>
+      <td>-73.945597</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Brooklyn</td>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7 Avenue</td>
+      <td>11215</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>544 7th Avenue</td>
+      <td>544 7th Avenue,NYC,NY,11215</td>
+      <td>(Middle School 88, 544, 7th Avenue, South Slop...</td>
+      <td>40.660432</td>
+      <td>-73.987836</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Bronx</td>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>10468</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2780 Reservoir Avenue</td>
+      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
+      <td>(Celia Cruz High School of Music, 2780, Reserv...</td>
+      <td>40.870595</td>
+      <td>-73.897498</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Brooklyn</td>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4 Avenue</td>
+      <td>11209</td>
+      <td>3</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>7002 4th Avenue</td>
+      <td>7002 4th Avenue,NYC,NY,11209</td>
+      <td>(7002, 4th Avenue, Bay Ridge, Brooklyn, Kings ...</td>
+      <td>40.633625</td>
+      <td>-74.024038</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Bronx</td>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue</td>
+      <td>10474</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>730 Bryant Avenue</td>
+      <td>730 Bryant Avenue,NYC,NY,10474</td>
+      <td>(730, Bryant Avenue, Hunts Point, Bronx County...</td>
+      <td>40.816040</td>
+      <td>-73.885264</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>Bronx</td>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue</td>
+      <td>10458</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>2760 Briggs Avenue</td>
+      <td>2760 Briggs Avenue,NYC,NY,10458</td>
+      <td>(2760, Briggs Avenue, Bedford Park, Bronx Coun...</td>
+      <td>40.867779</td>
+      <td>-73.890245</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Long Island City</td>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36 Street</td>
+      <td>11101</td>
+      <td>4</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>45-30 36th Street</td>
+      <td>45-30 36th Street,NYC,NY,11101</td>
+      <td>(45-30, 36th Street, Sunnyside, Queens, City o...</td>
+      <td>40.743475</td>
+      <td>-73.929464</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>Bronx</td>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street</td>
+      <td>10460</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1827 Archer Street</td>
+      <td>1827 Archer Street,NYC,NY,10460</td>
+      <td>(Public School 102, 1827, Archer Street, Bronx...</td>
+      <td>40.838106</td>
+      <td>-73.865790</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Bronx</td>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>10453</td>
+      <td>2</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
+      <td>(East 125th Street, Manhattan Community Board ...</td>
+      <td>40.802551</td>
+      <td>-73.933098</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 12 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-4118130b-3a59-43d6-b3eb-f76a79dde24a')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-4118130b-3a59-43d6-b3eb-f76a79dde24a button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-4118130b-3a59-43d6-b3eb-f76a79dde24a');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>Some addresses might have failed to geocode. Let’s review them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">failed</span> <span class="o">=</span> <span class="n">address_df_pd</span><span class="p">[</span><span class="n">address_df_pd</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span>
+<span class="n">failed</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-096022c4-b36f-416c-bbe2-abe77a6d3095">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CITY</th>
+      <th>EC_Name</th>
+      <th>ADDRESS</th>
+      <th>ZIP_CODE</th>
+      <th>BOROCODE</th>
+      <th>STATE</th>
+      <th>ACCESSIBLE</th>
+      <th>ADDRESS_FIXED</th>
+      <th>Full_Address</th>
+      <th>location</th>
+      <th>latitude</th>
+      <th>longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>54</th>
+      <td>New York</td>
+      <td>P.S. 48 - Manhattan</td>
+      <td>4360-78 Broadway</td>
+      <td>10033</td>
+      <td>1</td>
+      <td>NY</td>
+      <td>Y</td>
+      <td>4360-78 Broadway</td>
+      <td>4360-78 Broadway,NYC,NY,10033</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-096022c4-b36f-416c-bbe2-abe77a6d3095')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-096022c4-b36f-416c-bbe2-abe77a6d3095 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-096022c4-b36f-416c-bbe2-abe77a6d3095');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>We may discard these rows. But sometimes it is useful to manually geocode failed queries. You may use another service manually or obtain the coordinates from another source. The below block assigns the coordinates 40.85339,-73.93350 to the row with index 54.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">address_df_pd</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">54</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">40.85339</span><span class="p">,</span><span class="o">-</span><span class="mf">73.93350</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Select a subset of columns to keep in the final result and rename them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">address_df_pd</span> <span class="o">=</span> <span class="n">address_df_pd</span><span class="p">[[</span><span class="s1">&#39;EC_Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Full_Address&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">]]</span>
+<span class="n">address_df_pd</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;EC_Name&#39;</span><span class="p">:</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Full_Address&#39;</span><span class="p">:</span> <span class="s1">&#39;Address&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We create a GeoDataFrame from the latitude and longitude columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geometry</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">address_df_pd</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">address_df_pd</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+<span class="n">address_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">address_df_pd</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>
+<span class="n">address_gdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-b4bb497f-884a-45ce-a8db-ab3467eefd9e">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25th Drive,NYC,NY,11354</td>
+      <td>40.774912</td>
+      <td>-73.818619</td>
+      <td>POINT (-73.81862 40.77491)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street,NYC,NY,11216</td>
+      <td>40.681918</td>
+      <td>-73.945597</td>
+      <td>POINT (-73.94560 40.68192)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7th Avenue,NYC,NY,11215</td>
+      <td>40.660432</td>
+      <td>-73.987836</td>
+      <td>POINT (-73.98784 40.66043)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
+      <td>40.870595</td>
+      <td>-73.897498</td>
+      <td>POINT (-73.89750 40.87059)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4th Avenue,NYC,NY,11209</td>
+      <td>40.633625</td>
+      <td>-74.024038</td>
+      <td>POINT (-74.02404 40.63362)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue,NYC,NY,10474</td>
+      <td>40.816040</td>
+      <td>-73.885264</td>
+      <td>POINT (-73.88526 40.81604)</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue,NYC,NY,10458</td>
+      <td>40.867779</td>
+      <td>-73.890245</td>
+      <td>POINT (-73.89025 40.86778)</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36th Street,NYC,NY,11101</td>
+      <td>40.743475</td>
+      <td>-73.929464</td>
+      <td>POINT (-73.92946 40.74347)</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street,NYC,NY,10460</td>
+      <td>40.838106</td>
+      <td>-73.865790</td>
+      <td>POINT (-73.86579 40.83811)</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
+      <td>40.802551</td>
+      <td>-73.933098</td>
+      <td>POINT (-73.93310 40.80255)</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 5 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-b4bb497f-884a-45ce-a8db-ab3467eefd9e')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-b4bb497f-884a-45ce-a8db-ab3467eefd9e button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-b4bb497f-884a-45ce-a8db-ab3467eefd9e');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>Visualize the geocoded addresses on a map.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">address_gdf</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+    <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span>
+    <span class="n">marker_type</span><span class="o">=</span><span class="s1">&#39;marker&#39;</span><span class="p">,</span>
+    <span class="n">marker_kwds</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;icon&#39;</span><span class="p">:</span> <span class="n">folium</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#fdbb84&#39;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;hurricane&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;fa&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">zoom_to_gdf</span><span class="p">(</span><span class="n">address_gdf</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    
+        &lt;script&gt;
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        &lt;/script&gt;
+    
+    &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
+    &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-1.12.4.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_206b56c8bbb29c61cd994ae6adb100ec {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+        
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css&quot;/&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css&quot;/&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css&quot;/&gt;
+    &lt;script src=&quot;https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css&quot;/&gt;
+    
+                    &lt;style&gt;
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    &lt;/style&gt;
+            
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_206b56c8bbb29c61cd994ae6adb100ec&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_206b56c8bbb29c61cd994ae6adb100ec = L.map(
+                &quot;map_206b56c8bbb29c61cd994ae6adb100ec&quot;,
+                {
+                    center: [20.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 2,
+                    zoomControl: true,
+                    preferCanvas: false,
+                    drawExport: false,
+                    layersControl: true,
+                }
+            );
+            L.control.scale().addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+
+            
+
+        
+    
+            var tile_layer_f980f0bd03bccaf7c0925a8f44f30da1 = L.tileLayer(
+                &quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;Data by \u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://openstreetmap.org\&quot;\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\&quot;_blank\&quot; href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eODbL\u003c/a\u003e.&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 24, &quot;maxZoom&quot;: 24, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+        
+    
+            L.control.fullscreen(
+                {&quot;forceSeparateButton&quot;: false, &quot;position&quot;: &quot;topleft&quot;, &quot;title&quot;: &quot;Full Screen&quot;, &quot;titleCancel&quot;: &quot;Exit Full Screen&quot;}
+            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+        
+    
+            var options = {
+              position: &quot;topleft&quot;,
+              draw: {},
+              edit: {},
+            }
+            // FeatureGroup is to store editable layers.
+            var drawnItems = new L.featureGroup().addTo(
+                map_206b56c8bbb29c61cd994ae6adb100ec
+            );
+            options.edit.featureGroup = drawnItems;
+            var draw_control_21637832660cfb2da81cbcdf064efeb6 = new L.Control.Draw(
+                options
+            ).addTo( map_206b56c8bbb29c61cd994ae6adb100ec );
+            map_206b56c8bbb29c61cd994ae6adb100ec.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on(&#x27;click&#x27;, function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems.addLayer(layer);
+             });
+            map_206b56c8bbb29c61cd994ae6adb100ec.on(&#x27;draw:created&#x27;, function(e) {
+                drawnItems.addLayer(e.layer);
+            });
+            
+        
+    
+            var measure_control_7024146e87fe3de928060cccecc6f04e = new L.Control.Measure(
+                {&quot;position&quot;: &quot;bottomleft&quot;, &quot;primaryAreaUnit&quot;: &quot;sqmeters&quot;, &quot;primaryLengthUnit&quot;: &quot;meters&quot;, &quot;secondaryAreaUnit&quot;: &quot;acres&quot;, &quot;secondaryLengthUnit&quot;: &quot;miles&quot;});
+            map_206b56c8bbb29c61cd994ae6adb100ec.addControl(measure_control_7024146e87fe3de928060cccecc6f04e);
+
+        
+    
+            L.Control.geocoder(
+                {&quot;collapsed&quot;: true, &quot;defaultMarkGeocode&quot;: true, &quot;position&quot;: &quot;topleft&quot;}
+            ).on(&#x27;markgeocode&#x27;, function(e) {
+                map_206b56c8bbb29c61cd994ae6adb100ec.setView(e.geocode.center, 11);
+            }).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+
+        
+    
+            map_206b56c8bbb29c61cd994ae6adb100ec.fitBounds(
+                [[20, 0], [20, 0]],
+                {&quot;maxZoom&quot;: 2}
+            );
+        
+    
+        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {&quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
+            }
+        }
+        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_highlighter(feature) {
+            switch(feature.id) {
+                default:
+                    return {&quot;fillOpacity&quot;: 0.75};
+            }
+        }
+        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_pointToLayer(feature, latlng) {
+            var opts = {};
+            
+            const iconOptions = {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;hurricane&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;#fdbb84&quot;, &quot;prefix&quot;: &quot;fa&quot;}
+            const iconRootAlias = L.AwesomeMarkers
+            opts.icon = new iconRootAlias.Icon(iconOptions)
+            
+            let style = geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler(feature)
+            Object.assign(opts.icon.options, style)
+            
+            return new L.Marker(latlng, opts)
+        }
+
+        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_onEachFeature(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if(typeof e.target.setStyle === &quot;function&quot;){
+                        geo_json_04dbee9bc83506be6a1b60b3dfb53df1.resetStyle(e.target);
+                    }
+                },
+                mouseover: function(e) {
+                    if(typeof e.target.setStyle === &quot;function&quot;){
+                        const highlightStyle = geo_json_04dbee9bc83506be6a1b60b3dfb53df1_highlighter(e.target.feature)
+                        e.target.setStyle(highlightStyle);
+                    }
+                },
+            });
+        };
+        var geo_json_04dbee9bc83506be6a1b60b3dfb53df1 = L.geoJson(null, {
+                onEachFeature: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_onEachFeature,
+            
+                style: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler,
+                pointToLayer: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_pointToLayer
+        });
+
+        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_add (data) {
+            geo_json_04dbee9bc83506be6a1b60b3dfb53df1
+                .addData(data)
+                .addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+        }
+            geo_json_04dbee9bc83506be6a1b60b3dfb53df1_add({&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -73.7288703287536, 40.88821535], &quot;features&quot;: [{&quot;bbox&quot;: [-73.81861937037871, 40.7749125, -73.81861937037871, 40.7749125], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.81861937037871, 40.7749125], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;147-26 25th Drive,NYC,NY,11354&quot;, &quot;Name&quot;: &quot;J.H.S. 185 - Queens&quot;, &quot;latitude&quot;: 40.7749125, &quot;longitude&quot;: -73.81861937037871}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94559669550401, 40.68191795, -73.94559669550401, 40.68191795], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94559669550401, 40.68191795], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;141 Macon Street,NYC,NY,11216&quot;, &quot;Name&quot;: &quot;I.S. 258 - Brooklyn&quot;, &quot;latitude&quot;: 40.68191795, &quot;longitude&quot;: -73.94559669550401}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9878361, 40.6604319, -73.9878361, 40.6604319], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9878361, 40.6604319], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;544 7th Avenue,NYC,NY,11215&quot;, &quot;Name&quot;: &quot;I.S. 88 - Brooklyn&quot;, &quot;latitude&quot;: 40.6604319, &quot;longitude&quot;: -73.9878361}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.8974985, 40.8705947, -73.8974985, 40.8705947], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.8974985, 40.8705947], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2780 Reservoir Avenue,NYC,NY,10468&quot;, &quot;Name&quot;: &quot;Walton HS - X&quot;, &quot;latitude&quot;: 40.8705947, &quot;longitude&quot;: -73.8974985}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.0240376060606, 40.633624636363635, -74.0240376060606, 40.633624636363635], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.0240376060606, 40.633624636363635], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7002 4th Avenue,NYC,NY,11209&quot;, &quot;Name&quot;: &quot;P.S./I.S.30 Mary White Ovington - Brooklyn&quot;, &quot;latitude&quot;: 40.633624636363635, &quot;longitude&quot;: -74.0240376060606}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.96718997959184, 40.75932028571429, -73.96718997959184, 40.75932028571429], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.96718997959184, 40.75932028571429], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;233 E 56th Street,NYC,NY,10022&quot;, &quot;Name&quot;: &quot;Midtown East Campus - Manhattan&quot;, &quot;latitude&quot;: 40.75932028571429, &quot;longitude&quot;: -73.96718997959184}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97725748560372, 40.61531665, -73.97725748560372, 40.61531665], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97725748560372, 40.61531665], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;6006 23rd Avenue,NYC,NY,11204&quot;, &quot;Name&quot;: &quot;P.S. 226 - Brooklyn&quot;, &quot;latitude&quot;: 40.61531665, &quot;longitude&quot;: -73.97725748560372}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.99352082556382, 40.716184, -73.99352082556382, 40.716184], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.99352082556382, 40.716184], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Hester Street,NYC,NY,10002&quot;, &quot;Name&quot;: &quot;I.S. 131 - Manhattan&quot;, &quot;latitude&quot;: 40.716184, &quot;longitude&quot;: -73.99352082556382}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.78971275461399, 40.7648014, -73.78971275461399, 40.7648014], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.78971275461399, 40.7648014], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;34-65 192nd Street,NYC,NY,11355&quot;, &quot;Name&quot;: &quot;J.H.S. 25 - Queens&quot;, &quot;latitude&quot;: 40.7648014, &quot;longitude&quot;: -73.78971275461399}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89304957924597, 40.74231195, -73.89304957924597, 40.74231195], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89304957924597, 40.74231195], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;42-00 72nd Street,NYC,NY,11377&quot;, &quot;Name&quot;: &quot;P.S. 12 - Queens&quot;, &quot;latitude&quot;: 40.74231195, &quot;longitude&quot;: -73.89304957924597}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.93574581632653, 40.839708571428574, -73.93574581632653, 40.839708571428574], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.93574581632653, 40.839708571428574], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21 Jumel Place,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;I.S. 90 - Manhattan&quot;, &quot;latitude&quot;: 40.839708571428574, &quot;longitude&quot;: -73.93574581632653}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.80264202436206, 40.7096425, -73.80264202436206, 40.7096425], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.80264202436206, 40.7096425], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;160-05 Highland Avenue,NYC,NY,11432&quot;, &quot;Name&quot;: &quot;Hillcrest HS - Q&quot;, &quot;latitude&quot;: 40.7096425, &quot;longitude&quot;: -73.80264202436206}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.900672, 40.8277475, -73.900672, 40.8277475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.900672, 40.8277475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Home Street,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;I.S. 158 - Bronx&quot;, &quot;latitude&quot;: 40.8277475, &quot;longitude&quot;: -73.900672}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7668350894142, 40.74505005, -73.7668350894142, 40.74505005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7668350894142, 40.74505005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;61-15 Oceania Street,NYC,NY,11362&quot;, &quot;Name&quot;: &quot;I.S. 74 - Queens&quot;, &quot;latitude&quot;: 40.74505005, &quot;longitude&quot;: -73.7668350894142}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9197565, 40.6728542, -73.9197565, 40.6728542], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9197565, 40.6728542], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;430 Howard Avenue,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;P.S. 12 - Brooklyn&quot;, &quot;latitude&quot;: 40.6728542, &quot;longitude&quot;: -73.9197565}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85153856804939, 40.7231289, -73.85153856804939, 40.7231289], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85153856804939, 40.7231289], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;68-17 Austin Street,NYC,NY,11375&quot;, &quot;Name&quot;: &quot;J.H.S. 190 - Queens&quot;, &quot;latitude&quot;: 40.7231289, &quot;longitude&quot;: -73.85153856804939}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95429411836136, 40.802606999999995, -73.95429411836136, 40.802606999999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95429411836136, 40.802606999999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;16&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;215 W 114th Street,NYC,NY,10026&quot;, &quot;Name&quot;: &quot;I.S. 88 - Manhattan&quot;, &quot;latitude&quot;: 40.802606999999995, &quot;longitude&quot;: -73.95429411836136}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95604703944497, 40.6489803, -73.95604703944497, 40.6489803], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95604703944497, 40.6489803], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;17&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;43 Snyder Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;P.S. 6 - Brooklyn&quot;, &quot;latitude&quot;: 40.6489803, &quot;longitude&quot;: -73.95604703944497}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89015763213266, 40.7287324, -73.89015763213266, 40.7287324], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89015763213266, 40.7287324], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;18&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;72-24 Grand Avenue,NYC,NY,11378&quot;, &quot;Name&quot;: &quot;P.S. 58 - Queens&quot;, &quot;latitude&quot;: 40.7287324, &quot;longitude&quot;: -73.89015763213266}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9516125, 40.6562525, -73.9516125, 40.6562525], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9516125, 40.6562525], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;19&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;655 Parkside Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;I.S. 2 - Brooklyn&quot;, &quot;latitude&quot;: 40.6562525, &quot;longitude&quot;: -73.9516125}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89050181101334, 40.84381285, -73.89050181101334, 40.84381285], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89050181101334, 40.84381285], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;20&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1919 Prospect Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;P.S. 211 - Bronx&quot;, &quot;latitude&quot;: 40.84381285, &quot;longitude&quot;: -73.89050181101334}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87313338576763, 40.68932475, -73.87313338576763, 40.68932475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87313338576763, 40.68932475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;858 Jamaica Avenue,NYC,NY,11208&quot;, &quot;Name&quot;: &quot;P.S. 7 - Brooklyn&quot;, &quot;latitude&quot;: 40.68932475, &quot;longitude&quot;: -73.87313338576763}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94268572563126, 40.674224249999995, -73.94268572563126, 40.674224249999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94268572563126, 40.674224249999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;22&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;900 St Marks Avenue,NYC,NY,11213&quot;, &quot;Name&quot;: &quot;P.S. 289 - Brooklyn&quot;, &quot;latitude&quot;: 40.674224249999995, &quot;longitude&quot;: -73.94268572563126}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7288703287536, 40.7445126, -73.7288703287536, 40.7445126], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7288703287536, 40.7445126], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;23&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;74-20 Commonwealth Blvd,NYC,NY,11426&quot;, &quot;Name&quot;: &quot;Queens H.S. of Teaching&quot;, &quot;latitude&quot;: 40.7445126, &quot;longitude&quot;: -73.7288703287536}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94747129298835, 40.694414300000005, -73.94747129298835, 40.694414300000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94747129298835, 40.694414300000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;24&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;545 Willoughby Avenue,NYC,NY,11206&quot;, &quot;Name&quot;: &quot;P.S. 23 - Brooklyn&quot;, &quot;latitude&quot;: 40.694414300000005, &quot;longitude&quot;: -73.94747129298835}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85272010524264, 40.88821535, -73.85272010524264, 40.88821535], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85272010524264, 40.88821535], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;25&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;921 E 228th Street,NYC,NY,10466&quot;, &quot;Name&quot;: &quot;I.S./H.S. 362 - Bronx&quot;, &quot;latitude&quot;: 40.88821535, &quot;longitude&quot;: -73.85272010524264}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87442582994036, 40.755279, -73.87442582994036, 40.755279], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87442582994036, 40.755279], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;26&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;93-11 34th Avenue,NYC,NY,11372&quot;, &quot;Name&quot;: &quot;P.S. 149 - Queens&quot;, &quot;latitude&quot;: 40.755279, &quot;longitude&quot;: -73.87442582994036}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.90664428947368, 40.83194842105263, -73.90664428947368, 40.83194842105263], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.90664428947368, 40.83194842105263], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;27&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1245 Washington Avenue,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;P.S. 132 - Bronx&quot;, &quot;latitude&quot;: 40.83194842105263, &quot;longitude&quot;: -73.90664428947368}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.98832879336612, 40.69463915, -73.98832879336612, 40.69463915], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.98832879336612, 40.69463915], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;28&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;283 Adams Street,NYC,NY,11201&quot;, &quot;Name&quot;: &quot;Adams Street Educational Campus - K&quot;, &quot;latitude&quot;: 40.69463915, &quot;longitude&quot;: -73.98832879336612}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91960128040012, 40.835653199999996, -73.91960128040012, 40.835653199999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91960128040012, 40.835653199999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1220 Gerard Avenue,NYC,NY,10452&quot;, &quot;Name&quot;: &quot;P.S./I.S. 218 - Bronx&quot;, &quot;latitude&quot;: 40.835653199999996, &quot;longitude&quot;: -73.91960128040012}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91358703662985, 40.8877842, -73.91358703662985, 40.8877842], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91358703662985, 40.8877842], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;30&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;660 W 237th Street,NYC,NY,10463&quot;, &quot;Name&quot;: &quot;M.S./H.S. 141 - Bronx&quot;, &quot;latitude&quot;: 40.8877842, &quot;longitude&quot;: -73.91358703662985}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9195423, 40.6977934, -73.9195423, 40.6977934], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9195423, 40.6977934], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;31&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1300 Greene Avenue,NYC,NY,11237&quot;, &quot;Name&quot;: &quot;I.S. 383 - Brooklyn&quot;, &quot;latitude&quot;: 40.6977934, &quot;longitude&quot;: -73.9195423}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1448757, 40.6227591, -74.1448757, 40.6227591], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1448757, 40.6227591], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;32&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;20 Houston Street,NYC,NY,10302&quot;, &quot;Name&quot;: &quot;I.S. 51 - Staten Island&quot;, &quot;latitude&quot;: 40.6227591, &quot;longitude&quot;: -74.1448757}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95118485801015, 40.66693295, -73.95118485801015, 40.66693295], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95118485801015, 40.66693295], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;33&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1186 Carroll Street,NYC,NY,11225&quot;, &quot;Name&quot;: &quot;Medgar Evers College Prep&quot;, &quot;latitude&quot;: 40.66693295, &quot;longitude&quot;: -73.95118485801015}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9416821, 40.8285068, -73.9416821, 40.8285068], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9416821, 40.8285068], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;34&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;501-503 W 152nd Street,NYC,NY,10031&quot;, &quot;Name&quot;: &quot;P.S./I.S. 210 - Manhattan&quot;, &quot;latitude&quot;: 40.8285068, &quot;longitude&quot;: -73.9416821}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7996911083717, 40.75555975, -73.7996911083717, 40.75555975], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7996911083717, 40.75555975], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;35&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;167-02 45th Avenue,NYC,NY,11358&quot;, &quot;Name&quot;: &quot;P.S. 107 - Queens&quot;, &quot;latitude&quot;: 40.75555975, &quot;longitude&quot;: -73.7996911083717}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.902615, 40.7003793, -73.902615, 40.7003793], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.902615, 40.7003793], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;36&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;17-15 Weirfield Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;P.S. 239 - Queens&quot;, &quot;latitude&quot;: 40.7003793, &quot;longitude&quot;: -73.902615}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9190269586198, 40.8274856, -73.9190269586198, 40.8274856], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9190269586198, 40.8274856], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;244 E 163rd Street,NYC,NY,10451&quot;, &quot;Name&quot;: &quot;HS Of Law, Gov\u0027t \u0026 Justice - X&quot;, &quot;latitude&quot;: 40.8274856, &quot;longitude&quot;: -73.9190269586198}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9809816, 40.7462177, -73.9809816, 40.7462177], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9809816, 40.7462177], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;38&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111 E 33rd Street,NYC,NY,10016&quot;, &quot;Name&quot;: &quot;Norman Thomas HS (ECF) - Manhattan&quot;, &quot;latitude&quot;: 40.7462177, &quot;longitude&quot;: -73.9809816}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.8654848993973, 40.7489511, -73.8654848993973, 40.7489511], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.8654848993973, 40.7489511], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;39&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;40-20 100th Street,NYC,NY,11368&quot;, &quot;Name&quot;: &quot;P.S. 307- Queens&quot;, &quot;latitude&quot;: 40.7489511, &quot;longitude&quot;: -73.8654848993973}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.08236650848119, 40.645539, -74.08236650848119, 40.645539], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.08236650848119, 40.645539], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;40&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;105 Hamilton Avenue,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Curtis HS - S. I.&quot;, &quot;latitude&quot;: 40.645539, &quot;longitude&quot;: -74.08236650848119}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.932454, 40.68819, -73.932454, 40.68819], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.932454, 40.68819], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;41&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Gates Avenue,NYC,NY,11221&quot;, &quot;Name&quot;: &quot;I.S. 324 - Brooklyn&quot;, &quot;latitude&quot;: 40.68819, &quot;longitude&quot;: -73.932454}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9259065, 40.6939323, -73.9259065, 40.6939323], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9259065, 40.6939323], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;42&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21-27 Himrod Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;Grover Cleveland HS - Q&quot;, &quot;latitude&quot;: 40.6939323, &quot;longitude&quot;: -73.9259065}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9742029, 40.7857432, -73.9742029, 40.7857432], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9742029, 40.7857432], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;43&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;145 W 84th Street,NYC,NY,10024&quot;, &quot;Name&quot;: &quot;Louis D. Brandeis HS - Manhattan&quot;, &quot;latitude&quot;: 40.7857432, &quot;longitude&quot;: -73.9742029}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.00445465251588, 40.65274685, -74.00445465251588, 40.65274685], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.00445465251588, 40.65274685], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;44&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;427 38th Street,NYC,NY,11232&quot;, &quot;Name&quot;: &quot;P.S. 24 - Brooklyn&quot;, &quot;latitude&quot;: 40.65274685, &quot;longitude&quot;: -74.00445465251588}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82127483647965, 40.7349959, -73.82127483647965, 40.7349959], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82127483647965, 40.7349959], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;149-11 Melbourne Avenue,NYC,NY,11367&quot;, &quot;Name&quot;: &quot;Townsend Harris HS - Q&quot;, &quot;latitude&quot;: 40.7349959, &quot;longitude&quot;: -73.82127483647965}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97640887345645, 40.6887573, -73.97640887345645, 40.6887573], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97640887345645, 40.6887573], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;46&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;29 Fort Greene Place,NYC,NY,11217&quot;, &quot;Name&quot;: &quot;Brooklyn Tech HS - K&quot;, &quot;latitude&quot;: 40.6887573, &quot;longitude&quot;: -73.97640887345645}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89718039441703, 40.8544561, -73.89718039441703, 40.8544561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89718039441703, 40.8544561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;47&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2225 Webster Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;I.S. 391 (UDC) - Bronx&quot;, &quot;latitude&quot;: 40.8544561, &quot;longitude&quot;: -73.89718039441703}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.01481477991291, 40.62623455, -74.01481477991291, 40.62623455], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.01481477991291, 40.62623455], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;48&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7305 Ft Hamilton Parkway,NYC,NY,11228&quot;, &quot;Name&quot;: &quot;I.S. 259 - Brooklyn&quot;, &quot;latitude&quot;: 40.62623455, &quot;longitude&quot;: -74.01481477991291}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.10458759562461, 40.60913615, -74.10458759562461, 40.60913615], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.10458759562461, 40.60913615], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;49&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;715 Ocean Terrace,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Michael J. Petrides&quot;, &quot;latitude&quot;: 40.60913615, &quot;longitude&quot;: -74.10458759562461}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1592210846182, 40.581701800000005, -74.1592210846182, 40.581701800000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1592210846182, 40.581701800000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;50&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Essex Drive,NYC,NY,10314&quot;, &quot;Name&quot;: &quot;Jerome Parker Campus - S.I.&quot;, &quot;latitude&quot;: 40.581701800000005, &quot;longitude&quot;: -74.1592210846182}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94547102226522, 40.8149449, -73.94547102226522, 40.8149449], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94547102226522, 40.8149449], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;51&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;222 W 134th Street,NYC,NY,10030&quot;, &quot;Name&quot;: &quot;P.S. 92 - Manhattan&quot;, &quot;latitude&quot;: 40.8149449, &quot;longitude&quot;: -73.94547102226522}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82133694482174, 40.67980995, -73.82133694482174, 40.67980995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82133694482174, 40.67980995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;52&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111-11 118th Street,NYC,NY,11420&quot;, &quot;Name&quot;: &quot;P.S. 100 - Queens&quot;, &quot;latitude&quot;: 40.67980995, &quot;longitude&quot;: -73.82133694482174}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9853689, 40.7747751, -73.9853689, 40.7747751], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9853689, 40.7747751], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;122 Amsterdam Avenue,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;Martin Luther King, Jr. HS - M&quot;, &quot;latitude&quot;: 40.7747751, &quot;longitude&quot;: -73.9853689}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9335, 40.85339, -73.9335, 40.85339], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9335, 40.85339], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;54&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;4360-78 Broadway,NYC,NY,10033&quot;, &quot;Name&quot;: &quot;P.S. 48 - Manhattan&quot;, &quot;latitude&quot;: 40.85339, &quot;longitude&quot;: -73.9335}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -74.21397825256436, 40.5419561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.21397825256436, 40.5419561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;55&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;250 Kramer Avenue,NYC,NY,10309&quot;, &quot;Name&quot;: &quot;P.S. 56 - Staten Island&quot;, &quot;latitude&quot;: 40.5419561, &quot;longitude&quot;: -74.21397825256436}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91352113697846, 40.67449860000001, -73.91352113697846, 40.67449860000001], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91352113697846, 40.67449860000001], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;56&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2021 Bergen Street,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;I.S. 55 - Brooklyn&quot;, &quot;latitude&quot;: 40.67449860000001, &quot;longitude&quot;: -73.91352113697846}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92519010339649, 40.756094950000005, -73.92519010339649, 40.756094950000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92519010339649, 40.756094950000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;57&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;35-12 35th Avenue,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Frank Sinatra High School-Q&quot;, &quot;latitude&quot;: 40.756094950000005, &quot;longitude&quot;: -73.92519010339649}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7791607, 40.6976728, -73.7791607, 40.6976728], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7791607, 40.6976728], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;58&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;92-07 175th Street,NYC,NY,11433&quot;, &quot;Name&quot;: &quot;P.S. 268 - Queens&quot;, &quot;latitude&quot;: 40.6976728, &quot;longitude&quot;: -73.7791607}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.88526417463406, 40.8160403, -73.88526417463406, 40.8160403], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.88526417463406, 40.8160403], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;59&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;730 Bryant Avenue,NYC,NY,10474&quot;, &quot;Name&quot;: &quot;I.S. 201 - Bronx&quot;, &quot;latitude&quot;: 40.8160403, &quot;longitude&quot;: -73.88526417463406}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89024540816327, 40.86777873469388, -73.89024540816327, 40.86777873469388], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89024540816327, 40.86777873469388], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;60&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2760 Briggs Avenue,NYC,NY,10458&quot;, &quot;Name&quot;: &quot;P.S. 46 - Bronx&quot;, &quot;latitude&quot;: 40.86777873469388, &quot;longitude&quot;: -73.89024540816327}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92946442723624, 40.743474649999996, -73.92946442723624, 40.743474649999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92946442723624, 40.743474649999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;45-30 36th Street,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Aviation HS - Q&quot;, &quot;latitude&quot;: 40.743474649999996, &quot;longitude&quot;: -73.92946442723624}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.86579040869547, 40.83810565, -73.86579040869547, 40.83810565], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.86579040869547, 40.83810565], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;62&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1827 Archer Street,NYC,NY,10460&quot;, &quot;Name&quot;: &quot;P.S. 102 - Bronx&quot;, &quot;latitude&quot;: 40.83810565, &quot;longitude&quot;: -73.86579040869547}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9330979, 40.8025514, -73.9330979, 40.8025514], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9330979, 40.8025514], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;63&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453&quot;, &quot;Name&quot;: &quot;Morris Heights Educational Complex - Bronx&quot;, &quot;latitude&quot;: 40.8025514, &quot;longitude&quot;: -73.9330979}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+
+        
+    
+    geo_json_04dbee9bc83506be6a1b60b3dfb53df1.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create(&#x27;div&#x27;);
+    
+    let handleObject = feature=&gt;typeof(feature)==&#x27;object&#x27; ? JSON.stringify(feature) : feature;
+    let fields = [&quot;Name&quot;, &quot;Address&quot;, &quot;latitude&quot;, &quot;longitude&quot;];
+    let aliases = [&quot;Name&quot;, &quot;Address&quot;, &quot;latitude&quot;, &quot;longitude&quot;];
+    let table = &#x27;&lt;table&gt;&#x27; +
+        String(
+        fields.map(
+        (v,i)=&gt;
+        `&lt;tr&gt;
+            &lt;th&gt;${aliases[i]}&lt;/th&gt;
+            
+            &lt;td&gt;${handleObject(layer.feature.properties[v])}&lt;/td&gt;
+        &lt;/tr&gt;`).join(&#x27;&#x27;))
+    +&#x27;&lt;/table&gt;&#x27;;
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{&quot;className&quot;: &quot;foliumtooltip&quot;, &quot;sticky&quot;: true});
+                     
+    
+            map_206b56c8bbb29c61cd994ae6adb100ec.fitBounds(
+                [[40.5419561, -74.21397825256436], [40.88821535, -73.7288703287536]],
+                {}
+            );
+        
+    
+            var layer_control_82c99d013f39d742f2e673d709e71d4f = {
+                base_layers : {
+                    &quot;openstreetmap&quot; : tile_layer_f980f0bd03bccaf7c0925a8f44f30da1,
+                },
+                overlays :  {
+                    &quot;macro_element_04dbee9bc83506be6a1b60b3dfb53df1&quot; : geo_json_04dbee9bc83506be6a1b60b3dfb53df1,
+                },
+            };
+            L.control.layers(
+                layer_control_82c99d013f39d742f2e673d709e71d4f.base_layers,
+                layer_control_82c99d013f39d742f2e673d709e71d4f.overlays,
+                {&quot;autoZIndex&quot;: true, &quot;collapsed&quot;: true, &quot;position&quot;: &quot;topright&quot;}
+            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+        
+&lt;/script&gt;
+&lt;/html&gt;" width="800" height="500"style="border:none !important;" "allowfullscreen" "webkitallowfullscreen" "mozallowfullscreen"></iframe></div></div>
+</div>
+<p>Save the results as a shapefile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;hurricane_evacuation_centers.shp&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+
+<span class="n">address_gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also zip the resulting shapefile along with all sidecar files so it can be downloaded easily.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_zip_file</span> <span class="o">=</span> <span class="s1">&#39;hurricane_evacuation_centers.zip&#39;</span>
+<span class="n">output_zip_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_zip_file</span><span class="p">)</span>
+
+<span class="n">sidecar_files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;shp&#39;</span><span class="p">,</span> <span class="s1">&#39;shx&#39;</span><span class="p">,</span> <span class="s1">&#39;dbf&#39;</span><span class="p">,</span> <span class="s1">&#39;prj&#39;</span><span class="p">))</span>
+<span class="p">]</span>
+
+<span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">output_zip_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_object</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">sidecar</span> <span class="ow">in</span> <span class="n">sidecar_files</span><span class="p">:</span>
+      <span class="n">zip_object</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sidecar</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sidecar</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="geocoding-method-2-geopandas">
+<h2>Geocoding Method 2: GeoPandas<a class="headerlink" href="#geocoding-method-2-geopandas" title="Link to this heading">#</a></h2>
+<p>GeoPandas also provides a helper tool <a class="reference external" href="https://geopandas.org/en/stable/docs/reference/api/geopandas.tools.geocode.html">geopandas.tools.geocode</a> for geocoding that allows using a GeoPy geocoder. This is a handy tool that gives you a GeoDataFrame but doesn’t offer the flexibility of the previous method. We demonstrate the process here for the sake of completeness.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">locator</span> <span class="o">=</span> <span class="n">Nominatim</span><span class="p">(</span><span class="n">user_agent</span><span class="o">=</span><span class="s1">&#39;spatialthoughts&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">geocode</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">(</span><span class="n">locator</span><span class="o">.</span><span class="n">geocode</span><span class="p">,</span> <span class="n">min_delay_seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">address_df_gpd</span> <span class="o">=</span> <span class="n">address_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address_df_gpd</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">])</span>
+<span class="n">gdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-37540e3d-e0af-4baf-972f-6c6d887902f8">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>POINT (-73.81864 40.77489)</td>
+      <td>147-26, 25th Drive, 11354, 25th Drive, New Yor...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>POINT (-88.95624 39.84059)</td>
+      <td>Macon County Office Building, 141, South Main ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>POINT (-122.19749 47.68078)</td>
+      <td>544, 7th Avenue, 98033, 7th Avenue, Kirkland, ...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>POINT (-73.89657 40.87026)</td>
+      <td>2780, Reservoir Avenue, 10468, Reservoir Avenu...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>POINT (-73.98978 40.67027)</td>
+      <td>4th Avenue, 10th Street, 11215, 10th Street, N...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>POINT (-73.88526 40.81604)</td>
+      <td>730, Bryant Avenue, 10474, Bryant Avenue, New ...</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>POINT (-93.49384 34.93464)</td>
+      <td>Briggsville Avenue, 72828, Arkansas, United St...</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>POINT (-73.92946 40.74347)</td>
+      <td>45-30, 36th Street, 11101, 36th Street, New Yo...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>POINT (-73.86579 40.83811)</td>
+      <td>Public School 102, 1827, Archer Street, 10460,...</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>POINT (-80.24120 25.83239)</td>
+      <td>Dr. Martin Luther King, Jr., Northwest 27th Av...</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 2 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-37540e3d-e0af-4baf-972f-6c6d887902f8')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-37540e3d-e0af-4baf-972f-6c6d887902f8 button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-37540e3d-e0af-4baf-972f-6c6d887902f8');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+<p>We merge the resulting GeoDataFrame with the original DataFrame to retain some columns from the original dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">address_df_gpd</span><span class="p">)</span>
+<span class="n">merged</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We select the subset of columns and rename them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged</span> <span class="o">=</span> <span class="n">merged</span><span class="p">[[</span><span class="s1">&#39;EC_Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Full_Address&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]]</span>
+<span class="n">merged</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;EC_Name&#39;</span><span class="p">:</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Full_Address&#39;</span><span class="p">:</span> <span class="s1">&#39;Address&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">merged</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-e2894014-10b4-4e95-9fd5-c265061e44da">
+    <div class="colab-df-container">
+      <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>J.H.S. 185 - Queens</td>
+      <td>147-26 25th Drive,NYC,NY,11354</td>
+      <td>POINT (-73.81864 40.77489)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>I.S. 258 - Brooklyn</td>
+      <td>141 Macon Street,NYC,NY,11216</td>
+      <td>POINT (-88.95624 39.84059)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I.S. 88 - Brooklyn</td>
+      <td>544 7th Avenue,NYC,NY,11215</td>
+      <td>POINT (-122.19749 47.68078)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Walton HS - X</td>
+      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
+      <td>POINT (-73.89657 40.87026)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
+      <td>7002 4th Avenue,NYC,NY,11209</td>
+      <td>POINT (-73.98978 40.67027)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>I.S. 201 - Bronx</td>
+      <td>730 Bryant Avenue,NYC,NY,10474</td>
+      <td>POINT (-73.88526 40.81604)</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>P.S. 46 - Bronx</td>
+      <td>2760 Briggs Avenue,NYC,NY,10458</td>
+      <td>POINT (-93.49384 34.93464)</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>Aviation HS - Q</td>
+      <td>45-30 36th Street,NYC,NY,11101</td>
+      <td>POINT (-73.92946 40.74347)</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>P.S. 102 - Bronx</td>
+      <td>1827 Archer Street,NYC,NY,10460</td>
+      <td>POINT (-73.86579 40.83811)</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>Morris Heights Educational Complex - Bronx</td>
+      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
+      <td>POINT (-80.24120 25.83239)</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 3 columns</p>
+</div>
+      <button class="colab-df-convert" onclick="convertToInteractive('df-e2894014-10b4-4e95-9fd5-c265061e44da')"
+              title="Convert this dataframe to an interactive table."
+              style="display:none;">
+        
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+  </svg>
+      </button>
+      
+  <style>
+    .colab-df-container {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+      <script>
+        const buttonEl =
+          document.querySelector('#df-e2894014-10b4-4e95-9fd5-c265061e44da button.colab-df-convert');
+        buttonEl.style.display =
+          google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+        async function convertToInteractive(key) {
+          const element = document.querySelector('#df-e2894014-10b4-4e95-9fd5-c265061e44da');
+          const dataTable =
+            await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                     [key], {});
+          if (!dataTable) return;
+
+          const docLinkHtml = 'Like what you see? Visit the ' +
+            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+            + ' to learn more about interactive tables.';
+          element.innerHTML = '';
+          dataTable['output_type'] = 'display_data';
+          await google.colab.output.renderOutput(dataTable, element);
+          const docLink = document.createElement('div');
+          docLink.innerHTML = docLinkHtml;
+          element.appendChild(docLink);
+        }
+      </script>
+    </div>
+  </div>
+  </div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Geospatial Python Tutorials</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geopandas_extract_from_excel.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extract a Shapefile Subset from Excel</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-1-pandas">Geocoding Method 1: Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-2-geopandas">Geocoding Method 2: GeoPandas</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ujaval Gandhi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
