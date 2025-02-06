@@ -1,11 +1,12 @@
 # Geospatial Python Tutorials
 
-Welcome to Spatial Analysis and Remote Sensing Tutorials by [Spatial Thoughts](https://spatialthoughts.com/). These tutorials complement our Python courses and are suitable for learners who want to advance their skills. 
+Welcome to Spatial Analysis and Remote Sensing Tutorials by <a href='https://spatialthoughts.com/' target='_blank'>Spatial Thoughts</a>. These tutorials complement our Python courses and are suitable for learners who want to advance their skills. 
 
 We highly recommend completing the following courses before diving into these tutorials. All our courses are open-access and freely available for self-study.
 
-* [Python Foundation for Spatial Analysis](https://spatialthoughts.com/courses/python-foundation-for-spatial-analysis/)
-* [Mapping and Data Visualization with Python](https://spatialthoughts.com/courses/python-dataviz/)
+
+* <a href='https://spatialthoughts.com/courses/python-foundation-for-spatial-analysis/' target='_blank'>Python Foundation for Spatial Analysis ↗</a>
+* <a href='https://spatialthoughts.com/courses/python-dataviz/' target='_blank'>Mapping and Data Visualization with Python ↗</a>
 
 ## Before you begin
 
