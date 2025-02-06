@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -56,9 +56,22 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-CSFQ69LBRL"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/geopandas_fuzzy_table_join';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -420,16 +433,16 @@
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>This tutorial shows how to use GeoPandas to do a fuzzy table join. We will be covering advanced data cleaning techniques to be able to merge datasets from different sources.</p>
 <p>We will be working with 2 data layers for the Sri Lanka. Given the shapefile of Admin4 regions and a CSV file containing division-wise population statistics - we will learn how to merge them to display these indicators on a map.</p>
-<p>Input Layers:</p>
+<p><strong>Input Layers</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">lka_admbnda_adm4_slsd_20220816.shp</span></code>: A shapefile of all Grama Niladhari (GN)Divisions (Admin Level 4) of Sri Lanka.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GN_Division_Age_Group_of_Population.csv</span></code>: Age-wise population for all GN Divisions of Sri Lanka.</p></li>
 </ul>
-<p>Output:</p>
+<p><strong>Output</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">srilanka.gpkg</span></code>: A geopackage containing merged dataset.</p></li>
 </ul>
-<p>Data Credit:</p>
+<p><strong>Data Credit</strong>:</p>
 <ul class="simple">
 <li><p>Sri Lanka Population Statistics: Department of Census and Statistics - Sri Lanka.  Downloaded from DCS Map Portal](<a class="reference external" href="http://map.statistics.gov.lk/">http://map.statistics.gov.lk/</a>).</p></li>
 <li><p>Sri Lanka - Subnational Administrative Boundaries: Sri Lanka administrative levels 0-4 shapefiles and gazetteer. Downloaded from <a class="reference external" href="https://data.humdata.org/dataset/cod-ab-lka">HDX portal</a>.</p></li>
@@ -441,16 +454,8 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span>
-<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-    <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
-        <span class="err">!</span><span class="n">apt</span> <span class="n">install</span> <span class="n">libspatialindex</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span><span class="n">qq</span>
-        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">fiona</span> <span class="n">shapely</span> <span class="n">pyproj</span> <span class="n">rtree</span> <span class="o">--</span><span class="n">quiet</span>
-        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">geopandas</span> <span class="o">--</span><span class="n">quiet</span>
-        <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">thefuzz</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;geopandas not found, please install via conda in your environment&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">thefuzz</span>
 </pre></div>
 </div>
 </div>
@@ -489,7 +494,8 @@
         <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://storage.googleapis.com/spatialthoughts-public-data/srilanka/&#39;</span>
+<span class="n">GN_Division_Age_Group_of_Population</span><span class="o">.</span><span class="n">csv</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/spatialthoughts/geopython-tutorials/releases/download/data/&#39;</span>
 
 <span class="n">shapefile</span> <span class="o">=</span> <span class="s1">&#39;lka_admbnda_adm4_slsd_20220816&#39;</span>
 <span class="n">exts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="s1">&#39;.shx&#39;</span><span class="p">,</span> <span class="s1">&#39;.dbf&#39;</span><span class="p">,</span> <span class="s1">&#39;.prj&#39;</span><span class="p">]</span>
