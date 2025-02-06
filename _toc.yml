@@ -6,5 +6,6 @@ root: introduction
 parts:
     - caption: Pandas and GeoPandas 
       chapters:
+          - file: notebooks/geopandas_bulk_geocoding.ipynb
           - file: notebooks/geopandas_extract_from_excel.ipynb
           - file: notebooks/geopandas_fuzzy_table_join.ipynb

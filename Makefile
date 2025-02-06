@@ -1,3 +1,6 @@
+github:
+	git commit -a -m 'update'; git push origin main
+	
 html:
 	jupyter-book build .
 	cp CNAME _build/html
