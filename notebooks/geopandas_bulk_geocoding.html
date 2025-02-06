@@ -446,11 +446,20 @@
 <ul class="simple">
 <li><p><a class="reference external" href="https://data.cityofnewyork.us/Public-Safety/Hurricane-Evacuation-Centers-Map-/ayer-cga7">NYC Open Data Portal</a></p></li>
 </ul>
-<p><strong>Watch Video Walkthrough</strong> <a href='https://www.youtube.com/watch?v=N6itC6hbOvo' target='_blank'><img alt="../_images/yt_logo.png" src="../_images/yt_logo.png" /></a></p>
+<p><strong>Watch Video Walkthrough</strong> <a href='https://www.youtube.com/watch?v=N6itC6hbOvo' target='_blank'><img alt="https://github.com/spatialthoughts/geopython-tutorials/blob/main/images/yt_logo.png?raw=1" src="https://github.com/spatialthoughts/geopython-tutorials/blob/main/images/yt_logo.png?raw=1" /></a></p>
 </section>
 <section id="setup-and-data-download">
 <h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
 <p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">leafmap</span> <span class="n">mapclassify</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -493,6 +502,11 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/Hurricane_Evacuation_Centers.xlsx
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="procedure">
@@ -509,9 +523,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-ee475155-580e-4b5a-9347-27c4a1681cf4">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-31859504-e0bb-4491-8959-78384b90aeb9" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -653,21 +666,21 @@
 </table>
 <p>64 rows × 7 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-ee475155-580e-4b5a-9347-27c4a1681cf4')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-31859504-e0bb-4491-8959-78384b90aeb9')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -689,6 +702,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -702,33 +719,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-ee475155-580e-4b5a-9347-27c4a1681cf4 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-31859504-e0bb-4491-8959-78384b90aeb9 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-ee475155-580e-4b5a-9347-27c4a1681cf4');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-31859504-e0bb-4491-8959-78384b90aeb9');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-5b759380-fa2f-4eb3-9138-5ba363adbc19">
+  <button class="colab-df-quickchart" onclick="quickchart('df-5b759380-fa2f-4eb3-9138-5ba363adbc19')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-5b759380-fa2f-4eb3-9138-5ba363adbc19 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_36e50900-0435-4132-bb73-a395a12b8ffb">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_df')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_36e50900-0435-4132-bb73-a395a12b8ffb button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_df');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>The Nominatim geocoder expects the addresses with certain format. We fix our source addresses by making the street numbers as ordinal numbers.</p>
 <p>Examples</p>
@@ -759,9 +961,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-19fd6265-cf4a-454f-bc52-9252f7a8eedb" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -915,21 +1116,21 @@
 </table>
 <p>64 rows × 8 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-19fd6265-cf4a-454f-bc52-9252f7a8eedb')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -951,6 +1152,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -964,33 +1169,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-19fd6265-cf4a-454f-bc52-9252f7a8eedb button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-993a7a0c-e1a6-4d34-807c-efff74cc5ec3');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-19fd6265-cf4a-454f-bc52-9252f7a8eedb');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-f1c22215-9f69-497c-b5ac-d06d5bf6d293">
+  <button class="colab-df-quickchart" onclick="quickchart('df-f1c22215-9f69-497c-b5ac-d06d5bf6d293')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-f1c22215-9f69-497c-b5ac-d06d5bf6d293 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_b81498dd-c760-4bf4-be70-f23369f6f8e8">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_df')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_b81498dd-c760-4bf4-be70-f23369f6f8e8 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_df');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>We also create a new column containing the full address. The <code class="docutils literal notranslate"><span class="pre">CITY</span></code> column in the data are actually boroughs of NYC and adding it causing many geocoding requests to fail. Instead, we use the city name ‘NYC’ for all addresses.</p>
 <div class="cell docutils container">
@@ -1006,9 +1396,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-8a541e50-e1a7-4e19-97aa-0dfe13dd0e7a" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1174,21 +1563,21 @@
 </table>
 <p>64 rows × 9 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-8a541e50-e1a7-4e19-97aa-0dfe13dd0e7a')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -1210,6 +1599,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -1223,33 +1616,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-8a541e50-e1a7-4e19-97aa-0dfe13dd0e7a button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-4bc8c6f1-48e7-458b-a783-15dcbcfd9b9e');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-8a541e50-e1a7-4e19-97aa-0dfe13dd0e7a');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-0f8649b3-9568-410e-882b-91d761e409ad">
+  <button class="colab-df-quickchart" onclick="quickchart('df-0f8649b3-9568-410e-882b-91d761e409ad')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-0f8649b3-9568-410e-882b-91d761e409ad button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_0fc77f1f-9ac2-4c1f-82c3-e87676d64f99">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_df')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_0fc77f1f-9ac2-4c1f-82c3-e87676d64f99 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_df');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 </section>
 <section id="geocoding-method-1-pandas">
@@ -1276,10 +1854,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7bf662760fe543fb9b1be7e00038db52", "version_major": 2, "version_minor": 0}</script><div class="output text_html">
-  <div id="df-1df63fc7-3597-447c-8fe9-79dcb87edb3c">
-    <div class="colab-df-container">
-      <div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "34f255cd9b6241cda2a6e18e01b3d80b"}</script><div class="output text_html">
+  <div id="df-8c264b2a-e67f-4e4d-8edc-3002b6905f17" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1347,7 +1924,7 @@
       <td>Y</td>
       <td>544 7th Avenue</td>
       <td>544 7th Avenue,NYC,NY,11215</td>
-      <td>(Middle School 88, 544, 7th Avenue, South Slop...</td>
+      <td>(544, 7th Avenue, Greenwood Heights, Brooklyn,...</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1360,7 +1937,7 @@
       <td>Y</td>
       <td>2780 Reservoir Avenue</td>
       <td>2780 Reservoir Avenue,NYC,NY,10468</td>
-      <td>(Celia Cruz High School of Music, 2780, Reserv...</td>
+      <td>(2780, Reservoir Avenue, Kingsbridge Heights, ...</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1399,7 +1976,7 @@
       <td>Y</td>
       <td>730 Bryant Avenue</td>
       <td>730 Bryant Avenue,NYC,NY,10474</td>
-      <td>(730, Bryant Avenue, Hunts Point, Bronx County...</td>
+      <td>(730, Bryant Avenue, Hunts Point, The Bronx, B...</td>
     </tr>
     <tr>
       <th>60</th>
@@ -1412,7 +1989,7 @@
       <td>Y</td>
       <td>2760 Briggs Avenue</td>
       <td>2760 Briggs Avenue,NYC,NY,10458</td>
-      <td>(2760, Briggs Avenue, Bedford Park, Bronx Coun...</td>
+      <td>(2760, Briggs Avenue, Bedford Park, The Bronx,...</td>
     </tr>
     <tr>
       <th>61</th>
@@ -1425,7 +2002,7 @@
       <td>Y</td>
       <td>45-30 36th Street</td>
       <td>45-30 36th Street,NYC,NY,11101</td>
-      <td>(45-30, 36th Street, Sunnyside, Queens, City o...</td>
+      <td>(45-30, 36th Street, Sunnyside, Queens, Queens...</td>
     </tr>
     <tr>
       <th>62</th>
@@ -1438,7 +2015,7 @@
       <td>Y</td>
       <td>1827 Archer Street</td>
       <td>1827 Archer Street,NYC,NY,10460</td>
-      <td>(Public School 102, 1827, Archer Street, Bronx...</td>
+      <td>(Public School 102, 1827, Archer Street, The B...</td>
     </tr>
     <tr>
       <th>63</th>
@@ -1457,21 +2034,21 @@
 </table>
 <p>64 rows × 10 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-1df63fc7-3597-447c-8fe9-79dcb87edb3c')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-8c264b2a-e67f-4e4d-8edc-3002b6905f17')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -1493,6 +2070,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -1506,33 +2087,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-1df63fc7-3597-447c-8fe9-79dcb87edb3c button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-8c264b2a-e67f-4e4d-8edc-3002b6905f17 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-1df63fc7-3597-447c-8fe9-79dcb87edb3c');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-8c264b2a-e67f-4e4d-8edc-3002b6905f17');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-cc54ecb0-9cdb-4774-ade6-46715f6787ab">
+  <button class="colab-df-quickchart" onclick="quickchart('df-cc54ecb0-9cdb-4774-ade6-46715f6787ab')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-cc54ecb0-9cdb-4774-ade6-46715f6787ab button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_d1165566-0485-44a3-8c9b-df0b67e9af98">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_df_pd')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_d1165566-0485-44a3-8c9b-df0b67e9af98 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_df_pd');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>The response of the geocoding request is a <a class="reference external" href="https://geopy.readthedocs.io/en/stable/#geopy.location.Location"><code class="docutils literal notranslate"><span class="pre">geopy.location.Location</span></code></a> object containing the address along with geocoded coordinates as latitude and longitude. We extract them and add them to separate columns.</p>
 <div class="cell docutils container">
@@ -1545,9 +2311,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-4118130b-3a59-43d6-b3eb-f76a79dde24a">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-dc732996-0b33-41f3-a9d9-8be3a9102d50" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1621,9 +2386,9 @@
       <td>Y</td>
       <td>544 7th Avenue</td>
       <td>544 7th Avenue,NYC,NY,11215</td>
-      <td>(Middle School 88, 544, 7th Avenue, South Slop...</td>
-      <td>40.660432</td>
-      <td>-73.987836</td>
+      <td>(544, 7th Avenue, Greenwood Heights, Brooklyn,...</td>
+      <td>40.660181</td>
+      <td>-73.987930</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1636,9 +2401,9 @@
       <td>Y</td>
       <td>2780 Reservoir Avenue</td>
       <td>2780 Reservoir Avenue,NYC,NY,10468</td>
-      <td>(Celia Cruz High School of Music, 2780, Reserv...</td>
-      <td>40.870595</td>
-      <td>-73.897498</td>
+      <td>(2780, Reservoir Avenue, Kingsbridge Heights, ...</td>
+      <td>40.870261</td>
+      <td>-73.896569</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1681,7 +2446,7 @@
       <td>Y</td>
       <td>730 Bryant Avenue</td>
       <td>730 Bryant Avenue,NYC,NY,10474</td>
-      <td>(730, Bryant Avenue, Hunts Point, Bronx County...</td>
+      <td>(730, Bryant Avenue, Hunts Point, The Bronx, B...</td>
       <td>40.816040</td>
       <td>-73.885264</td>
     </tr>
@@ -1696,9 +2461,9 @@
       <td>Y</td>
       <td>2760 Briggs Avenue</td>
       <td>2760 Briggs Avenue,NYC,NY,10458</td>
-      <td>(2760, Briggs Avenue, Bedford Park, Bronx Coun...</td>
-      <td>40.867779</td>
-      <td>-73.890245</td>
+      <td>(2760, Briggs Avenue, Bedford Park, The Bronx,...</td>
+      <td>40.867729</td>
+      <td>-73.890294</td>
     </tr>
     <tr>
       <th>61</th>
@@ -1711,7 +2476,7 @@
       <td>Y</td>
       <td>45-30 36th Street</td>
       <td>45-30 36th Street,NYC,NY,11101</td>
-      <td>(45-30, 36th Street, Sunnyside, Queens, City o...</td>
+      <td>(45-30, 36th Street, Sunnyside, Queens, Queens...</td>
       <td>40.743475</td>
       <td>-73.929464</td>
     </tr>
@@ -1726,7 +2491,7 @@
       <td>Y</td>
       <td>1827 Archer Street</td>
       <td>1827 Archer Street,NYC,NY,10460</td>
-      <td>(Public School 102, 1827, Archer Street, Bronx...</td>
+      <td>(Public School 102, 1827, Archer Street, The B...</td>
       <td>40.838106</td>
       <td>-73.865790</td>
     </tr>
@@ -1742,28 +2507,28 @@
       <td>1780 Dr. Martin Luther King Jr. Blvd</td>
       <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
       <td>(East 125th Street, Manhattan Community Board ...</td>
-      <td>40.802551</td>
-      <td>-73.933098</td>
+      <td>40.802729</td>
+      <td>-73.933493</td>
     </tr>
   </tbody>
 </table>
 <p>64 rows × 12 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-4118130b-3a59-43d6-b3eb-f76a79dde24a')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-dc732996-0b33-41f3-a9d9-8be3a9102d50')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -1785,6 +2550,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -1798,33 +2567,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-4118130b-3a59-43d6-b3eb-f76a79dde24a button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-dc732996-0b33-41f3-a9d9-8be3a9102d50 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-4118130b-3a59-43d6-b3eb-f76a79dde24a');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-dc732996-0b33-41f3-a9d9-8be3a9102d50');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-82a1b533-3b1e-41fe-8d80-24b36d82a1cd">
+  <button class="colab-df-quickchart" onclick="quickchart('df-82a1b533-3b1e-41fe-8d80-24b36d82a1cd')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-82a1b533-3b1e-41fe-8d80-24b36d82a1cd button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_ec560c0f-52c4-4822-81d8-7640f243e794">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_df_pd')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_ec560c0f-52c4-4822-81d8-7640f243e794 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_df_pd');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>Some addresses might have failed to geocode. Let’s review them.</p>
 <div class="cell docutils container">
@@ -1836,9 +2790,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-096022c4-b36f-416c-bbe2-abe77a6d3095">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-e5b382ef-f206-4910-8c36-54457be515cd" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1889,21 +2842,21 @@
   </tbody>
 </table>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-096022c4-b36f-416c-bbe2-abe77a6d3095')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-e5b382ef-f206-4910-8c36-54457be515cd')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -1925,6 +2878,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -1938,33 +2895,91 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-096022c4-b36f-416c-bbe2-abe77a6d3095 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-e5b382ef-f206-4910-8c36-54457be515cd button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-096022c4-b36f-416c-bbe2-abe77a6d3095');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-e5b382ef-f206-4910-8c36-54457be515cd');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+  <div id="id_e7bde993-fa44-456c-bd92-39bb25dc5d44">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('failed')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_e7bde993-fa44-456c-bd92-39bb25dc5d44 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('failed');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>We may discard these rows. But sometimes it is useful to manually geocode failed queries. You may use another service manually or obtain the coordinates from another source. The below block assigns the coordinates 40.85339,-73.93350 to the row with index 54.</p>
 <div class="cell docutils container">
@@ -1994,9 +3009,8 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html">
-  <div id="df-b4bb497f-884a-45ce-a8db-ab3467eefd9e">
-    <div class="colab-df-container">
-      <div>
+  <div id="df-6db50acd-0c3e-463a-b44f-47912693658c" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -2036,23 +3050,23 @@
       <td>141 Macon Street,NYC,NY,11216</td>
       <td>40.681918</td>
       <td>-73.945597</td>
-      <td>POINT (-73.94560 40.68192)</td>
+      <td>POINT (-73.9456 40.68192)</td>
     </tr>
     <tr>
       <th>2</th>
       <td>I.S. 88 - Brooklyn</td>
       <td>544 7th Avenue,NYC,NY,11215</td>
-      <td>40.660432</td>
-      <td>-73.987836</td>
-      <td>POINT (-73.98784 40.66043)</td>
+      <td>40.660181</td>
+      <td>-73.987930</td>
+      <td>POINT (-73.98793 40.66018)</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Walton HS - X</td>
       <td>2780 Reservoir Avenue,NYC,NY,10468</td>
-      <td>40.870595</td>
-      <td>-73.897498</td>
-      <td>POINT (-73.89750 40.87059)</td>
+      <td>40.870261</td>
+      <td>-73.896569</td>
+      <td>POINT (-73.89657 40.87026)</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2082,9 +3096,9 @@
       <th>60</th>
       <td>P.S. 46 - Bronx</td>
       <td>2760 Briggs Avenue,NYC,NY,10458</td>
-      <td>40.867779</td>
-      <td>-73.890245</td>
-      <td>POINT (-73.89025 40.86778)</td>
+      <td>40.867729</td>
+      <td>-73.890294</td>
+      <td>POINT (-73.89029 40.86773)</td>
     </tr>
     <tr>
       <th>61</th>
@@ -2106,29 +3120,29 @@
       <th>63</th>
       <td>Morris Heights Educational Complex - Bronx</td>
       <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
-      <td>40.802551</td>
-      <td>-73.933098</td>
-      <td>POINT (-73.93310 40.80255)</td>
+      <td>40.802729</td>
+      <td>-73.933493</td>
+      <td>POINT (-73.93349 40.80273)</td>
     </tr>
   </tbody>
 </table>
 <p>64 rows × 5 columns</p>
 </div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-b4bb497f-884a-45ce-a8db-ab3467eefd9e')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-6db50acd-0c3e-463a-b44f-47912693658c')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
-      </button>
-      
+    </button>
+
   <style>
     .colab-df-container {
       display:flex;
-      flex-wrap:wrap;
       gap: 12px;
     }
 
@@ -2150,6 +3164,10 @@
       fill: #174EA6;
     }
 
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
     [theme=dark] .colab-df-convert {
       background-color: #3B4455;
       fill: #D2E3FC;
@@ -2163,33 +3181,218 @@
     }
   </style>
 
-      <script>
-        const buttonEl =
-          document.querySelector('#df-b4bb497f-884a-45ce-a8db-ab3467eefd9e button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
+    <script>
+      const buttonEl =
+        document.querySelector('#df-6db50acd-0c3e-463a-b44f-47912693658c button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
 
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-b4bb497f-884a-45ce-a8db-ab3467eefd9e');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-6db50acd-0c3e-463a-b44f-47912693658c');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
 
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-1fcc4fce-a6bb-4020-9981-8c140f0c1b33">
+  <button class="colab-df-quickchart" onclick="quickchart('df-1fcc4fce-a6bb-4020-9981-8c140f0c1b33')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-1fcc4fce-a6bb-4020-9981-8c140f0c1b33 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+  <div id="id_3a3641a4-02d8-46d4-968e-44177105d16f">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('address_gdf')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_3a3641a4-02d8-46d4-968e-44177105d16f button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('address_gdf');
+      }
+      })();
+    </script>
+  </div>
+
     </div>
   </div>
-  </div></div>
+</div></div>
 </div>
 <p>Visualize the geocoded addresses on a map.</p>
 <div class="cell docutils container">
@@ -2223,12 +3426,12 @@
     &lt;style&gt;html, body {width: 100%;height: 100%;margin: 0;padding: 0;}&lt;/style&gt;
     &lt;style&gt;#map {position:absolute;top:0;bottom:0;right:0;left:0;}&lt;/style&gt;
     &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://code.jquery.com/jquery-1.12.4.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
@@ -2236,7 +3439,7 @@
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_206b56c8bbb29c61cd994ae6adb100ec {
+                #map_e8a05f34a1b642b240d4a96a49703787 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -2246,8 +3449,8 @@
                 .leaflet-container { font-size: 1rem; }
             &lt;/style&gt;
         
-    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js&quot;&gt;&lt;/script&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css&quot;/&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css&quot;/&gt;
     &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js&quot;&gt;&lt;/script&gt;
     &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css&quot;/&gt;
     &lt;script src=&quot;https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js&quot;&gt;&lt;/script&gt;
@@ -2274,39 +3477,61 @@
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_206b56c8bbb29c61cd994ae6adb100ec&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_e8a05f34a1b642b240d4a96a49703787&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_206b56c8bbb29c61cd994ae6adb100ec = L.map(
-                &quot;map_206b56c8bbb29c61cd994ae6adb100ec&quot;,
+            var map_e8a05f34a1b642b240d4a96a49703787 = L.map(
+                &quot;map_e8a05f34a1b642b240d4a96a49703787&quot;,
                 {
                     center: [20.0, 0.0],
                     crs: L.CRS.EPSG3857,
-                    zoom: 2,
-                    zoomControl: true,
-                    preferCanvas: false,
-                    drawExport: false,
-                    layersControl: true,
+                    ...{
+  &quot;zoom&quot;: 2,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+  &quot;drawExport&quot;: false,
+  &quot;layersControl&quot;: true,
+}
+
                 }
             );
-            L.control.scale().addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+            L.control.scale().addTo(map_e8a05f34a1b642b240d4a96a49703787);
 
             
 
         
     
-            var tile_layer_f980f0bd03bccaf7c0925a8f44f30da1 = L.tileLayer(
-                &quot;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
-                {&quot;attribution&quot;: &quot;Data by \u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://openstreetmap.org\&quot;\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\&quot;_blank\&quot; href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eODbL\u003c/a\u003e.&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 24, &quot;maxZoom&quot;: 24, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
-            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+            var tile_layer_3e39b0a58152785ed8d09e88c14baaac = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 24,
+  &quot;maxNativeZoom&quot;: 24,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_3e39b0a58152785ed8d09e88c14baaac.addTo(map_e8a05f34a1b642b240d4a96a49703787);
         
     
             L.control.fullscreen(
-                {&quot;forceSeparateButton&quot;: false, &quot;position&quot;: &quot;topleft&quot;, &quot;title&quot;: &quot;Full Screen&quot;, &quot;titleCancel&quot;: &quot;Exit Full Screen&quot;}
-            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+                {
+  &quot;position&quot;: &quot;topleft&quot;,
+  &quot;title&quot;: &quot;Full Screen&quot;,
+  &quot;titleCancel&quot;: &quot;Exit Full Screen&quot;,
+  &quot;forceSeparateButton&quot;: false,
+}
+            ).addTo(map_e8a05f34a1b642b240d4a96a49703787);
         
     
             var options = {
@@ -2314,15 +3539,17 @@
               draw: {},
               edit: {},
             }
-            // FeatureGroup is to store editable layers.
-            var drawnItems = new L.featureGroup().addTo(
-                map_206b56c8bbb29c61cd994ae6adb100ec
-            );
-            options.edit.featureGroup = drawnItems;
-            var draw_control_21637832660cfb2da81cbcdf064efeb6 = new L.Control.Draw(
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_d98ef5e99959f5c2971a4e2a3fc6fce7 =
+                    new L.featureGroup().addTo(
+                        map_e8a05f34a1b642b240d4a96a49703787
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_d98ef5e99959f5c2971a4e2a3fc6fce7;
+            var draw_control_d98ef5e99959f5c2971a4e2a3fc6fce7 = new L.Control.Draw(
                 options
-            ).addTo( map_206b56c8bbb29c61cd994ae6adb100ec );
-            map_206b56c8bbb29c61cd994ae6adb100ec.on(L.Draw.Event.CREATED, function(e) {
+            ).addTo( map_e8a05f34a1b642b240d4a96a49703787 );
+            map_e8a05f34a1b642b240d4a96a49703787.on(L.Draw.Event.CREATED, function(e) {
                 var layer = e.layer,
                     type = e.layerType;
                 var coords = JSON.stringify(layer.toGeoJSON());
@@ -2330,91 +3557,134 @@
                     alert(coords);
                     console.log(coords);
                 });
-                drawnItems.addLayer(layer);
-             });
-            map_206b56c8bbb29c61cd994ae6adb100ec.on(&#x27;draw:created&#x27;, function(e) {
-                drawnItems.addLayer(e.layer);
+                drawnItems_draw_control_d98ef5e99959f5c2971a4e2a3fc6fce7.addLayer(layer);
             });
+            map_e8a05f34a1b642b240d4a96a49703787.on(&#x27;draw:created&#x27;, function(e) {
+                drawnItems_draw_control_d98ef5e99959f5c2971a4e2a3fc6fce7.addLayer(e.layer);
+            });
+
             
         
     
-            var measure_control_7024146e87fe3de928060cccecc6f04e = new L.Control.Measure(
-                {&quot;position&quot;: &quot;bottomleft&quot;, &quot;primaryAreaUnit&quot;: &quot;sqmeters&quot;, &quot;primaryLengthUnit&quot;: &quot;meters&quot;, &quot;secondaryAreaUnit&quot;: &quot;acres&quot;, &quot;secondaryLengthUnit&quot;: &quot;miles&quot;});
-            map_206b56c8bbb29c61cd994ae6adb100ec.addControl(measure_control_7024146e87fe3de928060cccecc6f04e);
+            var measure_control_54f78eacac6482246317c9d7d9f53fda = new L.Control.Measure(
+                {
+  &quot;position&quot;: &quot;bottomleft&quot;,
+  &quot;primaryLengthUnit&quot;: &quot;meters&quot;,
+  &quot;secondaryLengthUnit&quot;: &quot;miles&quot;,
+  &quot;primaryAreaUnit&quot;: &quot;sqmeters&quot;,
+  &quot;secondaryAreaUnit&quot;: &quot;acres&quot;,
+});
+            map_e8a05f34a1b642b240d4a96a49703787.addControl(measure_control_54f78eacac6482246317c9d7d9f53fda);
+
+            // Workaround for using this plugin with Leaflet&gt;=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
 
         
     
+
+            var geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498 = {
+  &quot;collapsed&quot;: true,
+  &quot;position&quot;: &quot;topleft&quot;,
+  &quot;defaultMarkGeocode&quot;: true,
+  &quot;zoom&quot;: 11,
+  &quot;provider&quot;: &quot;nominatim&quot;,
+  &quot;providerOptions&quot;: {
+},
+};
+
+            // note: geocoder name should start with lowercase
+            var geocoderName_geocoder_4205e406e0bd8d00777769f35b881498 = geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498[&quot;provider&quot;];
+
+            var customGeocoder_geocoder_4205e406e0bd8d00777769f35b881498 = L.Control.Geocoder[ geocoderName_geocoder_4205e406e0bd8d00777769f35b881498 ](
+                geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498[&#x27;providerOptions&#x27;]
+            );
+            geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498[&quot;geocoder&quot;] = customGeocoder_geocoder_4205e406e0bd8d00777769f35b881498;
+
             L.Control.geocoder(
-                {&quot;collapsed&quot;: true, &quot;defaultMarkGeocode&quot;: true, &quot;position&quot;: &quot;topleft&quot;}
+                geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498
             ).on(&#x27;markgeocode&#x27;, function(e) {
-                map_206b56c8bbb29c61cd994ae6adb100ec.setView(e.geocode.center, 11);
-            }).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+                var zoom = geocoderOpts_geocoder_4205e406e0bd8d00777769f35b881498[&#x27;zoom&#x27;] || map_e8a05f34a1b642b240d4a96a49703787.getZoom();
+                map_e8a05f34a1b642b240d4a96a49703787.setView(e.geocode.center, zoom);
+            }).addTo(map_e8a05f34a1b642b240d4a96a49703787);
 
         
     
-            map_206b56c8bbb29c61cd994ae6adb100ec.fitBounds(
+            map_e8a05f34a1b642b240d4a96a49703787.fitBounds(
                 [[20, 0], [20, 0]],
                 {&quot;maxZoom&quot;: 2}
             );
         
     
-        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler(feature) {
+        function geo_json_0126ae93f759b53c193a501101af50af_styler(feature) {
             switch(feature.id) {
                 default:
                     return {&quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 2};
             }
         }
-        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_highlighter(feature) {
+        function geo_json_0126ae93f759b53c193a501101af50af_highlighter(feature) {
             switch(feature.id) {
                 default:
                     return {&quot;fillOpacity&quot;: 0.75};
             }
         }
-        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_pointToLayer(feature, latlng) {
+        function geo_json_0126ae93f759b53c193a501101af50af_pointToLayer(feature, latlng) {
             var opts = {};
             
-            const iconOptions = {&quot;extraClasses&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;hurricane&quot;, &quot;iconColor&quot;: &quot;white&quot;, &quot;markerColor&quot;: &quot;#fdbb84&quot;, &quot;prefix&quot;: &quot;fa&quot;}
+            const iconOptions = {&quot;extra_classes&quot;: &quot;fa-rotate-0&quot;, &quot;icon&quot;: &quot;hurricane&quot;, &quot;icon_color&quot;: &quot;white&quot;, &quot;marker_color&quot;: &quot;#fdbb84&quot;, &quot;prefix&quot;: &quot;fa&quot;}
             const iconRootAlias = L.AwesomeMarkers
             opts.icon = new iconRootAlias.Icon(iconOptions)
             
-            let style = geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler(feature)
+            let style = geo_json_0126ae93f759b53c193a501101af50af_styler(feature)
             Object.assign(opts.icon.options, style)
             
             return new L.Marker(latlng, opts)
         }
 
-        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_onEachFeature(feature, layer) {
+        function geo_json_0126ae93f759b53c193a501101af50af_onEachFeature(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        geo_json_04dbee9bc83506be6a1b60b3dfb53df1.resetStyle(e.target);
+                            geo_json_0126ae93f759b53c193a501101af50af.resetStyle(e.target);
                     }
                 },
                 mouseover: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        const highlightStyle = geo_json_04dbee9bc83506be6a1b60b3dfb53df1_highlighter(e.target.feature)
+                        const highlightStyle = geo_json_0126ae93f759b53c193a501101af50af_highlighter(e.target.feature)
                         e.target.setStyle(highlightStyle);
                     }
                 },
             });
         };
-        var geo_json_04dbee9bc83506be6a1b60b3dfb53df1 = L.geoJson(null, {
-                onEachFeature: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_onEachFeature,
+        var geo_json_0126ae93f759b53c193a501101af50af = L.geoJson(null, {
+                onEachFeature: geo_json_0126ae93f759b53c193a501101af50af_onEachFeature,
             
-                style: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_styler,
-                pointToLayer: geo_json_04dbee9bc83506be6a1b60b3dfb53df1_pointToLayer
+                style: geo_json_0126ae93f759b53c193a501101af50af_styler,
+                pointToLayer: geo_json_0126ae93f759b53c193a501101af50af_pointToLayer,
+            ...{
+}
         });
 
-        function geo_json_04dbee9bc83506be6a1b60b3dfb53df1_add (data) {
-            geo_json_04dbee9bc83506be6a1b60b3dfb53df1
-                .addData(data)
-                .addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+        function geo_json_0126ae93f759b53c193a501101af50af_add (data) {
+            geo_json_0126ae93f759b53c193a501101af50af
+                .addData(data);
         }
-            geo_json_04dbee9bc83506be6a1b60b3dfb53df1_add({&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -73.7288703287536, 40.88821535], &quot;features&quot;: [{&quot;bbox&quot;: [-73.81861937037871, 40.7749125, -73.81861937037871, 40.7749125], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.81861937037871, 40.7749125], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;147-26 25th Drive,NYC,NY,11354&quot;, &quot;Name&quot;: &quot;J.H.S. 185 - Queens&quot;, &quot;latitude&quot;: 40.7749125, &quot;longitude&quot;: -73.81861937037871}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94559669550401, 40.68191795, -73.94559669550401, 40.68191795], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94559669550401, 40.68191795], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;141 Macon Street,NYC,NY,11216&quot;, &quot;Name&quot;: &quot;I.S. 258 - Brooklyn&quot;, &quot;latitude&quot;: 40.68191795, &quot;longitude&quot;: -73.94559669550401}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9878361, 40.6604319, -73.9878361, 40.6604319], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9878361, 40.6604319], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;544 7th Avenue,NYC,NY,11215&quot;, &quot;Name&quot;: &quot;I.S. 88 - Brooklyn&quot;, &quot;latitude&quot;: 40.6604319, &quot;longitude&quot;: -73.9878361}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.8974985, 40.8705947, -73.8974985, 40.8705947], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.8974985, 40.8705947], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2780 Reservoir Avenue,NYC,NY,10468&quot;, &quot;Name&quot;: &quot;Walton HS - X&quot;, &quot;latitude&quot;: 40.8705947, &quot;longitude&quot;: -73.8974985}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.0240376060606, 40.633624636363635, -74.0240376060606, 40.633624636363635], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.0240376060606, 40.633624636363635], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7002 4th Avenue,NYC,NY,11209&quot;, &quot;Name&quot;: &quot;P.S./I.S.30 Mary White Ovington - Brooklyn&quot;, &quot;latitude&quot;: 40.633624636363635, &quot;longitude&quot;: -74.0240376060606}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.96718997959184, 40.75932028571429, -73.96718997959184, 40.75932028571429], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.96718997959184, 40.75932028571429], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;233 E 56th Street,NYC,NY,10022&quot;, &quot;Name&quot;: &quot;Midtown East Campus - Manhattan&quot;, &quot;latitude&quot;: 40.75932028571429, &quot;longitude&quot;: -73.96718997959184}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97725748560372, 40.61531665, -73.97725748560372, 40.61531665], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97725748560372, 40.61531665], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;6006 23rd Avenue,NYC,NY,11204&quot;, &quot;Name&quot;: &quot;P.S. 226 - Brooklyn&quot;, &quot;latitude&quot;: 40.61531665, &quot;longitude&quot;: -73.97725748560372}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.99352082556382, 40.716184, -73.99352082556382, 40.716184], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.99352082556382, 40.716184], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Hester Street,NYC,NY,10002&quot;, &quot;Name&quot;: &quot;I.S. 131 - Manhattan&quot;, &quot;latitude&quot;: 40.716184, &quot;longitude&quot;: -73.99352082556382}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.78971275461399, 40.7648014, -73.78971275461399, 40.7648014], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.78971275461399, 40.7648014], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;34-65 192nd Street,NYC,NY,11355&quot;, &quot;Name&quot;: &quot;J.H.S. 25 - Queens&quot;, &quot;latitude&quot;: 40.7648014, &quot;longitude&quot;: -73.78971275461399}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89304957924597, 40.74231195, -73.89304957924597, 40.74231195], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89304957924597, 40.74231195], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;42-00 72nd Street,NYC,NY,11377&quot;, &quot;Name&quot;: &quot;P.S. 12 - Queens&quot;, &quot;latitude&quot;: 40.74231195, &quot;longitude&quot;: -73.89304957924597}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.93574581632653, 40.839708571428574, -73.93574581632653, 40.839708571428574], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.93574581632653, 40.839708571428574], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21 Jumel Place,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;I.S. 90 - Manhattan&quot;, &quot;latitude&quot;: 40.839708571428574, &quot;longitude&quot;: -73.93574581632653}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.80264202436206, 40.7096425, -73.80264202436206, 40.7096425], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.80264202436206, 40.7096425], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;160-05 Highland Avenue,NYC,NY,11432&quot;, &quot;Name&quot;: &quot;Hillcrest HS - Q&quot;, &quot;latitude&quot;: 40.7096425, &quot;longitude&quot;: -73.80264202436206}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.900672, 40.8277475, -73.900672, 40.8277475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.900672, 40.8277475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Home Street,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;I.S. 158 - Bronx&quot;, &quot;latitude&quot;: 40.8277475, &quot;longitude&quot;: -73.900672}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7668350894142, 40.74505005, -73.7668350894142, 40.74505005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7668350894142, 40.74505005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;61-15 Oceania Street,NYC,NY,11362&quot;, &quot;Name&quot;: &quot;I.S. 74 - Queens&quot;, &quot;latitude&quot;: 40.74505005, &quot;longitude&quot;: -73.7668350894142}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9197565, 40.6728542, -73.9197565, 40.6728542], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9197565, 40.6728542], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;430 Howard Avenue,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;P.S. 12 - Brooklyn&quot;, &quot;latitude&quot;: 40.6728542, &quot;longitude&quot;: -73.9197565}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85153856804939, 40.7231289, -73.85153856804939, 40.7231289], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85153856804939, 40.7231289], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;68-17 Austin Street,NYC,NY,11375&quot;, &quot;Name&quot;: &quot;J.H.S. 190 - Queens&quot;, &quot;latitude&quot;: 40.7231289, &quot;longitude&quot;: -73.85153856804939}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95429411836136, 40.802606999999995, -73.95429411836136, 40.802606999999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95429411836136, 40.802606999999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;16&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;215 W 114th Street,NYC,NY,10026&quot;, &quot;Name&quot;: &quot;I.S. 88 - Manhattan&quot;, &quot;latitude&quot;: 40.802606999999995, &quot;longitude&quot;: -73.95429411836136}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95604703944497, 40.6489803, -73.95604703944497, 40.6489803], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95604703944497, 40.6489803], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;17&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;43 Snyder Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;P.S. 6 - Brooklyn&quot;, &quot;latitude&quot;: 40.6489803, &quot;longitude&quot;: -73.95604703944497}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89015763213266, 40.7287324, -73.89015763213266, 40.7287324], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89015763213266, 40.7287324], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;18&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;72-24 Grand Avenue,NYC,NY,11378&quot;, &quot;Name&quot;: &quot;P.S. 58 - Queens&quot;, &quot;latitude&quot;: 40.7287324, &quot;longitude&quot;: -73.89015763213266}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9516125, 40.6562525, -73.9516125, 40.6562525], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9516125, 40.6562525], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;19&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;655 Parkside Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;I.S. 2 - Brooklyn&quot;, &quot;latitude&quot;: 40.6562525, &quot;longitude&quot;: -73.9516125}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89050181101334, 40.84381285, -73.89050181101334, 40.84381285], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89050181101334, 40.84381285], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;20&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1919 Prospect Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;P.S. 211 - Bronx&quot;, &quot;latitude&quot;: 40.84381285, &quot;longitude&quot;: -73.89050181101334}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87313338576763, 40.68932475, -73.87313338576763, 40.68932475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87313338576763, 40.68932475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;858 Jamaica Avenue,NYC,NY,11208&quot;, &quot;Name&quot;: &quot;P.S. 7 - Brooklyn&quot;, &quot;latitude&quot;: 40.68932475, &quot;longitude&quot;: -73.87313338576763}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94268572563126, 40.674224249999995, -73.94268572563126, 40.674224249999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94268572563126, 40.674224249999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;22&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;900 St Marks Avenue,NYC,NY,11213&quot;, &quot;Name&quot;: &quot;P.S. 289 - Brooklyn&quot;, &quot;latitude&quot;: 40.674224249999995, &quot;longitude&quot;: -73.94268572563126}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7288703287536, 40.7445126, -73.7288703287536, 40.7445126], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7288703287536, 40.7445126], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;23&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;74-20 Commonwealth Blvd,NYC,NY,11426&quot;, &quot;Name&quot;: &quot;Queens H.S. of Teaching&quot;, &quot;latitude&quot;: 40.7445126, &quot;longitude&quot;: -73.7288703287536}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94747129298835, 40.694414300000005, -73.94747129298835, 40.694414300000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94747129298835, 40.694414300000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;24&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;545 Willoughby Avenue,NYC,NY,11206&quot;, &quot;Name&quot;: &quot;P.S. 23 - Brooklyn&quot;, &quot;latitude&quot;: 40.694414300000005, &quot;longitude&quot;: -73.94747129298835}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85272010524264, 40.88821535, -73.85272010524264, 40.88821535], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85272010524264, 40.88821535], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;25&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;921 E 228th Street,NYC,NY,10466&quot;, &quot;Name&quot;: &quot;I.S./H.S. 362 - Bronx&quot;, &quot;latitude&quot;: 40.88821535, &quot;longitude&quot;: -73.85272010524264}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87442582994036, 40.755279, -73.87442582994036, 40.755279], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87442582994036, 40.755279], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;26&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;93-11 34th Avenue,NYC,NY,11372&quot;, &quot;Name&quot;: &quot;P.S. 149 - Queens&quot;, &quot;latitude&quot;: 40.755279, &quot;longitude&quot;: -73.87442582994036}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.90664428947368, 40.83194842105263, -73.90664428947368, 40.83194842105263], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.90664428947368, 40.83194842105263], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;27&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1245 Washington Avenue,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;P.S. 132 - Bronx&quot;, &quot;latitude&quot;: 40.83194842105263, &quot;longitude&quot;: -73.90664428947368}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.98832879336612, 40.69463915, -73.98832879336612, 40.69463915], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.98832879336612, 40.69463915], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;28&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;283 Adams Street,NYC,NY,11201&quot;, &quot;Name&quot;: &quot;Adams Street Educational Campus - K&quot;, &quot;latitude&quot;: 40.69463915, &quot;longitude&quot;: -73.98832879336612}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91960128040012, 40.835653199999996, -73.91960128040012, 40.835653199999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91960128040012, 40.835653199999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1220 Gerard Avenue,NYC,NY,10452&quot;, &quot;Name&quot;: &quot;P.S./I.S. 218 - Bronx&quot;, &quot;latitude&quot;: 40.835653199999996, &quot;longitude&quot;: -73.91960128040012}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91358703662985, 40.8877842, -73.91358703662985, 40.8877842], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91358703662985, 40.8877842], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;30&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;660 W 237th Street,NYC,NY,10463&quot;, &quot;Name&quot;: &quot;M.S./H.S. 141 - Bronx&quot;, &quot;latitude&quot;: 40.8877842, &quot;longitude&quot;: -73.91358703662985}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9195423, 40.6977934, -73.9195423, 40.6977934], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9195423, 40.6977934], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;31&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1300 Greene Avenue,NYC,NY,11237&quot;, &quot;Name&quot;: &quot;I.S. 383 - Brooklyn&quot;, &quot;latitude&quot;: 40.6977934, &quot;longitude&quot;: -73.9195423}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1448757, 40.6227591, -74.1448757, 40.6227591], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1448757, 40.6227591], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;32&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;20 Houston Street,NYC,NY,10302&quot;, &quot;Name&quot;: &quot;I.S. 51 - Staten Island&quot;, &quot;latitude&quot;: 40.6227591, &quot;longitude&quot;: -74.1448757}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95118485801015, 40.66693295, -73.95118485801015, 40.66693295], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95118485801015, 40.66693295], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;33&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1186 Carroll Street,NYC,NY,11225&quot;, &quot;Name&quot;: &quot;Medgar Evers College Prep&quot;, &quot;latitude&quot;: 40.66693295, &quot;longitude&quot;: -73.95118485801015}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9416821, 40.8285068, -73.9416821, 40.8285068], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9416821, 40.8285068], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;34&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;501-503 W 152nd Street,NYC,NY,10031&quot;, &quot;Name&quot;: &quot;P.S./I.S. 210 - Manhattan&quot;, &quot;latitude&quot;: 40.8285068, &quot;longitude&quot;: -73.9416821}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7996911083717, 40.75555975, -73.7996911083717, 40.75555975], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7996911083717, 40.75555975], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;35&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;167-02 45th Avenue,NYC,NY,11358&quot;, &quot;Name&quot;: &quot;P.S. 107 - Queens&quot;, &quot;latitude&quot;: 40.75555975, &quot;longitude&quot;: -73.7996911083717}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.902615, 40.7003793, -73.902615, 40.7003793], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.902615, 40.7003793], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;36&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;17-15 Weirfield Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;P.S. 239 - Queens&quot;, &quot;latitude&quot;: 40.7003793, &quot;longitude&quot;: -73.902615}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9190269586198, 40.8274856, -73.9190269586198, 40.8274856], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9190269586198, 40.8274856], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;244 E 163rd Street,NYC,NY,10451&quot;, &quot;Name&quot;: &quot;HS Of Law, Gov\u0027t \u0026 Justice - X&quot;, &quot;latitude&quot;: 40.8274856, &quot;longitude&quot;: -73.9190269586198}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9809816, 40.7462177, -73.9809816, 40.7462177], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9809816, 40.7462177], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;38&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111 E 33rd Street,NYC,NY,10016&quot;, &quot;Name&quot;: &quot;Norman Thomas HS (ECF) - Manhattan&quot;, &quot;latitude&quot;: 40.7462177, &quot;longitude&quot;: -73.9809816}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.8654848993973, 40.7489511, -73.8654848993973, 40.7489511], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.8654848993973, 40.7489511], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;39&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;40-20 100th Street,NYC,NY,11368&quot;, &quot;Name&quot;: &quot;P.S. 307- Queens&quot;, &quot;latitude&quot;: 40.7489511, &quot;longitude&quot;: -73.8654848993973}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.08236650848119, 40.645539, -74.08236650848119, 40.645539], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.08236650848119, 40.645539], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;40&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;105 Hamilton Avenue,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Curtis HS - S. I.&quot;, &quot;latitude&quot;: 40.645539, &quot;longitude&quot;: -74.08236650848119}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.932454, 40.68819, -73.932454, 40.68819], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.932454, 40.68819], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;41&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Gates Avenue,NYC,NY,11221&quot;, &quot;Name&quot;: &quot;I.S. 324 - Brooklyn&quot;, &quot;latitude&quot;: 40.68819, &quot;longitude&quot;: -73.932454}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9259065, 40.6939323, -73.9259065, 40.6939323], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9259065, 40.6939323], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;42&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21-27 Himrod Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;Grover Cleveland HS - Q&quot;, &quot;latitude&quot;: 40.6939323, &quot;longitude&quot;: -73.9259065}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9742029, 40.7857432, -73.9742029, 40.7857432], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9742029, 40.7857432], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;43&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;145 W 84th Street,NYC,NY,10024&quot;, &quot;Name&quot;: &quot;Louis D. Brandeis HS - Manhattan&quot;, &quot;latitude&quot;: 40.7857432, &quot;longitude&quot;: -73.9742029}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.00445465251588, 40.65274685, -74.00445465251588, 40.65274685], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.00445465251588, 40.65274685], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;44&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;427 38th Street,NYC,NY,11232&quot;, &quot;Name&quot;: &quot;P.S. 24 - Brooklyn&quot;, &quot;latitude&quot;: 40.65274685, &quot;longitude&quot;: -74.00445465251588}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82127483647965, 40.7349959, -73.82127483647965, 40.7349959], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82127483647965, 40.7349959], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;149-11 Melbourne Avenue,NYC,NY,11367&quot;, &quot;Name&quot;: &quot;Townsend Harris HS - Q&quot;, &quot;latitude&quot;: 40.7349959, &quot;longitude&quot;: -73.82127483647965}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97640887345645, 40.6887573, -73.97640887345645, 40.6887573], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97640887345645, 40.6887573], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;46&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;29 Fort Greene Place,NYC,NY,11217&quot;, &quot;Name&quot;: &quot;Brooklyn Tech HS - K&quot;, &quot;latitude&quot;: 40.6887573, &quot;longitude&quot;: -73.97640887345645}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89718039441703, 40.8544561, -73.89718039441703, 40.8544561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89718039441703, 40.8544561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;47&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2225 Webster Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;I.S. 391 (UDC) - Bronx&quot;, &quot;latitude&quot;: 40.8544561, &quot;longitude&quot;: -73.89718039441703}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.01481477991291, 40.62623455, -74.01481477991291, 40.62623455], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.01481477991291, 40.62623455], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;48&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7305 Ft Hamilton Parkway,NYC,NY,11228&quot;, &quot;Name&quot;: &quot;I.S. 259 - Brooklyn&quot;, &quot;latitude&quot;: 40.62623455, &quot;longitude&quot;: -74.01481477991291}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.10458759562461, 40.60913615, -74.10458759562461, 40.60913615], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.10458759562461, 40.60913615], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;49&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;715 Ocean Terrace,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Michael J. Petrides&quot;, &quot;latitude&quot;: 40.60913615, &quot;longitude&quot;: -74.10458759562461}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1592210846182, 40.581701800000005, -74.1592210846182, 40.581701800000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1592210846182, 40.581701800000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;50&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Essex Drive,NYC,NY,10314&quot;, &quot;Name&quot;: &quot;Jerome Parker Campus - S.I.&quot;, &quot;latitude&quot;: 40.581701800000005, &quot;longitude&quot;: -74.1592210846182}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94547102226522, 40.8149449, -73.94547102226522, 40.8149449], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94547102226522, 40.8149449], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;51&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;222 W 134th Street,NYC,NY,10030&quot;, &quot;Name&quot;: &quot;P.S. 92 - Manhattan&quot;, &quot;latitude&quot;: 40.8149449, &quot;longitude&quot;: -73.94547102226522}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82133694482174, 40.67980995, -73.82133694482174, 40.67980995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82133694482174, 40.67980995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;52&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111-11 118th Street,NYC,NY,11420&quot;, &quot;Name&quot;: &quot;P.S. 100 - Queens&quot;, &quot;latitude&quot;: 40.67980995, &quot;longitude&quot;: -73.82133694482174}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9853689, 40.7747751, -73.9853689, 40.7747751], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9853689, 40.7747751], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;122 Amsterdam Avenue,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;Martin Luther King, Jr. HS - M&quot;, &quot;latitude&quot;: 40.7747751, &quot;longitude&quot;: -73.9853689}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9335, 40.85339, -73.9335, 40.85339], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9335, 40.85339], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;54&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;4360-78 Broadway,NYC,NY,10033&quot;, &quot;Name&quot;: &quot;P.S. 48 - Manhattan&quot;, &quot;latitude&quot;: 40.85339, &quot;longitude&quot;: -73.9335}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -74.21397825256436, 40.5419561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.21397825256436, 40.5419561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;55&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;250 Kramer Avenue,NYC,NY,10309&quot;, &quot;Name&quot;: &quot;P.S. 56 - Staten Island&quot;, &quot;latitude&quot;: 40.5419561, &quot;longitude&quot;: -74.21397825256436}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91352113697846, 40.67449860000001, -73.91352113697846, 40.67449860000001], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91352113697846, 40.67449860000001], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;56&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2021 Bergen Street,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;I.S. 55 - Brooklyn&quot;, &quot;latitude&quot;: 40.67449860000001, &quot;longitude&quot;: -73.91352113697846}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92519010339649, 40.756094950000005, -73.92519010339649, 40.756094950000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92519010339649, 40.756094950000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;57&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;35-12 35th Avenue,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Frank Sinatra High School-Q&quot;, &quot;latitude&quot;: 40.756094950000005, &quot;longitude&quot;: -73.92519010339649}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7791607, 40.6976728, -73.7791607, 40.6976728], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7791607, 40.6976728], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;58&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;92-07 175th Street,NYC,NY,11433&quot;, &quot;Name&quot;: &quot;P.S. 268 - Queens&quot;, &quot;latitude&quot;: 40.6976728, &quot;longitude&quot;: -73.7791607}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.88526417463406, 40.8160403, -73.88526417463406, 40.8160403], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.88526417463406, 40.8160403], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;59&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;730 Bryant Avenue,NYC,NY,10474&quot;, &quot;Name&quot;: &quot;I.S. 201 - Bronx&quot;, &quot;latitude&quot;: 40.8160403, &quot;longitude&quot;: -73.88526417463406}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89024540816327, 40.86777873469388, -73.89024540816327, 40.86777873469388], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89024540816327, 40.86777873469388], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;60&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2760 Briggs Avenue,NYC,NY,10458&quot;, &quot;Name&quot;: &quot;P.S. 46 - Bronx&quot;, &quot;latitude&quot;: 40.86777873469388, &quot;longitude&quot;: -73.89024540816327}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92946442723624, 40.743474649999996, -73.92946442723624, 40.743474649999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92946442723624, 40.743474649999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;45-30 36th Street,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Aviation HS - Q&quot;, &quot;latitude&quot;: 40.743474649999996, &quot;longitude&quot;: -73.92946442723624}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.86579040869547, 40.83810565, -73.86579040869547, 40.83810565], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.86579040869547, 40.83810565], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;62&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1827 Archer Street,NYC,NY,10460&quot;, &quot;Name&quot;: &quot;P.S. 102 - Bronx&quot;, &quot;latitude&quot;: 40.83810565, &quot;longitude&quot;: -73.86579040869547}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9330979, 40.8025514, -73.9330979, 40.8025514], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9330979, 40.8025514], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;63&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453&quot;, &quot;Name&quot;: &quot;Morris Heights Educational Complex - Bronx&quot;, &quot;latitude&quot;: 40.8025514, &quot;longitude&quot;: -73.9330979}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_0126ae93f759b53c193a501101af50af_add({&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -73.7288703287536, 40.88821535], &quot;features&quot;: [{&quot;bbox&quot;: [-73.81861937037871, 40.7749125, -73.81861937037871, 40.7749125], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.81861937037871, 40.7749125], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;147-26 25th Drive,NYC,NY,11354&quot;, &quot;Name&quot;: &quot;J.H.S. 185 - Queens&quot;, &quot;latitude&quot;: 40.7749125, &quot;longitude&quot;: -73.81861937037871}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94559669550401, 40.68191795, -73.94559669550401, 40.68191795], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94559669550401, 40.68191795], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;141 Macon Street,NYC,NY,11216&quot;, &quot;Name&quot;: &quot;I.S. 258 - Brooklyn&quot;, &quot;latitude&quot;: 40.68191795, &quot;longitude&quot;: -73.94559669550401}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.98793046016968, 40.66018115, -73.98793046016968, 40.66018115], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.98793046016968, 40.66018115], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;544 7th Avenue,NYC,NY,11215&quot;, &quot;Name&quot;: &quot;I.S. 88 - Brooklyn&quot;, &quot;latitude&quot;: 40.66018115, &quot;longitude&quot;: -73.98793046016968}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89656891342928, 40.870261299999996, -73.89656891342928, 40.870261299999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89656891342928, 40.870261299999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2780 Reservoir Avenue,NYC,NY,10468&quot;, &quot;Name&quot;: &quot;Walton HS - X&quot;, &quot;latitude&quot;: 40.870261299999996, &quot;longitude&quot;: -73.89656891342928}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.0240376060606, 40.633624636363635, -74.0240376060606, 40.633624636363635], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.0240376060606, 40.633624636363635], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7002 4th Avenue,NYC,NY,11209&quot;, &quot;Name&quot;: &quot;P.S./I.S.30 Mary White Ovington - Brooklyn&quot;, &quot;latitude&quot;: 40.633624636363635, &quot;longitude&quot;: -74.0240376060606}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9666402, 40.7591213, -73.9666402, 40.7591213], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9666402, 40.7591213], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;233 E 56th Street,NYC,NY,10022&quot;, &quot;Name&quot;: &quot;Midtown East Campus - Manhattan&quot;, &quot;latitude&quot;: 40.7591213, &quot;longitude&quot;: -73.9666402}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97725748560372, 40.61531665, -73.97725748560372, 40.61531665], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97725748560372, 40.61531665], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;6006 23rd Avenue,NYC,NY,11204&quot;, &quot;Name&quot;: &quot;P.S. 226 - Brooklyn&quot;, &quot;latitude&quot;: 40.61531665, &quot;longitude&quot;: -73.97725748560372}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.99352082556382, 40.716184, -73.99352082556382, 40.716184], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.99352082556382, 40.716184], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Hester Street,NYC,NY,10002&quot;, &quot;Name&quot;: &quot;I.S. 131 - Manhattan&quot;, &quot;latitude&quot;: 40.716184, &quot;longitude&quot;: -73.99352082556382}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.78971275461399, 40.7648014, -73.78971275461399, 40.7648014], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.78971275461399, 40.7648014], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;34-65 192nd Street,NYC,NY,11355&quot;, &quot;Name&quot;: &quot;J.H.S. 25 - Queens&quot;, &quot;latitude&quot;: 40.7648014, &quot;longitude&quot;: -73.78971275461399}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89304957924597, 40.74231195, -73.89304957924597, 40.74231195], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89304957924597, 40.74231195], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;42-00 72nd Street,NYC,NY,11377&quot;, &quot;Name&quot;: &quot;P.S. 12 - Queens&quot;, &quot;latitude&quot;: 40.74231195, &quot;longitude&quot;: -73.89304957924597}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9359148, 40.8394356, -73.9359148, 40.8394356], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9359148, 40.8394356], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21 Jumel Place,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;I.S. 90 - Manhattan&quot;, &quot;latitude&quot;: 40.8394356, &quot;longitude&quot;: -73.9359148}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.80264202436206, 40.7096425, -73.80264202436206, 40.7096425], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.80264202436206, 40.7096425], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;160-05 Highland Avenue,NYC,NY,11432&quot;, &quot;Name&quot;: &quot;Hillcrest HS - Q&quot;, &quot;latitude&quot;: 40.7096425, &quot;longitude&quot;: -73.80264202436206}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.900672, 40.8277475, -73.900672, 40.8277475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.900672, 40.8277475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Home Street,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;I.S. 158 - Bronx&quot;, &quot;latitude&quot;: 40.8277475, &quot;longitude&quot;: -73.900672}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7668350894142, 40.74505005, -73.7668350894142, 40.74505005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7668350894142, 40.74505005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;61-15 Oceania Street,NYC,NY,11362&quot;, &quot;Name&quot;: &quot;I.S. 74 - Queens&quot;, &quot;latitude&quot;: 40.74505005, &quot;longitude&quot;: -73.7668350894142}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9197565, 40.6728542, -73.9197565, 40.6728542], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9197565, 40.6728542], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;430 Howard Avenue,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;P.S. 12 - Brooklyn&quot;, &quot;latitude&quot;: 40.6728542, &quot;longitude&quot;: -73.9197565}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85156280235452, 40.723151650000005, -73.85156280235452, 40.723151650000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85156280235452, 40.723151650000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;68-17 Austin Street,NYC,NY,11375&quot;, &quot;Name&quot;: &quot;J.H.S. 190 - Queens&quot;, &quot;latitude&quot;: 40.723151650000005, &quot;longitude&quot;: -73.85156280235452}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95429411836136, 40.802606999999995, -73.95429411836136, 40.802606999999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95429411836136, 40.802606999999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;16&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;215 W 114th Street,NYC,NY,10026&quot;, &quot;Name&quot;: &quot;I.S. 88 - Manhattan&quot;, &quot;latitude&quot;: 40.802606999999995, &quot;longitude&quot;: -73.95429411836136}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95604703944497, 40.6489803, -73.95604703944497, 40.6489803], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95604703944497, 40.6489803], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;17&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;43 Snyder Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;P.S. 6 - Brooklyn&quot;, &quot;latitude&quot;: 40.6489803, &quot;longitude&quot;: -73.95604703944497}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89015763213266, 40.7287324, -73.89015763213266, 40.7287324], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89015763213266, 40.7287324], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;18&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;72-24 Grand Avenue,NYC,NY,11378&quot;, &quot;Name&quot;: &quot;P.S. 58 - Queens&quot;, &quot;latitude&quot;: 40.7287324, &quot;longitude&quot;: -73.89015763213266}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95162451575465, 40.656399449999995, -73.95162451575465, 40.656399449999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95162451575465, 40.656399449999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;19&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;655 Parkside Avenue,NYC,NY,11226&quot;, &quot;Name&quot;: &quot;I.S. 2 - Brooklyn&quot;, &quot;latitude&quot;: 40.656399449999995, &quot;longitude&quot;: -73.95162451575465}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89050181101334, 40.84381285, -73.89050181101334, 40.84381285], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89050181101334, 40.84381285], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;20&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1919 Prospect Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;P.S. 211 - Bronx&quot;, &quot;latitude&quot;: 40.84381285, &quot;longitude&quot;: -73.89050181101334}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87313338576763, 40.68932475, -73.87313338576763, 40.68932475], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87313338576763, 40.68932475], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;858 Jamaica Avenue,NYC,NY,11208&quot;, &quot;Name&quot;: &quot;P.S. 7 - Brooklyn&quot;, &quot;latitude&quot;: 40.68932475, &quot;longitude&quot;: -73.87313338576763}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94268572563126, 40.674224249999995, -73.94268572563126, 40.674224249999995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94268572563126, 40.674224249999995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;22&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;900 St Marks Avenue,NYC,NY,11213&quot;, &quot;Name&quot;: &quot;P.S. 289 - Brooklyn&quot;, &quot;latitude&quot;: 40.674224249999995, &quot;longitude&quot;: -73.94268572563126}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7288703287536, 40.7445126, -73.7288703287536, 40.7445126], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7288703287536, 40.7445126], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;23&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;74-20 Commonwealth Blvd,NYC,NY,11426&quot;, &quot;Name&quot;: &quot;Queens H.S. of Teaching&quot;, &quot;latitude&quot;: 40.7445126, &quot;longitude&quot;: -73.7288703287536}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94747129298835, 40.694414300000005, -73.94747129298835, 40.694414300000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94747129298835, 40.694414300000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;24&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;545 Willoughby Avenue,NYC,NY,11206&quot;, &quot;Name&quot;: &quot;P.S. 23 - Brooklyn&quot;, &quot;latitude&quot;: 40.694414300000005, &quot;longitude&quot;: -73.94747129298835}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.85272010524264, 40.88821535, -73.85272010524264, 40.88821535], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.85272010524264, 40.88821535], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;25&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;921 E 228th Street,NYC,NY,10466&quot;, &quot;Name&quot;: &quot;I.S./H.S. 362 - Bronx&quot;, &quot;latitude&quot;: 40.88821535, &quot;longitude&quot;: -73.85272010524264}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.87442582994036, 40.755279, -73.87442582994036, 40.755279], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.87442582994036, 40.755279], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;26&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;93-11 34th Avenue,NYC,NY,11372&quot;, &quot;Name&quot;: &quot;P.S. 149 - Queens&quot;, &quot;latitude&quot;: 40.755279, &quot;longitude&quot;: -73.87442582994036}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.90664428947368, 40.83194842105263, -73.90664428947368, 40.83194842105263], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.90664428947368, 40.83194842105263], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;27&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1245 Washington Avenue,NYC,NY,10456&quot;, &quot;Name&quot;: &quot;P.S. 132 - Bronx&quot;, &quot;latitude&quot;: 40.83194842105263, &quot;longitude&quot;: -73.90664428947368}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.98832879336612, 40.69463915, -73.98832879336612, 40.69463915], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.98832879336612, 40.69463915], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;28&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;283 Adams Street,NYC,NY,11201&quot;, &quot;Name&quot;: &quot;Adams Street Educational Campus - K&quot;, &quot;latitude&quot;: 40.69463915, &quot;longitude&quot;: -73.98832879336612}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91960128040012, 40.835653199999996, -73.91960128040012, 40.835653199999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91960128040012, 40.835653199999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1220 Gerard Avenue,NYC,NY,10452&quot;, &quot;Name&quot;: &quot;P.S./I.S. 218 - Bronx&quot;, &quot;latitude&quot;: 40.835653199999996, &quot;longitude&quot;: -73.91960128040012}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91358703662985, 40.8877842, -73.91358703662985, 40.8877842], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91358703662985, 40.8877842], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;30&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;660 W 237th Street,NYC,NY,10463&quot;, &quot;Name&quot;: &quot;M.S./H.S. 141 - Bronx&quot;, &quot;latitude&quot;: 40.8877842, &quot;longitude&quot;: -73.91358703662985}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9195423, 40.6977934, -73.9195423, 40.6977934], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9195423, 40.6977934], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;31&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1300 Greene Avenue,NYC,NY,11237&quot;, &quot;Name&quot;: &quot;I.S. 383 - Brooklyn&quot;, &quot;latitude&quot;: 40.6977934, &quot;longitude&quot;: -73.9195423}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1448757, 40.6227591, -74.1448757, 40.6227591], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1448757, 40.6227591], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;32&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;20 Houston Street,NYC,NY,10302&quot;, &quot;Name&quot;: &quot;I.S. 51 - Staten Island&quot;, &quot;latitude&quot;: 40.6227591, &quot;longitude&quot;: -74.1448757}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.95118485801015, 40.66693295, -73.95118485801015, 40.66693295], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.95118485801015, 40.66693295], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;33&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1186 Carroll Street,NYC,NY,11225&quot;, &quot;Name&quot;: &quot;Medgar Evers College Prep&quot;, &quot;latitude&quot;: 40.66693295, &quot;longitude&quot;: -73.95118485801015}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94575285100407, 40.83022164762299, -73.94575285100407, 40.83022164762299], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94575285100407, 40.83022164762299], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;34&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;501-503 W 152nd Street,NYC,NY,10031&quot;, &quot;Name&quot;: &quot;P.S./I.S. 210 - Manhattan&quot;, &quot;latitude&quot;: 40.83022164762299, &quot;longitude&quot;: -73.94575285100407}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7996911083717, 40.75555975, -73.7996911083717, 40.75555975], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7996911083717, 40.75555975], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;35&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;167-02 45th Avenue,NYC,NY,11358&quot;, &quot;Name&quot;: &quot;P.S. 107 - Queens&quot;, &quot;latitude&quot;: 40.75555975, &quot;longitude&quot;: -73.7996911083717}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9051012788444, 40.69780442826209, -73.9051012788444, 40.69780442826209], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9051012788444, 40.69780442826209], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;36&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;17-15 Weirfield Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;P.S. 239 - Queens&quot;, &quot;latitude&quot;: 40.69780442826209, &quot;longitude&quot;: -73.9051012788444}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9190269586198, 40.8274856, -73.9190269586198, 40.8274856], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9190269586198, 40.8274856], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;244 E 163rd Street,NYC,NY,10451&quot;, &quot;Name&quot;: &quot;HS Of Law, Gov\u0027t \u0026 Justice - X&quot;, &quot;latitude&quot;: 40.8274856, &quot;longitude&quot;: -73.9190269586198}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9809816, 40.7462177, -73.9809816, 40.7462177], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9809816, 40.7462177], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;38&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111 E 33rd Street,NYC,NY,10016&quot;, &quot;Name&quot;: &quot;Norman Thomas HS (ECF) - Manhattan&quot;, &quot;latitude&quot;: 40.7462177, &quot;longitude&quot;: -73.9809816}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.8654848993973, 40.7489511, -73.8654848993973, 40.7489511], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.8654848993973, 40.7489511], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;39&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;40-20 100th Street,NYC,NY,11368&quot;, &quot;Name&quot;: &quot;P.S. 307- Queens&quot;, &quot;latitude&quot;: 40.7489511, &quot;longitude&quot;: -73.8654848993973}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.08238533123526, 40.64563725, -74.08238533123526, 40.64563725], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.08238533123526, 40.64563725], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;40&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;105 Hamilton Avenue,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Curtis HS - S. I.&quot;, &quot;latitude&quot;: 40.64563725, &quot;longitude&quot;: -74.08238533123526}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.932454, 40.68819, -73.932454, 40.68819], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.932454, 40.68819], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;41&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;800 Gates Avenue,NYC,NY,11221&quot;, &quot;Name&quot;: &quot;I.S. 324 - Brooklyn&quot;, &quot;latitude&quot;: 40.68819, &quot;longitude&quot;: -73.932454}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.90920696544975, 40.71063573817022, -73.90920696544975, 40.71063573817022], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.90920696544975, 40.71063573817022], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;42&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;21-27 Himrod Street,NYC,NY,11385&quot;, &quot;Name&quot;: &quot;Grover Cleveland HS - Q&quot;, &quot;latitude&quot;: 40.71063573817022, &quot;longitude&quot;: -73.90920696544975}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9742029, 40.7857432, -73.9742029, 40.7857432], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9742029, 40.7857432], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;43&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;145 W 84th Street,NYC,NY,10024&quot;, &quot;Name&quot;: &quot;Louis D. Brandeis HS - Manhattan&quot;, &quot;latitude&quot;: 40.7857432, &quot;longitude&quot;: -73.9742029}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.00445465251588, 40.65274685, -74.00445465251588, 40.65274685], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.00445465251588, 40.65274685], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;44&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;427 38th Street,NYC,NY,11232&quot;, &quot;Name&quot;: &quot;P.S. 24 - Brooklyn&quot;, &quot;latitude&quot;: 40.65274685, &quot;longitude&quot;: -74.00445465251588}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82127483647965, 40.7349959, -73.82127483647965, 40.7349959], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82127483647965, 40.7349959], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;149-11 Melbourne Avenue,NYC,NY,11367&quot;, &quot;Name&quot;: &quot;Townsend Harris HS - Q&quot;, &quot;latitude&quot;: 40.7349959, &quot;longitude&quot;: -73.82127483647965}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.97640887345645, 40.6887573, -73.97640887345645, 40.6887573], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.97640887345645, 40.6887573], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;46&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;29 Fort Greene Place,NYC,NY,11217&quot;, &quot;Name&quot;: &quot;Brooklyn Tech HS - K&quot;, &quot;latitude&quot;: 40.6887573, &quot;longitude&quot;: -73.97640887345645}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89718039441703, 40.8544561, -73.89718039441703, 40.8544561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89718039441703, 40.8544561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;47&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2225 Webster Avenue,NYC,NY,10457&quot;, &quot;Name&quot;: &quot;I.S. 391 (UDC) - Bronx&quot;, &quot;latitude&quot;: 40.8544561, &quot;longitude&quot;: -73.89718039441703}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.01481477991291, 40.62623455, -74.01481477991291, 40.62623455], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.01481477991291, 40.62623455], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;48&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7305 Ft Hamilton Parkway,NYC,NY,11228&quot;, &quot;Name&quot;: &quot;I.S. 259 - Brooklyn&quot;, &quot;latitude&quot;: 40.62623455, &quot;longitude&quot;: -74.01481477991291}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1045875961851, 40.60913615, -74.1045875961851, 40.60913615], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1045875961851, 40.60913615], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;49&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;715 Ocean Terrace,NYC,NY,10301&quot;, &quot;Name&quot;: &quot;Michael J. Petrides&quot;, &quot;latitude&quot;: 40.60913615, &quot;longitude&quot;: -74.1045875961851}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.1592210846182, 40.581701800000005, -74.1592210846182, 40.581701800000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.1592210846182, 40.581701800000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;50&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;100 Essex Drive,NYC,NY,10314&quot;, &quot;Name&quot;: &quot;Jerome Parker Campus - S.I.&quot;, &quot;latitude&quot;: 40.581701800000005, &quot;longitude&quot;: -74.1592210846182}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.94547102226522, 40.8149449, -73.94547102226522, 40.8149449], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.94547102226522, 40.8149449], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;51&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;222 W 134th Street,NYC,NY,10030&quot;, &quot;Name&quot;: &quot;P.S. 92 - Manhattan&quot;, &quot;latitude&quot;: 40.8149449, &quot;longitude&quot;: -73.94547102226522}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.82133694482174, 40.67980995, -73.82133694482174, 40.67980995], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.82133694482174, 40.67980995], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;52&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;111-11 118th Street,NYC,NY,11420&quot;, &quot;Name&quot;: &quot;P.S. 100 - Queens&quot;, &quot;latitude&quot;: 40.67980995, &quot;longitude&quot;: -73.82133694482174}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9853689, 40.7747751, -73.9853689, 40.7747751], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9853689, 40.7747751], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;122 Amsterdam Avenue,NYC,NY,10023&quot;, &quot;Name&quot;: &quot;Martin Luther King, Jr. HS - M&quot;, &quot;latitude&quot;: 40.7747751, &quot;longitude&quot;: -73.9853689}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.9335, 40.85339, -73.9335, 40.85339], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.9335, 40.85339], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;54&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;4360-78 Broadway,NYC,NY,10033&quot;, &quot;Name&quot;: &quot;P.S. 48 - Manhattan&quot;, &quot;latitude&quot;: 40.85339, &quot;longitude&quot;: -73.9335}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-74.21397825256436, 40.5419561, -74.21397825256436, 40.5419561], &quot;geometry&quot;: {&quot;coordinates&quot;: [-74.21397825256436, 40.5419561], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;55&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;250 Kramer Avenue,NYC,NY,10309&quot;, &quot;Name&quot;: &quot;P.S. 56 - Staten Island&quot;, &quot;latitude&quot;: 40.5419561, &quot;longitude&quot;: -74.21397825256436}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.91352113697846, 40.67449860000001, -73.91352113697846, 40.67449860000001], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.91352113697846, 40.67449860000001], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;56&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2021 Bergen Street,NYC,NY,11233&quot;, &quot;Name&quot;: &quot;I.S. 55 - Brooklyn&quot;, &quot;latitude&quot;: 40.67449860000001, &quot;longitude&quot;: -73.91352113697846}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92519010339649, 40.756094950000005, -73.92519010339649, 40.756094950000005], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92519010339649, 40.756094950000005], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;57&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;35-12 35th Avenue,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Frank Sinatra High School-Q&quot;, &quot;latitude&quot;: 40.756094950000005, &quot;longitude&quot;: -73.92519010339649}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.7854739585413, 40.707151198284194, -73.7854739585413, 40.707151198284194], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.7854739585413, 40.707151198284194], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;58&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;92-07 175th Street,NYC,NY,11433&quot;, &quot;Name&quot;: &quot;P.S. 268 - Queens&quot;, &quot;latitude&quot;: 40.707151198284194, &quot;longitude&quot;: -73.7854739585413}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.88526417463406, 40.8160403, -73.88526417463406, 40.8160403], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.88526417463406, 40.8160403], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;59&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;730 Bryant Avenue,NYC,NY,10474&quot;, &quot;Name&quot;: &quot;I.S. 201 - Bronx&quot;, &quot;latitude&quot;: 40.8160403, &quot;longitude&quot;: -73.88526417463406}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.89029431818182, 40.867728590909095, -73.89029431818182, 40.867728590909095], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.89029431818182, 40.867728590909095], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;60&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2760 Briggs Avenue,NYC,NY,10458&quot;, &quot;Name&quot;: &quot;P.S. 46 - Bronx&quot;, &quot;latitude&quot;: 40.867728590909095, &quot;longitude&quot;: -73.89029431818182}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.92946442723624, 40.743474649999996, -73.92946442723624, 40.743474649999996], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.92946442723624, 40.743474649999996], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;45-30 36th Street,NYC,NY,11101&quot;, &quot;Name&quot;: &quot;Aviation HS - Q&quot;, &quot;latitude&quot;: 40.743474649999996, &quot;longitude&quot;: -73.92946442723624}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.86579040869547, 40.83810565, -73.86579040869547, 40.83810565], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.86579040869547, 40.83810565], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;62&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1827 Archer Street,NYC,NY,10460&quot;, &quot;Name&quot;: &quot;P.S. 102 - Bronx&quot;, &quot;latitude&quot;: 40.83810565, &quot;longitude&quot;: -73.86579040869547}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [-73.93349335843926, 40.80272887980173, -73.93349335843926, 40.80272887980173], &quot;geometry&quot;: {&quot;coordinates&quot;: [-73.93349335843926, 40.80272887980173], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;63&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453&quot;, &quot;Name&quot;: &quot;Morris Heights Educational Complex - Bronx&quot;, &quot;latitude&quot;: 40.80272887980173, &quot;longitude&quot;: -73.93349335843926}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_04dbee9bc83506be6a1b60b3dfb53df1.bindTooltip(
+    geo_json_0126ae93f759b53c193a501101af50af.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -2435,28 +3705,39 @@
     
     return div
     }
-    ,{&quot;className&quot;: &quot;foliumtooltip&quot;, &quot;sticky&quot;: true});
+    ,{
+  &quot;sticky&quot;: true,
+  &quot;className&quot;: &quot;foliumtooltip&quot;,
+});
                      
     
-            map_206b56c8bbb29c61cd994ae6adb100ec.fitBounds(
+            geo_json_0126ae93f759b53c193a501101af50af.addTo(map_e8a05f34a1b642b240d4a96a49703787);
+        
+    
+            map_e8a05f34a1b642b240d4a96a49703787.fitBounds(
                 [[40.5419561, -74.21397825256436], [40.88821535, -73.7288703287536]],
                 {}
             );
         
     
-            var layer_control_82c99d013f39d742f2e673d709e71d4f = {
+            var layer_control_2d1d6f609c04f511642e10d8f916ed46_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_f980f0bd03bccaf7c0925a8f44f30da1,
+                    &quot;openstreetmap&quot; : tile_layer_3e39b0a58152785ed8d09e88c14baaac,
                 },
                 overlays :  {
-                    &quot;macro_element_04dbee9bc83506be6a1b60b3dfb53df1&quot; : geo_json_04dbee9bc83506be6a1b60b3dfb53df1,
+                    &quot;macro_element_0126ae93f759b53c193a501101af50af&quot; : geo_json_0126ae93f759b53c193a501101af50af,
                 },
             };
-            L.control.layers(
-                layer_control_82c99d013f39d742f2e673d709e71d4f.base_layers,
-                layer_control_82c99d013f39d742f2e673d709e71d4f.overlays,
-                {&quot;autoZIndex&quot;: true, &quot;collapsed&quot;: true, &quot;position&quot;: &quot;topright&quot;}
-            ).addTo(map_206b56c8bbb29c61cd994ae6adb100ec);
+            let layer_control_2d1d6f609c04f511642e10d8f916ed46 = L.control.layers(
+                layer_control_2d1d6f609c04f511642e10d8f916ed46_layers.base_layers,
+                layer_control_2d1d6f609c04f511642e10d8f916ed46_layers.overlays,
+                {
+  &quot;position&quot;: &quot;topright&quot;,
+  &quot;collapsed&quot;: true,
+  &quot;autoZIndex&quot;: true,
+}
+            ).addTo(map_e8a05f34a1b642b240d4a96a49703787);
+
         
 &lt;/script&gt;
 &lt;/html&gt;" width="800" height="500"style="border:none !important;" "allowfullscreen" "webkitallowfullscreen" "mozallowfullscreen"></iframe></div></div>
@@ -2507,168 +3788,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-37540e3d-e0af-4baf-972f-6c6d887902f8">
-    <div class="colab-df-container">
-      <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>geometry</th>
-      <th>address</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>POINT (-73.81864 40.77489)</td>
-      <td>147-26, 25th Drive, 11354, 25th Drive, New Yor...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>POINT (-88.95624 39.84059)</td>
-      <td>Macon County Office Building, 141, South Main ...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>POINT (-122.19749 47.68078)</td>
-      <td>544, 7th Avenue, 98033, 7th Avenue, Kirkland, ...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>POINT (-73.89657 40.87026)</td>
-      <td>2780, Reservoir Avenue, 10468, Reservoir Avenu...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>POINT (-73.98978 40.67027)</td>
-      <td>4th Avenue, 10th Street, 11215, 10th Street, N...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>59</th>
-      <td>POINT (-73.88526 40.81604)</td>
-      <td>730, Bryant Avenue, 10474, Bryant Avenue, New ...</td>
-    </tr>
-    <tr>
-      <th>60</th>
-      <td>POINT (-93.49384 34.93464)</td>
-      <td>Briggsville Avenue, 72828, Arkansas, United St...</td>
-    </tr>
-    <tr>
-      <th>61</th>
-      <td>POINT (-73.92946 40.74347)</td>
-      <td>45-30, 36th Street, 11101, 36th Street, New Yo...</td>
-    </tr>
-    <tr>
-      <th>62</th>
-      <td>POINT (-73.86579 40.83811)</td>
-      <td>Public School 102, 1827, Archer Street, 10460,...</td>
-    </tr>
-    <tr>
-      <th>63</th>
-      <td>POINT (-80.24120 25.83239)</td>
-      <td>Dr. Martin Luther King, Jr., Northwest 27th Av...</td>
-    </tr>
-  </tbody>
-</table>
-<p>64 rows × 2 columns</p>
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-37540e3d-e0af-4baf-972f-6c6d887902f8')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-  </svg>
-      </button>
-      
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-37540e3d-e0af-4baf-972f-6c6d887902f8 button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-37540e3d-e0af-4baf-972f-6c6d887902f8');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-  </div></div>
 </div>
 <p>We merge the resulting GeoDataFrame with the original DataFrame to retain some columns from the original dataset.</p>
 <div class="cell docutils container">
@@ -2688,180 +3807,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html">
-  <div id="df-e2894014-10b4-4e95-9fd5-c265061e44da">
-    <div class="colab-df-container">
-      <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Name</th>
-      <th>Address</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>J.H.S. 185 - Queens</td>
-      <td>147-26 25th Drive,NYC,NY,11354</td>
-      <td>POINT (-73.81864 40.77489)</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>I.S. 258 - Brooklyn</td>
-      <td>141 Macon Street,NYC,NY,11216</td>
-      <td>POINT (-88.95624 39.84059)</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>I.S. 88 - Brooklyn</td>
-      <td>544 7th Avenue,NYC,NY,11215</td>
-      <td>POINT (-122.19749 47.68078)</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Walton HS - X</td>
-      <td>2780 Reservoir Avenue,NYC,NY,10468</td>
-      <td>POINT (-73.89657 40.87026)</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>P.S./I.S.30 Mary White Ovington - Brooklyn</td>
-      <td>7002 4th Avenue,NYC,NY,11209</td>
-      <td>POINT (-73.98978 40.67027)</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>59</th>
-      <td>I.S. 201 - Bronx</td>
-      <td>730 Bryant Avenue,NYC,NY,10474</td>
-      <td>POINT (-73.88526 40.81604)</td>
-    </tr>
-    <tr>
-      <th>60</th>
-      <td>P.S. 46 - Bronx</td>
-      <td>2760 Briggs Avenue,NYC,NY,10458</td>
-      <td>POINT (-93.49384 34.93464)</td>
-    </tr>
-    <tr>
-      <th>61</th>
-      <td>Aviation HS - Q</td>
-      <td>45-30 36th Street,NYC,NY,11101</td>
-      <td>POINT (-73.92946 40.74347)</td>
-    </tr>
-    <tr>
-      <th>62</th>
-      <td>P.S. 102 - Bronx</td>
-      <td>1827 Archer Street,NYC,NY,10460</td>
-      <td>POINT (-73.86579 40.83811)</td>
-    </tr>
-    <tr>
-      <th>63</th>
-      <td>Morris Heights Educational Complex - Bronx</td>
-      <td>1780 Dr. Martin Luther King Jr. Blvd,NYC,NY,10453</td>
-      <td>POINT (-80.24120 25.83239)</td>
-    </tr>
-  </tbody>
-</table>
-<p>64 rows × 3 columns</p>
-</div>
-      <button class="colab-df-convert" onclick="convertToInteractive('df-e2894014-10b4-4e95-9fd5-c265061e44da')"
-              title="Convert this dataframe to an interactive table."
-              style="display:none;">
-        
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-       width="24px">
-    <path d="M0 0h24v24H0V0z" fill="none"/>
-    <path d="M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z"/><path d="M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z"/>
-  </svg>
-      </button>
-      
-  <style>
-    .colab-df-container {
-      display:flex;
-      flex-wrap:wrap;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-      <script>
-        const buttonEl =
-          document.querySelector('#df-e2894014-10b4-4e95-9fd5-c265061e44da button.colab-df-convert');
-        buttonEl.style.display =
-          google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-        async function convertToInteractive(key) {
-          const element = document.querySelector('#df-e2894014-10b4-4e95-9fd5-c265061e44da');
-          const dataTable =
-            await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                     [key], {});
-          if (!dataTable) return;
-
-          const docLinkHtml = 'Like what you see? Visit the ' +
-            '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-            + ' to learn more about interactive tables.';
-          element.innerHTML = '';
-          dataTable['output_type'] = 'display_data';
-          await google.colab.output.renderOutput(dataTable, element);
-          const docLink = document.createElement('div');
-          docLink.innerHTML = docLinkHtml;
-          element.appendChild(docLink);
-        }
-      </script>
-    </div>
-  </div>
-  </div></div>
 </div>
 </section>
 </section>
