@@ -1,3 +1,5 @@
 _build/
 notebooks/.ipynb_checkpoints
 .DS_Store
+notebooks/data
+notebooks/output
