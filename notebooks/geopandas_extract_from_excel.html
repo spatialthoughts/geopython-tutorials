@@ -77,7 +77,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Performing Fuzzy Table Joins" href="geopandas_fuzzy_table_join.html" />
-    <link rel="prev" title="Geospatial Python Tutorials" href="../introduction.html" />
+    <link rel="prev" title="Bulk Geocoding Addresses" href="geopandas_bulk_geocoding.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -183,6 +183,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Pandas and GeoPandas</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="geopandas_bulk_geocoding.html">Bulk Geocoding Addresses</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Extract a Shapefile Subset from Excel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geopandas_fuzzy_table_join.html">Performing Fuzzy Table Joins</a></li>
 </ul>
@@ -408,7 +409,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
 </ul>
@@ -424,8 +426,12 @@
                   
   <section id="extract-a-shapefile-subset-from-excel">
 <h1>Extract a Shapefile Subset from Excel<a class="headerlink" href="#extract-a-shapefile-subset-from-excel" title="Link to this heading">#</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Many GIS processes involve extracting a subset from a database. A common pattern is to have data identifiers (like Parcel IDs) sent in a spreadsheet which needs to be queried and extracted from a master file. This tutorial shows how you can automate such a process using Pandas and GeoPandas.</p>
+</section>
+<section id="overview-of-the-task">
+<h2>Overview of the task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
 <p>This tutorial shows you how to use extract a subset from a shapefile using data contained in an Excel spreadsheet.</p>
 <p>We will be working with a parcels data layer for the city of San Francisco, California. Given a list of parcel ids in a spreadsheet, we will extract those parcels and save it to another data layer.</p>
 <p><strong>Input Layers</strong>:</p>
@@ -485,6 +491,12 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/sf_parcels.zip
+Downloaded data/parcels_to_export.xlsx
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="procedure">
@@ -521,10 +533,80 @@
 <p>Preview the resulting GeoDataFrame. The parcel ids are contained in the <code class="docutils literal notranslate"><span class="pre">mapblklot</span></code> column.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parcels_gdf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parcels_gdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">,:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mapblklot</th>
+      <th>blklot</th>
+      <th>block_num</th>
+      <th>lot_num</th>
+      <th>from_addre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0001001</td>
+      <td>0001001</td>
+      <td>0001</td>
+      <td>001</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0002001</td>
+      <td>0002001</td>
+      <td>0002</td>
+      <td>001</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0004002</td>
+      <td>0004002</td>
+      <td>0004</td>
+      <td>002</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0005001</td>
+      <td>0005001</td>
+      <td>0005</td>
+      <td>001</td>
+      <td>206</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0006001</td>
+      <td>0006001</td>
+      <td>0006</td>
+      <td>001</td>
+      <td>350</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>Next, we read the Excel file containing the parcel ids that we need to export.</p>
 <div class="cell docutils container">
@@ -542,6 +624,113 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mapblklot</th>
+      <th>blklot</th>
+      <th>block_num</th>
+      <th>lot_num</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0478013</td>
+      <td>0478013</td>
+      <td>478</td>
+      <td>013</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0478001</td>
+      <td>0478001</td>
+      <td>478</td>
+      <td>001</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0478001B</td>
+      <td>0478001B</td>
+      <td>478</td>
+      <td>001B</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0478001C</td>
+      <td>0478001C</td>
+      <td>478</td>
+      <td>001C</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0478002A</td>
+      <td>0478002A</td>
+      <td>478</td>
+      <td>002A</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>0499036</td>
+      <td>0499037</td>
+      <td>499</td>
+      <td>037</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>0499036</td>
+      <td>0499038</td>
+      <td>499</td>
+      <td>038</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>0499036</td>
+      <td>0499039</td>
+      <td>499</td>
+      <td>039</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>0499036</td>
+      <td>0499040</td>
+      <td>499</td>
+      <td>040</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>0499036</td>
+      <td>0499041</td>
+      <td>499</td>
+      <td>041</td>
+    </tr>
+  </tbody>
+</table>
+<p>89 rows × 4 columns</p>
+</div></div></div>
 </div>
 <p>We need to export all parcels whose ids are given in the <code class="docutils literal notranslate"><span class="pre">mapblklot</span></code> column. We extract that column and create a list.</p>
 <div class="cell docutils container">
@@ -551,15 +740,105 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;0478013&#39;, &#39;0478001&#39;, &#39;0478001B&#39;, &#39;0478001C&#39;, &#39;0478002A&#39;,
+       &#39;0478004&#39;, &#39;0478005&#39;, &#39;0478007&#39;, &#39;0478008&#39;, &#39;0478009&#39;, &#39;0478010&#39;,
+       &#39;0478010B&#39;, &#39;0478011&#39;, &#39;0478011A&#39;, &#39;0478011B&#39;, &#39;0478011C&#39;,
+       &#39;0478011E&#39;, &#39;0478014&#39;, &#39;0478015&#39;, &#39;0478015A&#39;, &#39;0478016&#39;, &#39;0478021&#39;,
+       &#39;0478022&#39;, &#39;0478023&#39;, &#39;0478024&#39;, &#39;0478025&#39;, &#39;0478026&#39;, &#39;0478027&#39;,
+       &#39;0478028&#39;, &#39;0478029&#39;, &#39;0478030&#39;, &#39;0478031&#39;, &#39;0478032&#39;, &#39;0478033&#39;,
+       &#39;0478034&#39;, &#39;0478035&#39;, &#39;0478036&#39;, &#39;0478037&#39;, &#39;0478038&#39;, &#39;0478039&#39;,
+       &#39;0478040&#39;, &#39;0478041&#39;, &#39;0478042&#39;, &#39;0478043&#39;, &#39;0478044&#39;, &#39;0478045&#39;,
+       &#39;0478046&#39;, &#39;0478047&#39;, &#39;0478061&#39;, &#39;0478062&#39;, &#39;0478063&#39;, &#39;0478064&#39;,
+       &#39;0478065&#39;, &#39;0478066&#39;, &#39;0478067&#39;, &#39;0499001&#39;, &#39;0499001A&#39;, &#39;0499001B&#39;,
+       &#39;0499001C&#39;, &#39;0499001F&#39;, &#39;0499001H&#39;, &#39;0499002&#39;, &#39;0499002A&#39;,
+       &#39;0499002B&#39;, &#39;0499002D&#39;, &#39;0499003&#39;, &#39;0499004&#39;, &#39;0499005&#39;, &#39;0499006&#39;,
+       &#39;0499007&#39;, &#39;0499009&#39;, &#39;0499013&#39;, &#39;0499014&#39;, &#39;0499015&#39;, &#39;0499016&#39;,
+       &#39;0499017&#39;, &#39;0499018&#39;, &#39;0499021&#39;, &#39;0499022&#39;, &#39;0499023&#39;, &#39;0499024&#39;,
+       &#39;0499025&#39;, &#39;0499026&#39;, &#39;0499036&#39;, &#39;0499037&#39;, &#39;0499038&#39;, &#39;0499039&#39;,
+       &#39;0499040&#39;, &#39;0499041&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now we can use Pandas <code class="docutils literal notranslate"><span class="pre">isin()</span></code> method to filter the GeoDataFrame where the <code class="docutils literal notranslate"> <span class="pre">blklot</span></code> column matches any ids from the <code class="docutils literal notranslate"><span class="pre">id_list</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset_gdf</span> <span class="o">=</span> <span class="n">parcels_gdf</span><span class="p">[</span><span class="n">parcels_gdf</span><span class="p">[</span><span class="s1">&#39;blklot&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">id_list</span><span class="p">)]</span>
-<span class="n">subset_gdf</span>
+<span class="n">subset_gdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mapblklot</th>
+      <th>blklot</th>
+      <th>block_num</th>
+      <th>lot_num</th>
+      <th>from_addre</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21103</th>
+      <td>0478013</td>
+      <td>0478013</td>
+      <td>0478</td>
+      <td>013</td>
+      <td>2940</td>
+    </tr>
+    <tr>
+      <th>21119</th>
+      <td>0478001</td>
+      <td>0478001</td>
+      <td>0478</td>
+      <td>001</td>
+      <td>1101</td>
+    </tr>
+    <tr>
+      <th>21120</th>
+      <td>0478001B</td>
+      <td>0478001B</td>
+      <td>0478</td>
+      <td>001B</td>
+      <td>2855</td>
+    </tr>
+    <tr>
+      <th>21121</th>
+      <td>0478001C</td>
+      <td>0478001C</td>
+      <td>0478</td>
+      <td>001C</td>
+      <td>2845</td>
+    </tr>
+    <tr>
+      <th>21122</th>
+      <td>0478002A</td>
+      <td>0478002A</td>
+      <td>0478</td>
+      <td>002A</td>
+      <td>2821</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>We have successfully selected the subset of parcels. We are ready to save the resulting GeoDataFrame as a shapefile. We define the output file path and save the <code class="docutils literal notranslate"><span class="pre">subset_gdf</span></code>.</p>
 <div class="cell docutils container">
@@ -626,12 +905,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../introduction.html"
+       href="geopandas_bulk_geocoding.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Geospatial Python Tutorials</p>
+        <p class="prev-next-title">Bulk Geocoding Addresses</p>
       </div>
     </a>
     <a class="right-next"
@@ -660,7 +939,8 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
 </ul>
