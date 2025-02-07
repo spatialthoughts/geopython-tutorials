@@ -3791,7 +3791,11 @@
 <span class="n">address_df_gpd</span> <span class="o">=</span> <span class="n">address_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="c1"># GeoPandas uses the value of 1-second for rate limiting Nominatim queries</span>
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address_df_gpd</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">],</span> <span class="n">provider</span><span class="o">=</span><span class="s1">&#39;Nominatim&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">geocoder_options</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span>
+    <span class="n">address_df_gpd</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">],</span>
+    <span class="n">provider</span><span class="o">=</span><span class="s1">&#39;Nominatim&#39;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">geocoder_options</span><span class="p">)</span>
+
 <span class="n">gdf</span>
 </pre></div>
 </div>
