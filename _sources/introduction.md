@@ -10,9 +10,9 @@ We highly recommend completing the following courses before diving into these tu
 
 ## Before you begin
 
-Each of the following tutorial is in form of a self-contained notebook and comes with step-by-step explanation and datasets. The preferred way to run each notebook is using [Google Colab](https://colab.research.google.com/). Click the icon <img src='images/fa-rocket.svg' height=15></a> located at the top of each tutorial to open it on Colab.
+Each tutorial is in the form of a self-contained notebook and comes with step-by-step explanation and datasets. Many tutorials also have an accompanying video walkthrough as well. The preferred way to run each notebook is using [Google Colab](https://colab.research.google.com/). Click the icon <img src='images/fa-rocket.svg' height=15></a> located at the top of each tutorial to open it on Colab.
 
-> If you are new to Colab, see our <a href='https://www.youtube.com/watch?v=tF_a9ojB6nw&list=PLppGmFLhQ1HLzGl8auwYkdUMu_z0Hz7G6&index=2' target='_blank'>Hello Colab Tutorial ↗</a>.
+> If you are new to Colab, see our <a href='https://www.youtube.com/watch?v=tF_a9ojB6nw&list=PLppGmFLhQ1HLzGl8auwYkdUMu_z0Hz7G6&index=2' target='_blank'>Hello Colab ↗</a> video.
 
 ## Tutorials
 

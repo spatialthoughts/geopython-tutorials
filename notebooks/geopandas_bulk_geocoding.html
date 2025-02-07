@@ -409,7 +409,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-1-pandas">Geocoding Method 1: Pandas</a></li>
@@ -427,13 +428,17 @@
                   
   <section id="bulk-geocoding-addresses">
 <h1>Bulk Geocoding Addresses<a class="headerlink" href="#bulk-geocoding-addresses" title="Link to this heading">#</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>We will be working with an Excel sheet containing addresses of Hurricane Evacuation Centers in New York City and geocode these addresses to create a map. We cover the following two methods for geocoding:</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Geocoding is the process of converting addresses to coordinates. It typically involves querying a web-based geocoding service that can understand and map the address to a real-world location. <a class="reference external" href="https://geopy.readthedocs.io/en/stable/">GeoPy</a> is a Python library that offers an easy-to-use methods to use many popular geocoding services. In this tutorial, we will learn how to use GeoPy with Pandas and GeoPandas for bulk geocoding. We cover the following two methods for geocoding:</p>
 <ul class="simple">
-<li><p><em>Geocoding Method 1</em>: Pandas and GeoPy: This is a more flexible method that uses <a class="reference external" href="https://geopy.readthedocs.io/en/stable/">GeoPy</a> that offers more control on the process.</p></li>
-<li><p><em>Geocoding Method 2</em>: GeoPandas: A simpler method <a class="reference external" href="https://geopandas.org/en/stable/docs/reference/api/geopandas.tools.geocode.html"><code class="docutils literal notranslate"><span class="pre">geopandas.tools.geocode</span></code></a> provided by GeoPandas that is easy to use, but with less options.</p></li>
+<li><p><em>Geocoding Method 1</em>: Pandas and GeoPy: Our recommended method that offers more flexibility and control over the whole process.</p></li>
+<li><p><em>Geocoding Method 2</em>: GeoPandas: A simpler method using GeoPandas’ built-in <a class="reference external" href="https://geopandas.org/en/stable/docs/reference/api/geopandas.tools.geocode.html"><code class="docutils literal notranslate"><span class="pre">geopandas.tools.geocode</span></code></a> function.</p></li>
 </ul>
+</section>
+<section id="overview-of-the-task">
+<h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
+<p>We will be working with an Excel sheet containing addresses of Hurricane Evacuation Centers in New York City and geocode these addresses to create a map.</p>
 <p><strong>Input Layers</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Hurricane_Evacuation_Centers.xlsx</span></code>: A spreadsheet containing names and addresses of hurricane shelters inn NYC.</p></li>
@@ -1854,7 +1859,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "34f255cd9b6241cda2a6e18e01b3d80b"}</script><div class="output text_html">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "34f255cd9b6241cda2a6e18e01b3d80b", "version_major": 2, "version_minor": 0}</script><div class="output text_html">
   <div id="df-8c264b2a-e67f-4e4d-8edc-3002b6905f17" class="colab-df-container">
     <div>
 <style scoped>
@@ -3778,12 +3783,15 @@
 <p>GeoPandas also provides a helper tool <a class="reference external" href="https://geopandas.org/en/stable/docs/reference/api/geopandas.tools.geocode.html">geopandas.tools.geocode</a> for geocoding that allows using a GeoPy geocoder. This is a handy tool that gives you a GeoDataFrame but doesn’t offer the flexibility of the previous method. We demonstrate the process here for the sake of completeness.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">locator</span> <span class="o">=</span> <span class="n">Nominatim</span><span class="p">(</span><span class="n">user_agent</span><span class="o">=</span><span class="s1">&#39;spatialthoughts&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">geocode</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">(</span><span class="n">locator</span><span class="o">.</span><span class="n">geocode</span><span class="p">,</span> <span class="n">min_delay_seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geocoder_options</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;user_agent&#39;</span><span class="p">:</span> <span class="s1">&#39;spatialthoughts&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;timeout&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="n">address_df_gpd</span> <span class="o">=</span> <span class="n">address_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address_df_gpd</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">])</span>
+<span class="c1"># GeoPandas uses the value of 1-second for rate limiting Nominatim queries</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="n">address_df_gpd</span><span class="p">[</span><span class="s1">&#39;ADDRESS_FIXED&#39;</span><span class="p">],</span> <span class="n">provider</span><span class="o">=</span><span class="s1">&#39;Nominatim&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">geocoder_options</span><span class="p">)</span>
 <span class="n">gdf</span>
 </pre></div>
 </div>
@@ -3876,7 +3884,8 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geocoding-method-1-pandas">Geocoding Method 1: Pandas</a></li>
