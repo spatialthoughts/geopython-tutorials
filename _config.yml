@@ -32,6 +32,9 @@ html:
   use_repository_button: true
   analytics:
     google_analytics_id: G-CSFQ69LBRL
+  comments:
+    utterances:
+      repo: 'spatialthoughts/geopython-tutorials'
 
 launch_buttons:
   colab_url: "https://colab.research.google.com"
