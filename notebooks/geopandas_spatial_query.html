@@ -1,0 +1,1476 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Performing Spatial Queries &#8212; Geospatial Python Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "spatialthoughts/geopython-tutorials");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "💬 comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-CSFQ69LBRL"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-CSFQ69LBRL');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/geopandas_spatial_query';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extract a Shapefile Subset from Excel" href="geopandas_extract_from_excel.html" />
+    <link rel="prev" title="Bulk Geocoding Addresses" href="geopandas_bulk_geocoding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../introduction.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Geospatial Python Tutorials - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Geospatial Python Tutorials - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../introduction.html">
+                    Geospatial Python Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Pandas and GeoPandas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="geopandas_bulk_geocoding.html">Bulk Geocoding Addresses</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performing Spatial Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geopandas_extract_from_excel.html">Extract a Shapefile Subset from Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geopandas_fuzzy_table_join.html">Performing Fuzzy Table Joins</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/spatialthoughts/geopython-tutorials/blob/main/notebooks/geopandas_spatial_query.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/spatialthoughts/geopython-tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/geopandas_spatial_query.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/geopandas_spatial_query.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Performing Spatial Queries</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="performing-spatial-queries">
+<h1>Performing Spatial Queries<a class="headerlink" href="#performing-spatial-queries" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Spatial queries allows you to select features in a layer by their spatial relationships with features from another layer. GeoPandas provides <code class="docutils literal notranslate"><span class="pre">sjoin()</span></code> and <code class="docutils literal notranslate"><span class="pre">sjoin_nearest()</span></code> functions that can be used to perform a spatial query.</p>
+</section>
+<section id="overview-of-the-task">
+<h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
+<p>We will be working with 2 data layers for the city of Melbourne, Australia. Given the data layers for the pubs and bars in the city and the locations of all metro stations, we want to find out which bars and pubs are within 500 meters of a metro station.</p>
+<p><strong>Input Layers</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">metro_stations_accessbility.zip</span></code>: A shapefile of metro stations in Melbourne</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Bars_and_pubs__with_patron_capacity.csv</span></code>: CSV file with location of bars and pubs in Melbournse</p></li>
+</ul>
+<p><strong>Output</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">spatial_query.gpkg</span></code>: A GeoPackage containing all bars and pubs within 500 meters of a metro station</p></li>
+</ul>
+<p><strong>Data Credit</strong></p>
+<ul class="simple">
+<li><p>2019 The City of Melbourne Open Data Portal. Data provided by Metro Trains Melbourne and Census of Land Use and Employment (CLUE)</p></li>
+</ul>
+<p><strong>Watch Video Walkthrough</strong> <a href='https://www.youtube.com/watch?v=V-gyuP7vMSg' target='_blank'><img alt="https://github.com/spatialthoughts/geopython-tutorials/blob/main/images/yt_logo.png?raw=1" src="https://github.com/spatialthoughts/geopython-tutorials/blob/main/images/yt_logo.png?raw=1" /></a></p>
+</section>
+<section id="setup-and-data-download">
+<h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
+<p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_folder</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+<span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/spatialthoughts/geopython-tutorials/releases/download/data/&#39;</span>
+
+<span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="s1">&#39;Bars_and_pubs__with_patron_capacity.csv&#39;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="s1">&#39;metro_stations_accessbility.zip&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/Bars_and_pubs__with_patron_capacity.csv
+Downloaded data/metro_stations_accessbility.zip
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="procedure">
+<h2>Procedure<a class="headerlink" href="#procedure" title="Link to this heading">#</a></h2>
+<p>Read the <code class="docutils literal notranslate"><span class="pre">Bars_and_pubs__with_patron_capacity.csv</span></code> file and convert it to a GeoDataFrame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">csv_file</span> <span class="o">=</span> <span class="s1">&#39;Bars_and_pubs__with_patron_capacity.csv&#39;</span>
+<span class="n">csv_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">csv_file</span><span class="p">)</span>
+<span class="n">barspubs_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">)</span> 
+<span class="n">barspubs_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Census year</th>
+      <th>Block ID</th>
+      <th>Property ID</th>
+      <th>Base property ID</th>
+      <th>Street address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2002</td>
+      <td>247</td>
+      <td>106238</td>
+      <td>106238</td>
+      <td>192-202 Lygon Street</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2002</td>
+      <td>252</td>
+      <td>106244</td>
+      <td>106244</td>
+      <td>160-162 Lygon Street</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2006</td>
+      <td>16</td>
+      <td>104018</td>
+      <td>104018</td>
+      <td>172-192 Flinders Street</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2002</td>
+      <td>214</td>
+      <td>106186</td>
+      <td>106186</td>
+      <td>414-422 Lygon Street</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2008</td>
+      <td>76</td>
+      <td>589841</td>
+      <td>105749</td>
+      <td>221 Little Lonsdale Street</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3333</th>
+      <td>2017</td>
+      <td>85</td>
+      <td>105746</td>
+      <td>105746</td>
+      <td>183-265 La Trobe Street</td>
+    </tr>
+    <tr>
+      <th>3334</th>
+      <td>2017</td>
+      <td>74</td>
+      <td>104662</td>
+      <td>104662</td>
+      <td>106-112 Hardware Street</td>
+    </tr>
+    <tr>
+      <th>3335</th>
+      <td>2017</td>
+      <td>268</td>
+      <td>108154</td>
+      <td>108153</td>
+      <td>49 Rathdowne Street</td>
+    </tr>
+    <tr>
+      <th>3336</th>
+      <td>2017</td>
+      <td>104</td>
+      <td>104085</td>
+      <td>104085</td>
+      <td>167-175 Franklin Street</td>
+    </tr>
+    <tr>
+      <th>3337</th>
+      <td>2017</td>
+      <td>33</td>
+      <td>100730</td>
+      <td>100730</td>
+      <td>12-16 Bank Place</td>
+    </tr>
+  </tbody>
+</table>
+<p>3338 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>You will note that the data contains multiple features for each establishment from different years. Let’s sort by <em>Property ID</em> and check.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barspubs_df</span> <span class="o">=</span> <span class="n">barspubs_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Property ID&#39;</span><span class="p">)</span>
+<span class="n">barspubs_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Census year</th>
+      <th>Block ID</th>
+      <th>Property ID</th>
+      <th>Base property ID</th>
+      <th>Street address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3129</th>
+      <td>2017</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>709</th>
+      <td>2011</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>2553</th>
+      <td>2015</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>2008</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>2201</th>
+      <td>2010</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2579</th>
+      <td>2015</td>
+      <td>1105</td>
+      <td>628712</td>
+      <td>628712</td>
+      <td>717-731 Collins Street</td>
+    </tr>
+    <tr>
+      <th>2832</th>
+      <td>2016</td>
+      <td>66</td>
+      <td>635138</td>
+      <td>635138</td>
+      <td>13 Heffernan Lane</td>
+    </tr>
+    <tr>
+      <th>3069</th>
+      <td>2017</td>
+      <td>66</td>
+      <td>635138</td>
+      <td>635138</td>
+      <td>13 Heffernan Lane</td>
+    </tr>
+    <tr>
+      <th>3058</th>
+      <td>2016</td>
+      <td>270</td>
+      <td>664626</td>
+      <td>104468</td>
+      <td>230 Grattan Street</td>
+    </tr>
+    <tr>
+      <th>3228</th>
+      <td>2017</td>
+      <td>270</td>
+      <td>664626</td>
+      <td>104468</td>
+      <td>230 Grattan Street</td>
+    </tr>
+  </tbody>
+</table>
+<p>3338 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>We are interested only in the location of the establishment. So we can de-duplicate the dataframe and keep only 1 record per unique <em>Property ID</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barspubs_df</span> <span class="o">=</span> <span class="n">barspubs_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Property ID&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">)</span>
+<span class="n">barspubs_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Census year</th>
+      <th>Block ID</th>
+      <th>Property ID</th>
+      <th>Base property ID</th>
+      <th>Street address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3129</th>
+      <td>2017</td>
+      <td>103</td>
+      <td>100160</td>
+      <td>100160</td>
+      <td>196-200 A'Beckett Street</td>
+    </tr>
+    <tr>
+      <th>1087</th>
+      <td>2011</td>
+      <td>409</td>
+      <td>100441</td>
+      <td>100441</td>
+      <td>118-126 Ireland Street</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>2004</td>
+      <td>315</td>
+      <td>100514</td>
+      <td>100514</td>
+      <td>204-206 Arden Street</td>
+    </tr>
+    <tr>
+      <th>1501</th>
+      <td>2009</td>
+      <td>33</td>
+      <td>100727</td>
+      <td>100727</td>
+      <td>5-9 Bank Place</td>
+    </tr>
+    <tr>
+      <th>1159</th>
+      <td>2013</td>
+      <td>33</td>
+      <td>100730</td>
+      <td>100730</td>
+      <td>12-16 Bank Place</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1601</th>
+      <td>2009</td>
+      <td>2391</td>
+      <td>616966</td>
+      <td>616966</td>
+      <td>2 Boundary Road</td>
+    </tr>
+    <tr>
+      <th>1182</th>
+      <td>2013</td>
+      <td>1110</td>
+      <td>620312</td>
+      <td>593737</td>
+      <td>23-37 Star Crescent</td>
+    </tr>
+    <tr>
+      <th>3028</th>
+      <td>2016</td>
+      <td>1105</td>
+      <td>628712</td>
+      <td>628712</td>
+      <td>717-731 Collins Street</td>
+    </tr>
+    <tr>
+      <th>2832</th>
+      <td>2016</td>
+      <td>66</td>
+      <td>635138</td>
+      <td>635138</td>
+      <td>13 Heffernan Lane</td>
+    </tr>
+    <tr>
+      <th>3058</th>
+      <td>2016</td>
+      <td>270</td>
+      <td>664626</td>
+      <td>104468</td>
+      <td>230 Grattan Street</td>
+    </tr>
+  </tbody>
+</table>
+<p>308 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>Now that we are done with data cleaning, let’s turn this dataframe in to a spatial layer. The location of the establishment is defined using the <em>x coordinate</em> and <em>y coordinate</em> columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barspubs_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Trading name</th>
+      <th>Number of patrons</th>
+      <th>x coordinate</th>
+      <th>y coordinate</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3129</th>
+      <td>Nomads Industry Backpackers</td>
+      <td>200</td>
+      <td>144.957445</td>
+      <td>-37.809985</td>
+      <td>(-37.80998494, 144.9574447)</td>
+    </tr>
+    <tr>
+      <th>1087</th>
+      <td>Railway Hotel</td>
+      <td>241</td>
+      <td>144.942118</td>
+      <td>-37.806054</td>
+      <td>(-37.80605366, 144.9421177)</td>
+    </tr>
+    <tr>
+      <th>410</th>
+      <td>North Melbourne Football Club Social Club</td>
+      <td>210</td>
+      <td>144.941312</td>
+      <td>-37.799055</td>
+      <td>(-37.79905531, 144.9413118)</td>
+    </tr>
+    <tr>
+      <th>1501</th>
+      <td>Mitre Tavern</td>
+      <td>300</td>
+      <td>144.960311</td>
+      <td>-37.816805</td>
+      <td>(-37.81680457, 144.9603112)</td>
+    </tr>
+    <tr>
+      <th>1159</th>
+      <td>Melbourne Savage Club</td>
+      <td>90</td>
+      <td>144.960577</td>
+      <td>-37.816545</td>
+      <td>(-37.81654467, 144.9605765)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1601</th>
+      <td>Vodka Locka &amp; Red Leaf Restaurant</td>
+      <td>40</td>
+      <td>144.939233</td>
+      <td>-37.795318</td>
+      <td>(-37.79531826, 144.9392333)</td>
+    </tr>
+    <tr>
+      <th>1182</th>
+      <td>Harbour Town Hotel</td>
+      <td>498</td>
+      <td>144.937830</td>
+      <td>-37.813150</td>
+      <td>(-37.81315031, 144.9378299)</td>
+    </tr>
+    <tr>
+      <th>3028</th>
+      <td>Bar Nicional</td>
+      <td>75</td>
+      <td>144.950093</td>
+      <td>-37.820687</td>
+      <td>(-37.82068699, 144.9500934)</td>
+    </tr>
+    <tr>
+      <th>2832</th>
+      <td>Union Electric</td>
+      <td>72</td>
+      <td>144.966591</td>
+      <td>-37.811802</td>
+      <td>(-37.81180178, 144.9665913)</td>
+    </tr>
+    <tr>
+      <th>3058</th>
+      <td>HJC Bar</td>
+      <td>200</td>
+      <td>144.961247</td>
+      <td>-37.797398</td>
+      <td>(-37.79739836, 144.9612468)</td>
+    </tr>
+  </tbody>
+</table>
+<p>308 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>Create a geometry column and use it to define a new GeoDataFrame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">geometry</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">barspubs_df</span><span class="p">[</span><span class="s1">&#39;x coordinate&#39;</span><span class="p">],</span><span class="n">barspubs_df</span><span class="p">[</span><span class="s1">&#39;y coordinate&#39;</span><span class="p">])</span>
+<span class="n">barspubs_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">barspubs_df</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we will read the zipped shapefile of metro stations as a GeoDataFrame.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zip_file</span> <span class="o">=</span> <span class="s1">&#39;metro_stations_accessbility.zip&#39;</span>
+<span class="n">zip_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;zip://&#39;</span><span class="p">,</span> <span class="n">data_folder</span><span class="p">,</span> <span class="n">zip_file</span><span class="p">)</span>
+<span class="n">metrostations_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span>
+<span class="n">metrostations_gdf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>station</th>
+      <th>pids</th>
+      <th>he_loop</th>
+      <th>lift</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alamein</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (145.07956 -37.86884)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Albion</td>
+      <td>Dot Matrix</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.82471 -37.77766)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Alphington</td>
+      <td>Dot Matrix</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (145.03125 -37.7784)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Altona</td>
+      <td>LCD</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.8306 -37.86725)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Anstey</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.96056 -37.7619)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>214</th>
+      <td>Williams Landing</td>
+      <td>Dot Matrix</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>POINT (144.74719 -37.8701)</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>Aircraft</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.76081 -37.8666)</td>
+    </tr>
+    <tr>
+      <th>216</th>
+      <td>Flemington Racecourse</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.9072 -37.78759)</td>
+    </tr>
+    <tr>
+      <th>217</th>
+      <td>Showgrounds</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>POINT (144.91498 -37.78355)</td>
+    </tr>
+    <tr>
+      <th>218</th>
+      <td>Southland</td>
+      <td>LCD</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>POINT (145.04867 -37.95818)</td>
+    </tr>
+  </tbody>
+</table>
+<p>219 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>Visualize the layers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">barspubs_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="n">metrostations_gdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">barspubs_gdf</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
+
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bars and Pubs&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Metro Stations&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/79b4be07cb8203d53beba2fbe0e94d14048d98170fe53e5db2ff05a903736fc0.png" src="../_images/79b4be07cb8203d53beba2fbe0e94d14048d98170fe53e5db2ff05a903736fc0.png" />
+</div>
+</div>
+<p>For performing any analysis, we must use a Projected CRS. Let’s reproject to a local CRS for Melbourne. <em>GDA 2020 / MGA zone 55 EPSG:7855</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrostations_gdf_reprojected</span> <span class="o">=</span> <span class="n">metrostations_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;EPSG:7855&#39;</span><span class="p">)</span>
+<span class="n">barspubs_gdf_reprojected</span> <span class="o">=</span> <span class="n">barspubs_gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="s1">&#39;EPSG:7855&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now buffer the metro stations to 500 meters. GeoPandas uses shapely for buffer operation. We specify <a class="reference external" href="https://shapely.readthedocs.io/en/latest/manual.html#constructive-methods">buffer parameters</a> to match QGIS’s default style.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">radius</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="n">buffer_geometry</span> <span class="o">=</span> <span class="n">metrostations_gdf_reprojected</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
+    <span class="n">radius</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cap_style</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join_style</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mitre_limit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">metrostations_gdf_reprojected</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">buffer_geometry</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Visualize the buffers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="n">metrostations_gdf_reprojected</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
+
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bars and Pubs&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Metro Station Buffers&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f7981656e372a38df0df911f477200107a470d2a431dbf5350394a71bbd6942c.png" src="../_images/f7981656e372a38df0df911f477200107a470d2a431dbf5350394a71bbd6942c.png" />
+</div>
+</div>
+<p>As we want to do a spatial join, we need to dissolve the resulting buffers. Otherwise we will get 1 feature for every intersecting buffer</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metrostations_gdf_reprojected</span><span class="p">[</span><span class="s1">&#39;dissolvefield&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dissolved_buffers</span> <span class="o">=</span> <span class="n">metrostations_gdf_reprojected</span><span class="o">.</span><span class="n">dissolve</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;dissolvefield&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="n">dissolved_buffers</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
+
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bars and Pubs&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Metro Station Buffers (Dissolved)&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2544b2c422030260e8a1389c549303a04c5d38a8ba0d78c2c778353775af7080.png" src="../_images/2544b2c422030260e8a1389c549303a04c5d38a8ba0d78c2c778353775af7080.png" />
+</div>
+</div>
+<p>Now do a spatial join to select all bars and pubs within the dissolved buffer region.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selected</span> <span class="o">=</span> <span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">sjoin</span><span class="p">(</span>
+    <span class="n">dissolved_buffers</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="s1">&#39;within&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For our final visualization, we show the selected establishments within the buffer zone.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="n">dissolved_buffers</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>  <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">selected</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">)</span>
+
+<span class="n">legend_elements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bars and Pubs&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Metro Station Buffers&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Selected Bars and Pubs&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">legend_elements</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/af4d2d9fe5c961a78931ddb218dff3a71518cc25d20bc1c8169441c098514741.png" src="../_images/af4d2d9fe5c961a78931ddb218dff3a71518cc25d20bc1c8169441c098514741.png" />
+</div>
+</div>
+<p>Finally, we save all our layers into a output geopackage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;spatial_query.gpkg&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+
+<span class="n">barspubs_gdf_reprojected</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;bars_and_pubs&#39;</span><span class="p">)</span>
+<span class="n">metrostations_gdf_reprojected</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;metro_stations&#39;</span><span class="p">)</span>
+<span class="n">selected</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;selected_locations&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geopandas_bulk_geocoding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bulk Geocoding Addresses</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geopandas_extract_from_excel.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extract a Shapefile Subset from Excel</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure">Procedure</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ujaval Gandhi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
