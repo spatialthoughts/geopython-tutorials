@@ -225,7 +225,6 @@ commentsRunWhenDOMLoaded(addUtterances);
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Zonal Statistics with XArray</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
 <ul class="nav bd-sidenav">
@@ -453,18 +452,12 @@ commentsRunWhenDOMLoaded(addUtterances);
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Zonal Statistics with XArray</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-raster-values">Sampling Raster Values</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -561,9 +554,8 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 </div>
 </section>
-</section>
 <section id="data-pre-processing">
-<h1>Data Pre-Processing<a class="headerlink" href="#data-pre-processing" title="Link to this heading">#</a></h1>
+<h2>Data Pre-Processing<a class="headerlink" href="#data-pre-processing" title="Link to this heading">#</a></h2>
 <p>First we will read the  Zipped counties shapefile and filter out the counties that are in <code class="docutils literal notranslate"><span class="pre">California</span></code> state.</p>
 <p>The dataframe has a column  as <code class="docutils literal notranslate"><span class="pre">STATE_NAME</span></code> having naesm of states that can be used to filter the counties for <em>California</em>.</p>
 <div class="cell docutils container">
@@ -1757,6 +1749,7 @@ Attributes:
        32.574999740347266],
       dtype=&#x27;float64&#x27;, name=&#x27;y&#x27;, length=189))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5eaa705a-6b25-4d3d-9d23-63dd86ecd035' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5eaa705a-6b25-4d3d-9d23-63dd86ecd035' class='xr-section-summary' >Attributes: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>TIFFTAG_DOCUMENTNAME :</span></dt><dd>/home/CHIRPS/annual/v2.0/chirps-v2.0.2021.tif</dd><dt><span>TIFFTAG_IMAGEDESCRIPTION :</span></dt><dd>IDL TIFF file</dd><dt><span>TIFFTAG_SOFTWARE :</span></dt><dd>IDL 8.7.2, Harris Geospatial Solutions, Inc.</dd><dt><span>TIFFTAG_DATETIME :</span></dt><dd>2022:01:18 14:24:32</dd><dt><span>TIFFTAG_XRESOLUTION :</span></dt><dd>100</dd><dt><span>TIFFTAG_YRESOLUTION :</span></dt><dd>100</dd><dt><span>TIFFTAG_RESOLUTIONUNIT :</span></dt><dd>2 (pixels/inch)</dd><dt><span>AREA_OR_POINT :</span></dt><dd>Area</dd></dl></div></li></ul></div></div></div></div>
 </div>
+</section>
 <section id="sampling-raster-values">
 <h2>Sampling Raster Values<a class="headerlink" href="#sampling-raster-values" title="Link to this heading">#</a></h2>
 <p>Now we will extract the value of the raster pixels for every counties in California. We will be using the <code class="docutils literal notranslate"><span class="pre">geocube</span></code> module for that. It takes geodataframe, it’s unique value as integer and a xarray dataset as input and converts the geodataframe into  a <code class="docutils literal notranslate"><span class="pre">xarray</span> <span class="pre">dataset</span></code> having dimension and coordinates same as of given input xarray dataset</p>
@@ -2907,18 +2900,12 @@ Data variables:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Zonal Statistics with XArray</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-raster-values">Sampling Raster Values</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
