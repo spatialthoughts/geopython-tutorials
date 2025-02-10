@@ -111,7 +111,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Locating Nearest Facility with Origin-Destination Matrix" href="ors_distance_matrix.html" />
-    <link rel="prev" title="Performing Fuzzy Table Joins" href="geopandas_fuzzy_table_join.html" />
+    <link rel="prev" title="Sampling Raster Data with XArray" href="xarray_raster_sampling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -224,6 +224,8 @@ commentsRunWhenDOMLoaded(addUtterances);
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="xarray_raster_sampling.html"><strong>Sampling Raster Data with XArray</strong></a></li>
+
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Zonal Statistics with XArray</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
@@ -497,7 +499,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">capture</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
     <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">rioxarray</span> <span class="n">geocube</span> <span class="n">xarray_spatial</span>
 </pre></div>
@@ -506,7 +508,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rioxarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rxr</span>
@@ -519,7 +521,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_folder</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_folder</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
 <span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_folder</span><span class="p">):</span>
@@ -532,7 +534,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
@@ -560,7 +562,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <p>The dataframe has a column  as <code class="docutils literal notranslate"><span class="pre">STATE_NAME</span></code> having naesm of states that can be used to filter the counties for <em>California</em>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zones_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">zones_file</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zones_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">zones_file</span><span class="p">)</span>
 
 <span class="n">zones_df</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">zones_file_path</span><span class="p">)</span>
 <span class="n">california_df</span>  <span class="o">=</span> <span class="n">zones_df</span><span class="p">[</span><span class="n">zones_df</span><span class="p">[</span><span class="s1">&#39;STATE_NAME&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;California&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -856,7 +858,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <p>Now, read the raster file using <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> and clip it to the geometry of <em>California</em> state.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">raster_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">raster_file</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">raster_filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">raster_file</span><span class="p">)</span>
 <span class="n">raster</span> <span class="o">=</span> <span class="n">rxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">raster_filepath</span><span class="p">,</span> <span class="n">mask_and_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">clipped</span> <span class="o">=</span> <span class="n">raster</span><span class="o">.</span><span class="n">rio</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">california_df</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
 <span class="n">clipped</span>
@@ -1306,7 +1308,7 @@ Attributes:
 <p>The raster has only 1 band containing yearly precipitaion values, so we select it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">precipitation</span> <span class="o">=</span> <span class="n">clipped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">precipitation</span> <span class="o">=</span> <span class="n">clipped</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">precipitation</span>
 </pre></div>
 </div>
@@ -1756,7 +1758,7 @@ Attributes:
 <p>Now we will extract the value of the raster pixels for every counties in California. We will be using the <code class="docutils literal notranslate"><span class="pre">geocube</span></code> module for that. It takes geodataframe, it’s unique value as integer and a xarray dataset as input and converts the geodataframe into  a <code class="docutils literal notranslate"><span class="pre">xarray</span> <span class="pre">dataset</span></code> having dimension and coordinates same as of given input xarray dataset</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">california_df</span><span class="p">[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">california_df</span><span class="o">.</span><span class="n">GEOID</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">california_df</span><span class="p">[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">california_df</span><span class="o">.</span><span class="n">GEOID</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">california_raster</span> <span class="o">=</span> <span class="n">make_geocube</span><span class="p">(</span>
     <span class="n">vector_data</span><span class="o">=</span><span class="n">california_df</span><span class="p">,</span>
     <span class="n">measurements</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">],</span>
@@ -2194,7 +2196,7 @@ Data variables:
 <p>Now we can use the <a class="reference external" href="https://xarray-spatial.readthedocs.io/en/stable/user_guide/zonal.html#Zonal-Statistics">Zonal Stats</a> function from xarray-spatial to compute various statistics for each zone.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span> <span class="o">=</span> <span class="n">zonal_stats</span><span class="p">(</span><span class="n">zones</span><span class="o">=</span><span class="n">california_raster</span><span class="o">.</span><span class="n">GEOID</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">precipitation</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span> <span class="o">=</span> <span class="n">zonal_stats</span><span class="p">(</span><span class="n">zones</span><span class="o">=</span><span class="n">california_raster</span><span class="o">.</span><span class="n">GEOID</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">precipitation</span><span class="p">)</span>
 <span class="n">stats_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -2503,7 +2505,7 @@ Data variables:
 <p>We select the required statistics and join the results with the original layer.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span><span class="p">[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats_df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_df</span><span class="p">[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats_df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">joined</span> <span class="o">=</span> <span class="n">california_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">stats_df</span><span class="p">[[</span><span class="s1">&#39;GEOID&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;GEOID&#39;</span><span class="p">)</span>
 <span class="n">joined</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
 </pre></div>
@@ -2795,7 +2797,7 @@ Data variables:
 <p>Let’s plot and visualize the results. The map shows the average annual precipitation for each county in California.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">legend_kwds</span><span class="o">=</span><span class="p">{</span>
@@ -2819,7 +2821,7 @@ Data variables:
 <p>Finally, we save the sampled result to disk as <code class="docutils literal notranslate"><span class="pre">.gpkg</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;precipitation_by_county.gpkg&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;precipitation_by_county.gpkg&#39;</span>
 <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
 
 <span class="n">joined</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">driver</span> <span class="o">=</span> <span class="s1">&#39;GPKG&#39;</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span><span class="n">output_path</span><span class="p">)</span>
@@ -2867,12 +2869,12 @@ Data variables:
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="geopandas_fuzzy_table_join.html"
+       href="xarray_raster_sampling.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Performing Fuzzy Table Joins</p>
+        <p class="prev-next-title"><strong>Sampling Raster Data with XArray</strong></p>
       </div>
     </a>
     <a class="right-next"
