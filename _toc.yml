@@ -12,7 +12,7 @@ parts:
           - file: notebooks/geopandas_fuzzy_table_join.ipynb
     - caption: XArray
       chapters:
-          - file: notebooks/xarray_raster_styling_analysis.ipyn
+          - file: notebooks/xarray_raster_styling_analysis.ipynb
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
