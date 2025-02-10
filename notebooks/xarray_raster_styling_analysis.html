@@ -226,7 +226,6 @@ commentsRunWhenDOMLoaded(addUtterances);
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Basic Raster Styling and Analysis</a></li>
 
-
 <li class="toctree-l1"><a class="reference internal" href="xarray_mosaic_and_clip.html">Raster Mosaicing and Clipping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_raster_sampling.html">Sampling Raster Data with XArray</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_zonal_stats.html">Zonal Statistics with XArray</a></li>
@@ -460,9 +459,9 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Basic Raster Styling and Analysis</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download"><strong>Setup and Data Download</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure"><strong>Procedure</strong></a></li>
 </ul>
 
@@ -489,18 +488,17 @@ commentsRunWhenDOMLoaded(addUtterances);
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">gpw-v4-population-count-rev11_YYYY_2pt5_min_tif.zip</span></code>: Zipped Raster files having population data.</p></li>
 </ul>
-<p>Output:</p>
+<p><strong>Output</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">population_change_2010_2000</span></code> : Global categorized population change.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">change_class.tif</span></code> : A GeoTIFF file of categorized population change.</p></li>
 </ul>
-<p>Data Credit:</p>
+<p><strong>Data Credit</strong>:</p>
 <ul class="simple">
 <li><p>Center for International Earth Science Information Network - CIESIN - Columbia University. 2018. Gridded Population of the World, Version 4 (GPWv4): Population Count, Revision 11. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC). https://doi.org/10.7927/H4JW8BX5. Accessed 27 JUNE 2019</p></li>
 </ul>
 </section>
-</section>
 <section id="setup-and-data-download">
-<h1><strong>Setup and Data Download</strong><a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h1>
+<h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
 <p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -518,7 +516,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpatches</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rioxarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rxr</span>
-<span class="c1">#from xrspatial.classify import reclassify</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xrspatial</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 </pre></div>
 </div>
@@ -563,6 +561,7 @@ Downloaded data/gpw-v4-population-count-rev11_2020_2pt5_min_tif.zip
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="procedure">
 <h1><strong>Procedure</strong><a class="headerlink" href="#procedure" title="Link to this heading">#</a></h1>
@@ -640,7 +639,8 @@ Downloaded data/gpw-v4-population-count-rev11_2020_2pt5_min_tif.zip
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_bins</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">]</span>
 <span class="n">class_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-<span class="n">change_class</span> <span class="o">=</span> <span class="n">reclassify</span><span class="p">(</span><span class="n">change</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">class_bins</span><span class="p">,</span> <span class="n">new_values</span><span class="o">=</span><span class="n">class_values</span><span class="p">)</span>
+<span class="n">change_class</span> <span class="o">=</span> <span class="n">xrspatial</span><span class="o">.</span><span class="n">classify</span><span class="o">.</span><span class="n">reclassify</span><span class="p">(</span>
+    <span class="n">change</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">class_bins</span><span class="p">,</span> <span class="n">new_values</span><span class="o">=</span><span class="n">class_values</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -664,7 +664,7 @@ Downloaded data/gpw-v4-population-count-rev11_2020_2pt5_min_tif.zip
 
 <span class="n">patches</span> <span class="o">=</span><span class="p">[</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Population Change Classes (2000-2010)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Population Change Classes (2010-2020)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="c1"># Set axis labels off</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -675,10 +675,10 @@ Downloaded data/gpw-v4-population-count-rev11_2020_2pt5_min_tif.zip
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ae731863967b22697117a4f884a233df6b5409653e891f73f9a51239950dc078.png" src="../_images/ae731863967b22697117a4f884a233df6b5409653e891f73f9a51239950dc078.png" />
+<img alt="../_images/43dff7fffad3067d916eb2b8fbb072cf93a0e6d5a630d371b7ef84259669e674.png" src="../_images/43dff7fffad3067d916eb2b8fbb072cf93a0e6d5a630d371b7ef84259669e674.png" />
 </div>
 </div>
-<p>Last step is to save the results to disk as GeoTiff files.</p>
+<p>Last step is to save the results to disk as a GeoTiff file.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_file</span> <span class="o">=</span> <span class="s1">&#39;change_class.tif&#39;</span>
@@ -758,9 +758,9 @@ Downloaded data/gpw-v4-population-count-rev11_2020_2pt5_min_tif.zip
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Basic Raster Styling and Analysis</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download"><strong>Setup and Data Download</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#procedure"><strong>Procedure</strong></a></li>
 </ul>
 
