@@ -4,18 +4,20 @@
 format: jb-book
 root: introduction
 parts:
-    - caption: Pandas and GeoPandas 
+    - caption: GeoPandas 
       chapters:
           - file: notebooks/geopandas_bulk_geocoding.ipynb
           - file: notebooks/geopandas_spatial_query.ipynb
           - file: notebooks/geopandas_extract_from_excel.ipynb
           - file: notebooks/geopandas_fuzzy_table_join.ipynb
-    - caption: XArray
+    - caption: XArray (+ Rioxarray, XArray-spatial)
       chapters:
           - file: notebooks/xarray_raster_styling_analysis.ipynb
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
+    - caption: XEE (XArray + Google Earth Engine)
+          - file: notebooks/xee_ic_to_netcdf.ipynb    
     - caption: OpenRouteService
       chapters:
           - file: notebooks/ors_distance_matrix.ipynb
