@@ -110,7 +110,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/xarray_zonal_stats';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Locating Nearest Facility with Origin-Destination Matrix" href="ors_distance_matrix.html" />
+    <link rel="next" title="Extracting a Time Series" href="xarray_extracting_time_series.html" />
     <link rel="prev" title="Sampling Raster Data with XArray" href="xarray_raster_sampling.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -222,12 +222,23 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li class="toctree-l1"><a class="reference internal" href="geopandas_extract_from_excel.html">Extract a Shapefile Subset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geopandas_fuzzy_table_join.html">Performing Fuzzy Table Joins</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray (+ Rioxarray, XArray-spatial)</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="xarray_raster_styling_analysis.html">Basic Raster Styling and Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_mosaic_and_clip.html">Raster Mosaicing and Clipping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_raster_sampling.html">Sampling Raster Data with XArray</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Zonal Statistics with XArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_extracting_time_series.html">Extracting a Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_wrap_longitude.html">Transform Longitude Values</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dask</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dask_creating_spatial_data.html">Creating Spatial Data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">XEE (XArray + Google Earth Engine)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="xee_ic_to_netcdf.html">Exporting an ImageCollection to NetCDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xee_downloading_images.html">Downloading Images with XEE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
 <ul class="nav bd-sidenav">
@@ -475,7 +486,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <h1>Zonal Statistics with XArray<a class="headerlink" href="#zonal-statistics-with-xarray" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>The Zonal Statistics extracts the values of a raster within the zones of another dataset and computes statistical summary. XArray ecosystem includes <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> and <code class="docutils literal notranslate"><span class="pre">xrspatial</span></code> packages that can perform very fast statistical operation on geospatial rasters. We use these along with the <code class="docutils literal notranslate"><span class="pre">geocube</span></code> package to convert a vector layer to a rastrized XArray dataset. This approach ensures you leverages the efficiences of XArray and results in performance that is magnitudes faster than other approaches (i.e. with <code class="docutils literal notranslate"><span class="pre">rasterstats</span></code>).</p>
+<p>Zonal Statistics analysis extracts a statistical summary of raster pixels within the zones of another dataset. The XArray ecosystem include <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> and <code class="docutils literal notranslate"><span class="pre">xrspatial</span></code> packages that can perform very fast statistical operations on geospatial rasters. We use these along with the <code class="docutils literal notranslate"><span class="pre">geocube</span></code> package to convert a vector layer to a rasterized XArray dataset. This approach ensures you leverage the efficiences of XArray and result in performance that is magnitudes faster than other approaches (i.e. with <code class="docutils literal notranslate"><span class="pre">rasterstats</span></code>).</p>
 </section>
 <section id="overview-of-the-task">
 <h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
@@ -2879,11 +2890,11 @@ Data variables:
       </div>
     </a>
     <a class="right-next"
-       href="ors_distance_matrix.html"
+       href="xarray_extracting_time_series.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Locating Nearest Facility with Origin-Destination Matrix</p>
+        <p class="prev-next-title">Extracting a Time Series</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
