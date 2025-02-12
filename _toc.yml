@@ -17,6 +17,7 @@ parts:
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
+          - file: notebooks/xarray_wrap_longitude.ipynb
     - caption: Dask
       chapters:
           - file: notebooks/dask_creating_spatial_data.ipynb
