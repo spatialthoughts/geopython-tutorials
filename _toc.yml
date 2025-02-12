@@ -16,13 +16,14 @@ parts:
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
+          - file: notebooks/xarray_extracting_time_series.ipynb
+    - caption: Dask
+      chapters:
+          - file: notebooks/dask_creating_spatial_data.ipynb
     - caption: XEE (XArray + Google Earth Engine)
       chapters:
           - file: notebooks/xee_ic_to_netcdf.ipynb    
           - file: notebooks/xee_downloading_images.ipynb
-    - caption: Dask
-      chapters:
-          - file: notebooks/dask_creating_spatial_data.ipynb
     - caption: OpenRouteService
       chapters:
           - file: notebooks/ors_distance_matrix.ipynb
