@@ -110,7 +110,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/xee_downloading_images';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Locating Nearest Facility with Origin-Destination Matrix" href="ors_distance_matrix.html" />
+    <link rel="next" title="Creating Spatial Data" href="dask_creating_spatial_data.html" />
     <link rel="prev" title="Exporting an ImageCollection to NetCDF" href="xee_ic_to_netcdf.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -233,6 +233,10 @@ commentsRunWhenDOMLoaded(addUtterances);
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="xee_ic_to_netcdf.html">Exporting an ImageCollection to NetCDF</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Downloading Images with XEE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dask</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dask_creating_spatial_data.html">Creating Spatial Data</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
 <ul class="nav bd-sidenav">
@@ -480,7 +484,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <h1>Downloading Images with XEE<a class="headerlink" href="#downloading-images-with-xee" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>When using data hosted in Google Earth Engine in Python-based workflows - one of the main pain points is the extraction of large datasets. This typically involves a long running Export process which makes subsequent processing of the results challenging. With the introduction of new <a class="reference external" href="https://developers.google.com/earth-engine/apidocs/ee-data-getpixels"><code class="docutils literal notranslate"><span class="pre">ee.data.getPixels()</span></code></a> API from GEE, we can now directly fetch image data as an array. The <a class="reference external" href="https://github.com/google/Xee">XEE</a> package makes this process seamless and extracts the results as an XArray Dataset. We can then use <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> to clip and save the extracted XArray DataSet to a GeoTIFF file.</p>
+<p>When using data hosted in Google Earth Engine in Python-based workflows - one of the main pain points is the extraction of large datasets. This typically involves a long running Export process which makes subsequent processing of the results challenging. With the introduction of new <a class="reference external" href="https://developers.google.com/earth-engine/apidocs/ee-data-getpixels"><code class="docutils literal notranslate"><span class="pre">ee.data.getPixels()</span></code></a> API from GEE, we can now directly fetch image data as an array. The <a class="reference external" href="https://github.com/google/Xee">XEE</a> package makes this process seamless and extracts the results as an XArray Dataset. We can then use <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> to clip and save the extracted XArray DataSet to a GeoTIFF file directly without going through an Export task.</p>
 </section>
 <section id="overview-of-the-task">
 <h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
@@ -2371,11 +2375,11 @@ Attributes:
       </div>
     </a>
     <a class="right-next"
-       href="ors_distance_matrix.html"
+       href="dask_creating_spatial_data.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Locating Nearest Facility with Origin-Destination Matrix</p>
+        <p class="prev-next-title">Creating Spatial Data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
