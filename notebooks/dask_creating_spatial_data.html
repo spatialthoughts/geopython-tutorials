@@ -464,9 +464,11 @@ commentsRunWhenDOMLoaded(addUtterances);
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-and-creating-spatial-data">Merging and Creating Spatial Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Creating Spatial Data</a></li>
 </ul>
             </nav>
         </div>
@@ -480,24 +482,26 @@ commentsRunWhenDOMLoaded(addUtterances);
                   
   <section id="creating-spatial-data">
 <h1>Creating Spatial Data<a class="headerlink" href="#creating-spatial-data" title="Link to this heading">#</a></h1>
-<p>A common operation in spatial analysis is to take non-spatial data, such as CSV files, and creating a spatial dataset from it using coordinate information contained in the file. GeoPandas provides a convenient way to take data from a delimited-text file, create geometry and write the results as a spatial dataset.</p>
-<p>The source data comes from <a class="reference external" href="http://www.geonames.org/">GeoNames</a> - a free and open database of geographic names of the world. It is a huge database containing millions of records per country. The data is distributed as country-level text files in a tab-delimited format.</p>
-<p>We will be using the <a class="reference external" href="https://docs.dask.org/en/stable/">dask dataframes</a> which enables us to work in the parallel computing in python which does faster computation and allows to work with clusters of thousands of cores.</p>
-<p>We will read a tab-delimited file of places in dask environment, filter it to a feature class, create a GeoDataFrame and export it as a GeoPackage file.</p>
-<p>Input Layers:</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>A common operation in spatial analysis is to take non-spatial data, such as CSV files, and creating a spatial dataset from it using coordinate information contained in the file. While doing this is straightfroward with Pandas and GeoPandas, you run into memory limits when working with very large datasets that do not fit into your RAM. <a class="reference external" href="https://docs.dask.org/en/stable/">Dask</a> provides a drop-in replacement for Pandas workflows that does lazy computing (load data incrementally into RAM) and parellel computing (use all cores of your CPU or a cluster of machines). In this tutorial, we will use <code class="docutils literal notranslate"><span class="pre">dask</span></code> and <a class="reference external" href="https://dask-geopandas.readthedocs.io/en/stable/"><code class="docutils literal notranslate"><span class="pre">dask-geopandas</span></code></a> packages to efficiently process a large dataset.</p>
+</section>
+<section id="overview-of-the-task">
+<h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="http://www.geonames.org/">GeoNames</a> is a free and open database of geographic names of the world. It distributes a large database containing millions of records in a tab-delimited format. We will read a tab-delimited file of places in dask environment, filter it to select all mountain features, create a GeoDataFrame and export it as a GeoPackage file containing all mountains of the world.</p>
+<p><strong>Input Layers</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">CA.zip</span></code>: Geographical database of Canada.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MX.zip</span></code>: Geographical database of Mexico.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">US.zip</span></code>: Geographical database of United States.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allCountries.zip</span></code>: GeoNames Gazetteer extract of all countries.</p></li>
 </ul>
-<p>Output Layers:</p>
+<p><strong>Output Layers</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">mountains.gpkg</span></code> : A GeoPackage containing a vector layer of mountains locations in North America.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mountains.gpkg</span></code> : A GeoPackage containing a vector layer of mountains of the world.</p></li>
 </ul>
-<p>Data Credit:</p>
+<p><strong>Data Credit</strong>:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://www.geonames.org/">Geonames</a>. Retrieved 2022-09</p></li>
+<li><p><a class="reference external" href="http://www.geonames.org/">Geonames</a>. Retrieved 2025-02</p></li>
 </ul>
+</section>
 <section id="setup-and-data-download">
 <h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
 <p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
@@ -505,17 +509,19 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">capture</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
-    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">quiet</span> <span class="n">dask_geopandas</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dask_geopandas</span> <span class="n">leafmap</span> <span class="n">lonboard</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">dask.dataframe</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dd</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dask.dataframe</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dask_geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">leafmap.deckgl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">leafmap</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">lonboard</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 </pre></div>
 </div>
@@ -543,22 +549,15 @@ commentsRunWhenDOMLoaded(addUtterances);
         <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;MX&#39;</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">]</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;allCountries.zip&#39;</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://download.geonames.org/export/dump/&#39;</span>
 
-<span class="n">download_url</span> <span class="o">=</span> <span class="s1">&#39;https://download.geonames.org/export/dump/&#39;</span>
-
-<span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
-  <span class="n">download</span><span class="p">(</span><span class="n">download_url</span> <span class="o">+</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="n">data_url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
-  <span class="n">zip_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.zip&#39;</span><span class="p">)</span>
-  <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/allCountries.zip
 </pre></div>
 </div>
 </div>
@@ -566,23 +565,36 @@ commentsRunWhenDOMLoaded(addUtterances);
 </section>
 <section id="data-pre-processing">
 <h2>Data Pre-Processing<a class="headerlink" href="#data-pre-processing" title="Link to this heading">#</a></h2>
+<p>Extract the zip file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">zip_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">data_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <p>The files do not contain a header row with column names, so we need to specify them when reading the data. The data format is described in detail on the <a class="reference internal" href="#'https://www.geonames.org/export/'"><span class="xref myst">Data Export</span></a> page.
 We will be also specifying the data type of the column names.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;geonameid&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;asciiname&#39;</span><span class="p">,</span> <span class="s1">&#39;alternatenames&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;geonameid&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;asciiname&#39;</span><span class="p">,</span> <span class="s1">&#39;alternatenames&#39;</span><span class="p">,</span>
     <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;feature class&#39;</span><span class="p">,</span> <span class="s1">&#39;feature code&#39;</span><span class="p">,</span>
     <span class="s1">&#39;country code&#39;</span><span class="p">,</span> <span class="s1">&#39;cc2&#39;</span><span class="p">,</span> <span class="s1">&#39;admin1 code&#39;</span><span class="p">,</span> <span class="s1">&#39;admin2 code&#39;</span><span class="p">,</span>
     <span class="s1">&#39;admin3 code&#39;</span><span class="p">,</span> <span class="s1">&#39;admin4 code&#39;</span><span class="p">,</span> <span class="s1">&#39;population&#39;</span><span class="p">,</span> <span class="s1">&#39;elevation&#39;</span><span class="p">,</span>
     <span class="s1">&#39;dem&#39;</span><span class="p">,</span> <span class="s1">&#39;timezone&#39;</span><span class="p">,</span> <span class="s1">&#39;modification date&#39;</span>
 <span class="p">]</span>
 
-<span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;geonameid&#39;</span><span class="p">:</span><span class="nb">int</span> <span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="nb">object</span> <span class="p">,</span> <span class="s1">&#39;asciiname&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;alternatenames&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> 
-    <span class="s1">&#39;latitude&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;feature class&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;feature code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span>
-    <span class="s1">&#39;country code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;cc2&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin1 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin2 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span>
-    <span class="s1">&#39;admin3 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin4 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;population&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;elevation&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span>
-    <span class="s1">&#39;dem&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;timezone&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;modification date&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">}</span>
+<span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;geonameid&#39;</span><span class="p">:</span><span class="nb">int</span> <span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="nb">object</span> <span class="p">,</span> <span class="s1">&#39;asciiname&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span>
+    <span class="s1">&#39;alternatenames&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span>
+    <span class="s1">&#39;feature class&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;feature code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;country code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span>
+    <span class="s1">&#39;cc2&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin1 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin2 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span>
+    <span class="s1">&#39;admin3 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;admin4 code&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;population&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+    <span class="s1">&#39;elevation&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;dem&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;timezone&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">,</span> <span class="s1">&#39;modification date&#39;</span><span class="p">:</span><span class="nb">object</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -590,22 +602,323 @@ We will be also specifying the data type of the column names.</p>
 <p>We specify the separator as \t (tab) as an argument to the read_csv() method in dask dataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dd_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
-  <span class="n">country_txt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
-  <span class="n">country_data</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">country_txt</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span> 
-  <span class="n">dd_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">country_data</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">txt_file_path</span> <span class="o">=</span> <span class="n">zip_file_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">txt_file_path</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">column_names</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-<section id="merging-and-creating-spatial-data">
-<h2>Merging and Creating Spatial Data<a class="headerlink" href="#merging-and-creating-spatial-data" title="Link to this heading">#</a></h2>
-<p>We will now concat all the dataframes in one dataframe.</p>
+<p>We can preview the Dask Dataframe with the <code class="docutils literal notranslate"><span class="pre">head()</span></code> function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">merged_dd</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dd_list</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-a662f8f2-6557-472f-a389-7c6a4b1c1768" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geonameid</th>
+      <th>name</th>
+      <th>asciiname</th>
+      <th>alternatenames</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>feature class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2994701</td>
+      <td>Roc Meler</td>
+      <td>Roc Meler</td>
+      <td>Roc Mele,Roc Meler,Roc Mélé</td>
+      <td>42.58765</td>
+      <td>1.74180</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3017832</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de la Font-Negre,Pic de la Font-Nègre,Pic ...</td>
+      <td>42.52535</td>
+      <td>1.73343</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3017833</td>
+      <td>Estany de les Abelletes</td>
+      <td>Estany de les Abelletes</td>
+      <td>Estany de les Abelletes,Etang de Font-Negre,Ét...</td>
+      <td>42.52915</td>
+      <td>1.73362</td>
+      <td>H</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3023203</td>
+      <td>Port Vieux de la Coume d’Ose</td>
+      <td>Port Vieux de la Coume d'Ose</td>
+      <td>Port Vieux de Coume d'Ose,Port Vieux de Coume ...</td>
+      <td>42.62568</td>
+      <td>1.61823</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3029315</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette,Porteille de la Cabanette</td>
+      <td>42.60000</td>
+      <td>1.73333</td>
+      <td>T</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-a662f8f2-6557-472f-a389-7c6a4b1c1768')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-a662f8f2-6557-472f-a389-7c6a4b1c1768 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-a662f8f2-6557-472f-a389-7c6a4b1c1768');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-516ef65b-db35-4b2c-8304-5a6aeadf540c">
+  <button class="colab-df-quickchart" onclick="quickchart('df-516ef65b-db35-4b2c-8304-5a6aeadf540c')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-516ef65b-db35-4b2c-8304-5a6aeadf540c button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<p>Since Dask does not read the entire data into memory, we need to use <code class="docutils literal notranslate"><span class="pre">.compute()</span></code> to get the results. For example, if we wanted to know the total number of records in the dataframe, we can do the following.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13040598
 </pre></div>
 </div>
 </div>
@@ -613,33 +926,715 @@ We will be also specifying the data type of the column names.</p>
 <p>The input data as a column <code class="docutils literal notranslate"><span class="pre">feature_class</span></code> categorizing the place into <a class="reference external" href="https://www.geonames.org/export/codes.html">9 feature classes</a>. We can select all rows with the value <code class="docutils literal notranslate"><span class="pre">T</span></code> with the category <em>mountain,hill,rock…</em></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mountain_dd</span> <span class="o">=</span> <span class="n">merged_dd</span><span class="p">[</span><span class="n">merged_dd</span><span class="p">[</span><span class="s1">&#39;feature class&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature class&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">]</span>
+<span class="n">filtered</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">7</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-bd9a093a-01f7-436a-8c4f-536cc293a376" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geonameid</th>
+      <th>name</th>
+      <th>asciiname</th>
+      <th>alternatenames</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>feature class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2994701</td>
+      <td>Roc Meler</td>
+      <td>Roc Meler</td>
+      <td>Roc Mele,Roc Meler,Roc Mélé</td>
+      <td>42.58765</td>
+      <td>1.74180</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3017832</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de la Font-Negre,Pic de la Font-Nègre,Pic ...</td>
+      <td>42.52535</td>
+      <td>1.73343</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3023203</td>
+      <td>Port Vieux de la Coume d’Ose</td>
+      <td>Port Vieux de la Coume d'Ose</td>
+      <td>Port Vieux de Coume d'Ose,Port Vieux de Coume ...</td>
+      <td>42.62568</td>
+      <td>1.61823</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3029315</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette,Porteille de la Cabanette</td>
+      <td>42.60000</td>
+      <td>1.73333</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3034945</td>
+      <td>Roc de Port Dret</td>
+      <td>Roc de Port Dret</td>
+      <td>&lt;NA&gt;</td>
+      <td>42.60288</td>
+      <td>1.45736</td>
+      <td>T</td>
+    </tr>
+  </tbody>
+</table>
 </div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-bd9a093a-01f7-436a-8c4f-536cc293a376')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-bd9a093a-01f7-436a-8c4f-536cc293a376 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-bd9a093a-01f7-436a-8c4f-536cc293a376');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-cf010901-cc86-41be-8844-4afb6eb8342a">
+  <button class="colab-df-quickchart" onclick="quickchart('df-cf010901-cc86-41be-8844-4afb6eb8342a')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-cf010901-cc86-41be-8844-4afb6eb8342a button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section id="id1">
+<h2>Creating Spatial Data<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>GeoPandas has a conveinent function <code class="docutils literal notranslate"><span class="pre">points_from_xy()</span></code> that creates a Geometry column from X and Y coordinates. We can then take a dask dataframe and create a dask goDataFrame by specifying a <em>CRS</em> and the <em>geometry</em> column.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mountain_dd</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">mountain_dd</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">filtered</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">points_from_xy</span><span class="p">(</span>
+    <span class="n">filtered</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Converting the dask dataframe to dask geodatafeame by using the <code class="docutils literal notranslate"><span class="pre">from_dask_dataframe</span></code> function and then converting this lazy Dask collection into its in-memory equivalent i.e. Geodataframe by using the <code class="docutils literal notranslate"><span class="pre">compute</span></code> function.</p>
+<p>We now convert the dask dataframe to dask geodatafeame by using the <code class="docutils literal notranslate"><span class="pre">from_dask_dataframe</span></code> function and then <code class="docutils literal notranslate"><span class="pre">compute()</span></code> it to convert the lazy Dask collection into its in-memory equivalent i.e. Geodataframe.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mountain_df</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_dask_dataframe</span><span class="p">(</span><span class="n">mountain_dd</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
+<span class="n">mountain_gdf</span> <span class="o">=</span> <span class="n">dg</span><span class="o">.</span><span class="n">from_dask_dataframe</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 20s, sys: 10.2 s, total: 1min 30s
+Wall time: 1min 16s
 </pre></div>
 </div>
 </div>
 </div>
+<p>The result is a GeoDataFrame containing over 1.7 million mountain features.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mountain_df</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mountain_gdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">7</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-baa8ccfd-cebc-4c1d-ae0e-18873a5cafec" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geonameid</th>
+      <th>name</th>
+      <th>asciiname</th>
+      <th>alternatenames</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>feature class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2994701</td>
+      <td>Roc Meler</td>
+      <td>Roc Meler</td>
+      <td>Roc Mele,Roc Meler,Roc Mélé</td>
+      <td>42.58765</td>
+      <td>1.74180</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3017832</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de les Abelletes</td>
+      <td>Pic de la Font-Negre,Pic de la Font-Nègre,Pic ...</td>
+      <td>42.52535</td>
+      <td>1.73343</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3023203</td>
+      <td>Port Vieux de la Coume d’Ose</td>
+      <td>Port Vieux de la Coume d'Ose</td>
+      <td>Port Vieux de Coume d'Ose,Port Vieux de Coume ...</td>
+      <td>42.62568</td>
+      <td>1.61823</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3029315</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette</td>
+      <td>Port de la Cabanette,Porteille de la Cabanette</td>
+      <td>42.60000</td>
+      <td>1.73333</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3034945</td>
+      <td>Roc de Port Dret</td>
+      <td>Roc de Port Dret</td>
+      <td>&lt;NA&gt;</td>
+      <td>42.60288</td>
+      <td>1.45736</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>515973</th>
+      <td>12185903</td>
+      <td>Bedoach Ridge</td>
+      <td>Bedoach Ridge</td>
+      <td>&lt;NA&gt;</td>
+      <td>12.17251</td>
+      <td>135.02423</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>516009</th>
+      <td>12185995</td>
+      <td>Ipil Hill</td>
+      <td>Ipil Hill</td>
+      <td>Ipil Hill,Ipil Seamount</td>
+      <td>16.83118</td>
+      <td>125.57572</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>516043</th>
+      <td>12186035</td>
+      <td>Taranaki Terrace</td>
+      <td>Taranaki Terrace</td>
+      <td>&lt;NA&gt;</td>
+      <td>-39.65853</td>
+      <td>172.20361</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>516306</th>
+      <td>12358943</td>
+      <td>Morro São Pedro</td>
+      <td>Morro Sao Pedro</td>
+      <td>&lt;NA&gt;</td>
+      <td>-28.49750</td>
+      <td>-28.49750</td>
+      <td>T</td>
+    </tr>
+    <tr>
+      <th>516593</th>
+      <td>12865271</td>
+      <td>Liverpool Bars</td>
+      <td>Liverpool Bars</td>
+      <td>&lt;NA&gt;</td>
+      <td>70.60000</td>
+      <td>-129.75000</td>
+      <td>T</td>
+    </tr>
+  </tbody>
+</table>
+<p>1771446 rows × 7 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-baa8ccfd-cebc-4c1d-ae0e-18873a5cafec')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-baa8ccfd-cebc-4c1d-ae0e-18873a5cafec button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-baa8ccfd-cebc-4c1d-ae0e-18873a5cafec');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-0ec6a2a6-213b-4ce4-a6b5-01c49956095f">
+  <button class="colab-df-quickchart" onclick="quickchart('df-0ec6a2a6-213b-4ce4-a6b5-01c49956095f')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-0ec6a2a6-213b-4ce4-a6b5-01c49956095f button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<p>We use Leafmap with the Lonboard backend to visualize the results. This generates an interactive map</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_gdf</span><span class="p">(</span><span class="n">mountain_gdf</span><span class="p">,</span>
+          <span class="n">pickable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">auto_highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">get_fill_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+          <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">get_radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+          <span class="n">radius_units</span><span class="o">=</span><span class="s1">&#39;pixels&#39;</span>
+
+<span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "3c94bb3d52bf464c8871fdb2603da5cc"}</script></div>
 </div>
 <p>We can write the resulting GeoDataFrame to a new GeoPackage file.</p>
 <div class="cell docutils container">
@@ -647,8 +1642,14 @@ We will be also specifying the data type of the column names.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output_filename</span> <span class="o">=</span> <span class="s1">&#39;mountains.gpkg&#39;</span>
 <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
 
-<span class="n">mountain_df</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="s1">&#39;GPKG&#39;</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span> <span class="o">=</span> <span class="s1">&#39;mountains&#39;</span><span class="p">,</span>  <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">mountain_gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="s1">&#39;mountains&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully written output file at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully written output file at output/mountains.gpkg
 </pre></div>
 </div>
 </div>
@@ -721,9 +1722,11 @@ We will be also specifying the data type of the column names.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pre-processing">Data Pre-Processing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merging-and-creating-spatial-data">Merging and Creating Spatial Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Creating Spatial Data</a></li>
 </ul>
   </nav></div>
 
