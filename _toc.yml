@@ -18,6 +18,7 @@ parts:
           - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
           - file: notebooks/xarray_wrap_longitude.ipynb
+          - file: notebooks/xarray_climate_anomaly.ipynb
     - caption: Dask
       chapters:
           - file: notebooks/dask_creating_spatial_data.ipynb
