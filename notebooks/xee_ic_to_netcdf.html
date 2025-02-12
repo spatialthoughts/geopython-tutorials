@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Exporting ImageCollection to NetCDF &#8212; Geospatial Python Tutorials</title>
+    <title>Exporting an ImageCollection to NetCDF &#8212; Geospatial Python Tutorials</title>
   
   
   
@@ -110,7 +110,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/xee_ic_to_netcdf';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Locating Nearest Facility with Origin-Destination Matrix" href="ors_distance_matrix.html" />
+    <link rel="next" title="Extracting Raster Data" href="xee_downloading_images.html" />
     <link rel="prev" title="Zonal Statistics with XArray" href="xarray_zonal_stats.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -222,7 +222,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li class="toctree-l1"><a class="reference internal" href="geopandas_extract_from_excel.html">Extract a Shapefile Subset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="geopandas_fuzzy_table_join.html">Performing Fuzzy Table Joins</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray (+ Rioxarray, XArray-spatial)</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">XArray</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="xarray_raster_styling_analysis.html">Basic Raster Styling and Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_mosaic_and_clip.html">Raster Mosaicing and Clipping</a></li>
@@ -231,7 +231,8 @@ commentsRunWhenDOMLoaded(addUtterances);
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">XEE (XArray + Google Earth Engine)</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exporting ImageCollection to NetCDF</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exporting an ImageCollection to NetCDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xee_downloading_images.html">Extracting Raster Data</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
 <ul class="nav bd-sidenav">
@@ -449,7 +450,7 @@ commentsRunWhenDOMLoaded(addUtterances);
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Exporting ImageCollection to NetCDF</h1>
+    <h1>Exporting an ImageCollection to NetCDF</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -475,8 +476,8 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="exporting-imagecollection-to-netcdf">
-<h1>Exporting ImageCollection to NetCDF<a class="headerlink" href="#exporting-imagecollection-to-netcdf" title="Link to this heading">#</a></h1>
+  <section id="exporting-an-imagecollection-to-netcdf">
+<h1>Exporting an ImageCollection to NetCDF<a class="headerlink" href="#exporting-an-imagecollection-to-netcdf" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/google/Xee">XEE</a> is a XArray extension that allows reading data from Google Earth Engine (GEE). This extension is useful for extracting subsets of data hosted in GEE. In this tutorial, we will learn how to extract a large ImageCollection and save it as a local NetCDF file.</p>
@@ -551,6 +552,11 @@ commentsRunWhenDOMLoaded(addUtterances);
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/ne_10m_admin_0_countries_ind.zip
+</pre></div>
+</div>
+</div>
 </div>
 <p>Initialize EE with the <a class="reference external" href="https://developers.google.com/earth-engine/guides/processing_environments#high-volume_endpoint">High-Volume EndPoint</a> recommended to be used with XEE. Replace the value of the <code class="docutils literal notranslate"><span class="pre">cloud_project</span></code> variable with your own project id that is linked with GEE.</p>
 <div class="cell docutils container">
@@ -558,10 +564,14 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cloud_project</span> <span class="o">=</span> <span class="s1">&#39;spatialthoughts&#39;</span> <span class="c1"># replace with your project id</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">cloud_project</span><span class="p">,</span> <span class="n">opt_url</span><span class="o">=</span><span class="s1">&#39;https://earthengine-highvolume.googleapis.com&#39;</span><span class="p">)</span>
+    <span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span>
+        <span class="n">project</span><span class="o">=</span><span class="n">cloud_project</span><span class="p">,</span>
+        <span class="n">opt_url</span><span class="o">=</span><span class="s1">&#39;https://earthengine-highvolume.googleapis.com&#39;</span><span class="p">)</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="n">ee</span><span class="o">.</span><span class="n">Authenticate</span><span class="p">()</span>
-    <span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">cloud_project</span><span class="p">,</span> <span class="n">opt_url</span><span class="o">=</span><span class="s1">&#39;https://earthengine-highvolume.googleapis.com&#39;</span><span class="p">)</span>
+    <span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span>
+        <span class="n">project</span><span class="o">=</span><span class="n">cloud_project</span><span class="p">,</span>
+        <span class="n">opt_url</span><span class="o">=</span><span class="s1">&#39;https://earthengine-highvolume.googleapis.com&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -583,12 +593,11 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">country</span> <span class="o">=</span> <span class="n">boundaries_gdf</span><span class="p">[</span><span class="n">boundaries_gdf</span><span class="p">[</span><span class="s1">&#39;ADM0_A3&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;GHA&#39;</span><span class="p">]</span>
 <span class="n">geometry</span> <span class="o">=</span> <span class="n">country</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">union_all</span><span class="p">()</span>
-<span class="n">geometry</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0b9d393cd1c52104ad488a6aabcbf0f15bd87718b7d6b39c215cc0bfbdd6e314.svg" src="../_images/0b9d393cd1c52104ad488a6aabcbf0f15bd87718b7d6b39c215cc0bfbdd6e314.svg" /></div>
+<img alt="../_images/0fb5f44748107d38d83c9870ffe90a58ac6719ef22854d38113f34cf0a1a6d2d.svg" src="../_images/0fb5f44748107d38d83c9870ffe90a58ac6719ef22854d38113f34cf0a1a6d2d.svg" /></div>
 </div>
 <p>Configure the time period and variables.</p>
 <div class="cell docutils container">
@@ -600,7 +609,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 </div>
 </div>
-<p>Open the subset using XEE. Define the ImageCollection and apply filters using the Earth Engine Python API syntax. XArray can open the filtered collection directly from GEE if the XEE extension is installed.</p>
+<p>Open the subset using XEE. Define the ImageCollection and apply filters using the Earth Engine Python API syntax.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">fromYMD</span><span class="p">(</span><span class="n">start_year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -612,8 +621,14 @@ commentsRunWhenDOMLoaded(addUtterances);
   <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">))</span> \
   <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">bounds</span><span class="p">(</span><span class="n">bbox</span><span class="p">))</span> \
   <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
-
-<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>XArray can open the filtered collection directly from GEE if the XEE extension is installed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span>
     <span class="n">filtered</span><span class="p">,</span>
     <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;ee&#39;</span><span class="p">,</span>
     <span class="n">geometry</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span>
@@ -621,13 +636,7 @@ commentsRunWhenDOMLoaded(addUtterances);
     <span class="n">fast_time_slicing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="mi">24</span><span class="p">},</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span>
+<span class="n">ds</span>
 </pre></div>
 </div>
 </div>
@@ -1011,17 +1020,17 @@ Coordinates:
 Data variables:
     temperature_2m  (time, lon, lat) float32 8MB dask.array&lt;chunksize=(48, 45, 64), meta=np.ndarray&gt;
 Attributes:
-    crs:      EPSG:4326</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-99c1b20e-5ec7-4dbe-ab31-46f4f815e083' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-99c1b20e-5ec7-4dbe-ab31-46f4f815e083' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 731</li><li><span class='xr-has-index'>lon</span>: 45</li><li><span class='xr-has-index'>lat</span>: 64</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-9db6296d-21bc-4d25-b87e-3824c36aaded' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9db6296d-21bc-4d25-b87e-3824c36aaded' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2023-01-01 ... 2024-12-31</div><input id='attrs-d1f87816-7339-4e39-b2d8-b6771fa1bbc7' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-d1f87816-7339-4e39-b2d8-b6771fa1bbc7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f5d1ceed-f75e-432b-9c16-e696e1df8150' class='xr-var-data-in' type='checkbox'><label for='data-f5d1ceed-f75e-432b-9c16-e696e1df8150' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;2023-01-01T00:00:00.000000000&#x27;, &#x27;2023-01-02T00:00:00.000000000&#x27;,
+    crs:      EPSG:4326</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-711d7883-4fd0-4739-9941-9888898dbade' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-711d7883-4fd0-4739-9941-9888898dbade' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 731</li><li><span class='xr-has-index'>lon</span>: 45</li><li><span class='xr-has-index'>lat</span>: 64</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-c1caf7be-a8b6-4a79-9159-da948ec7d7f3' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c1caf7be-a8b6-4a79-9159-da948ec7d7f3' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2023-01-01 ... 2024-12-31</div><input id='attrs-466592d5-7cdb-4cb7-a6ac-de529bb07a0b' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-466592d5-7cdb-4cb7-a6ac-de529bb07a0b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a5386219-ec48-4b66-a53c-1b3b5e2935ad' class='xr-var-data-in' type='checkbox'><label for='data-a5386219-ec48-4b66-a53c-1b3b5e2935ad' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;2023-01-01T00:00:00.000000000&#x27;, &#x27;2023-01-02T00:00:00.000000000&#x27;,
        &#x27;2023-01-03T00:00:00.000000000&#x27;, ..., &#x27;2024-12-29T00:00:00.000000000&#x27;,
        &#x27;2024-12-30T00:00:00.000000000&#x27;, &#x27;2024-12-31T00:00:00.000000000&#x27;],
-      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-3.213 -3.113 ... 1.087 1.187</div><input id='attrs-057e973e-0a9a-4cbf-8a2c-ac23c1505d02' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-057e973e-0a9a-4cbf-8a2c-ac23c1505d02' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-070c60bc-87e4-475c-a3df-77103641940e' class='xr-var-data-in' type='checkbox'><label for='data-070c60bc-87e4-475c-a3df-77103641940e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-3.212509, -3.112509, -3.012509, -2.912509, -2.812509, -2.712509,
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lon</span></div><div class='xr-var-dims'>(lon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-3.213 -3.113 ... 1.087 1.187</div><input id='attrs-da4dfe2d-d87c-4a3f-a160-58993e937391' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-da4dfe2d-d87c-4a3f-a160-58993e937391' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-937dd684-3ff3-48ff-85da-8b009311cb89' class='xr-var-data-in' type='checkbox'><label for='data-937dd684-3ff3-48ff-85da-8b009311cb89' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([-3.212509, -3.112509, -3.012509, -2.912509, -2.812509, -2.712509,
        -2.612509, -2.512509, -2.412509, -2.312509, -2.212509, -2.112509,
        -2.012509, -1.912509, -1.812509, -1.712509, -1.612509, -1.512509,
        -1.412509, -1.312509, -1.212509, -1.112509, -1.012509, -0.912509,
        -0.812509, -0.712509, -0.612509, -0.512509, -0.412509, -0.312509,
        -0.212509, -0.112509, -0.012509,  0.087491,  0.187491,  0.287491,
         0.387491,  0.487491,  0.587491,  0.687491,  0.787491,  0.887491,
-        0.987491,  1.087491,  1.187491])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>11.11 11.01 10.91 ... 4.913 4.813</div><input id='attrs-8983c02b-ade1-4457-a967-906af8a0f9e1' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-8983c02b-ade1-4457-a967-906af8a0f9e1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-95f8e2b0-5e5f-45e6-abc3-bb64e407dc64' class='xr-var-data-in' type='checkbox'><label for='data-95f8e2b0-5e5f-45e6-abc3-bb64e407dc64' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([11.112937, 11.012937, 10.912937, 10.812937, 10.712937, 10.612937,
+        0.987491,  1.087491,  1.187491])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>lat</span></div><div class='xr-var-dims'>(lat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>11.11 11.01 10.91 ... 4.913 4.813</div><input id='attrs-902cad5a-4c4a-46c2-9e52-81ae80d691b2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-902cad5a-4c4a-46c2-9e52-81ae80d691b2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3d9dcf9a-886b-4b35-82ed-a8932a71fbdd' class='xr-var-data-in' type='checkbox'><label for='data-3d9dcf9a-886b-4b35-82ed-a8932a71fbdd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([11.112937, 11.012937, 10.912937, 10.812937, 10.712937, 10.612937,
        10.512937, 10.412937, 10.312937, 10.212937, 10.112937, 10.012937,
         9.912937,  9.812937,  9.712937,  9.612937,  9.512937,  9.412937,
         9.312937,  9.212937,  9.112937,  9.012937,  8.912937,  8.812937,
@@ -1031,7 +1040,7 @@ Attributes:
         6.912937,  6.812937,  6.712937,  6.612937,  6.512937,  6.412937,
         6.312937,  6.212937,  6.112937,  6.012937,  5.912937,  5.812937,
         5.712937,  5.612937,  5.512937,  5.412937,  5.312937,  5.212937,
-        5.112937,  5.012937,  4.912937,  4.812937])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1b9d992f-5b51-461e-aeed-46d3210a0f82' class='xr-section-summary-in' type='checkbox'  checked><label for='section-1b9d992f-5b51-461e-aeed-46d3210a0f82' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>temperature_2m</span></div><div class='xr-var-dims'>(time, lon, lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(48, 45, 64), meta=np.ndarray&gt;</div><input id='attrs-52cb88e1-6651-4d15-bec9-ebebc07dd553' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-52cb88e1-6651-4d15-bec9-ebebc07dd553' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f83f74e3-6a75-4297-b5e6-baf66af4e37e' class='xr-var-data-in' type='checkbox'><label for='data-f83f74e3-6a75-4297-b5e6-baf66af4e37e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>id :</span></dt><dd>temperature_2m</dd><dt><span>data_type :</span></dt><dd>{&#x27;type&#x27;: &#x27;PixelType&#x27;, &#x27;precision&#x27;: &#x27;double&#x27;}</dd><dt><span>dimensions :</span></dt><dd>[3601, 1801]</dd><dt><span>crs :</span></dt><dd>EPSG:4326</dd><dt><span>crs_transform :</span></dt><dd>[0.1, 0, -180.05, 0, -0.1, 90.05]</dd></dl></div><div class='xr-var-data'><table>
+        5.112937,  5.012937,  4.912937,  4.812937])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9e20ed20-91f6-43e4-9f15-992bb99b91dc' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9e20ed20-91f6-43e4-9f15-992bb99b91dc' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>temperature_2m</span></div><div class='xr-var-dims'>(time, lon, lat)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(48, 45, 64), meta=np.ndarray&gt;</div><input id='attrs-6d169f2c-1a5d-4a63-a636-843e3167996a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6d169f2c-1a5d-4a63-a636-843e3167996a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-684928d2-d047-4078-9b5f-e74826c41e9c' class='xr-var-data-in' type='checkbox'><label for='data-684928d2-d047-4078-9b5f-e74826c41e9c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>id :</span></dt><dd>temperature_2m</dd><dt><span>data_type :</span></dt><dd>{&#x27;type&#x27;: &#x27;PixelType&#x27;, &#x27;precision&#x27;: &#x27;double&#x27;}</dd><dt><span>dimensions :</span></dt><dd>[3601, 1801]</dd><dt><span>crs :</span></dt><dd>EPSG:4326</dd><dt><span>crs_transform :</span></dt><dd>[0.1, 0, -180.05, 0, -0.1, 90.05]</dd></dl></div><div class='xr-var-data'><table>
     <tr>
         <td>
             <table style="border-collapse: collapse;">
@@ -1139,14 +1148,14 @@ Attributes:
 </svg>
         </td>
     </tr>
-</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-252b867e-737a-426d-8f98-143ca24466c0' class='xr-section-summary-in' type='checkbox'  ><label for='section-252b867e-737a-426d-8f98-143ca24466c0' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-98d141a5-0b32-4a50-b62c-7627cb1aefc8' class='xr-index-data-in' type='checkbox'/><label for='index-98d141a5-0b32-4a50-b62c-7627cb1aefc8' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2023-01-01&#x27;, &#x27;2023-01-02&#x27;, &#x27;2023-01-03&#x27;, &#x27;2023-01-04&#x27;,
+</table></div></li></ul></div></li><li class='xr-section-item'><input id='section-59810cce-13d4-4028-b80f-9f3137b06256' class='xr-section-summary-in' type='checkbox'  ><label for='section-59810cce-13d4-4028-b80f-9f3137b06256' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-e372aa67-19b0-472b-a1b7-6ddf325984a1' class='xr-index-data-in' type='checkbox'/><label for='index-e372aa67-19b0-472b-a1b7-6ddf325984a1' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(DatetimeIndex([&#x27;2023-01-01&#x27;, &#x27;2023-01-02&#x27;, &#x27;2023-01-03&#x27;, &#x27;2023-01-04&#x27;,
                &#x27;2023-01-05&#x27;, &#x27;2023-01-06&#x27;, &#x27;2023-01-07&#x27;, &#x27;2023-01-08&#x27;,
                &#x27;2023-01-09&#x27;, &#x27;2023-01-10&#x27;,
                ...
                &#x27;2024-12-22&#x27;, &#x27;2024-12-23&#x27;, &#x27;2024-12-24&#x27;, &#x27;2024-12-25&#x27;,
                &#x27;2024-12-26&#x27;, &#x27;2024-12-27&#x27;, &#x27;2024-12-28&#x27;, &#x27;2024-12-29&#x27;,
                &#x27;2024-12-30&#x27;, &#x27;2024-12-31&#x27;],
-              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=731, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-e2c534c7-eab9-4263-81c9-2040fa4fe976' class='xr-index-data-in' type='checkbox'/><label for='index-e2c534c7-eab9-4263-81c9-2040fa4fe976' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  -3.2125093179999853,    -3.112509317999985,    -3.012509317999985,
+              dtype=&#x27;datetime64[ns]&#x27;, name=&#x27;time&#x27;, length=731, freq=None))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-5a510e95-b6ae-4f4a-98fc-5c8f6a4d499b' class='xr-index-data-in' type='checkbox'/><label for='index-5a510e95-b6ae-4f4a-98fc-5c8f6a4d499b' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  -3.2125093179999853,    -3.112509317999985,    -3.012509317999985,
           -2.912509317999985,    -2.812509317999985,   -2.7125093179999853,
           -2.612509317999985,    -2.512509317999985,    -2.412509317999985,
           -2.312509317999985,   -2.2125093179999853,   -2.1125093179999848,
@@ -1161,7 +1170,7 @@ Attributes:
          0.38749068200001524,    0.4874906820000149,     0.587490682000015,
           0.6874906820000151,    0.7874906820000147,    0.8874906820000152,
           0.9874906820000149,    1.0874906820000154,     1.187490682000015],
-      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-fe613b50-889f-49a5-8203-6b0ad563a149' class='xr-index-data-in' type='checkbox'/><label for='index-fe613b50-889f-49a5-8203-6b0ad563a149' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([11.112937317000043, 11.012937317000043, 10.912937317000043,
+      dtype=&#x27;float64&#x27;, name=&#x27;lon&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>lat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-6eea1c53-bf3b-4ffb-8eba-7243d8fdd847' class='xr-index-data-in' type='checkbox'/><label for='index-6eea1c53-bf3b-4ffb-8eba-7243d8fdd847' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([11.112937317000043, 11.012937317000043, 10.912937317000043,
        10.812937317000044, 10.712937317000044, 10.612937317000043,
        10.512937317000043, 10.412937317000043, 10.312937317000044,
        10.212937317000044, 10.112937317000043, 10.012937317000043,
@@ -1183,7 +1192,7 @@ Attributes:
         5.412937317000043,  5.312937317000043,  5.212937317000043,
         5.112937317000043,  5.012937317000043,  4.912937317000043,
         4.812937317000043],
-      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8ea2d66d-ecc0-4fad-9001-956eb2b31e1c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8ea2d66d-ecc0-4fad-9001-956eb2b31e1c' class='xr-section-summary' >Attributes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>crs :</span></dt><dd>EPSG:4326</dd></dl></div></li></ul></div></div></div></div>
+      dtype=&#x27;float64&#x27;, name=&#x27;lat&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-b134669c-3166-432b-9997-aa9d67aa3d4d' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b134669c-3166-432b-9997-aa9d67aa3d4d' class='xr-section-summary' >Attributes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>crs :</span></dt><dd>EPSG:4326</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <p>XEE queries the data for the bounding box of the provided geometry. So we still need to clip the pixels outside the geometry. We rename the <code class="docutils literal notranslate"><span class="pre">lat</span></code> and <code class="docutils literal notranslate"><span class="pre">lon</span></code> dimensions to <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> to make it compatible with <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> and clip it.</p>
 <div class="cell docutils container">
@@ -1214,7 +1223,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f879c330bd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7e082e560e50&gt;
 </pre></div>
 </div>
 <img alt="../_images/be69cee17e9f86be85337b7768b35e7e299d620570042c69f506a08485e8934a.png" src="../_images/be69cee17e9f86be85337b7768b35e7e299d620570042c69f506a08485e8934a.png" />
@@ -1234,8 +1243,8 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 637 ms, sys: 106 ms, total: 743 ms
-Wall time: 7.45 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 567 ms, sys: 105 ms, total: 672 ms
+Wall time: 6.76 s
 </pre></div>
 </div>
 </div>
@@ -1283,11 +1292,11 @@ Wall time: 7.45 s
       </div>
     </a>
     <a class="right-next"
-       href="ors_distance_matrix.html"
+       href="xee_downloading_images.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Locating Nearest Facility with Origin-Destination Matrix</p>
+        <p class="prev-next-title">Extracting Raster Data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
