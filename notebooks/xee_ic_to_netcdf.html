@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -110,8 +110,8 @@ commentsRunWhenDOMLoaded(addUtterances);
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/xee_ic_to_netcdf';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Extracting Raster Data" href="xee_downloading_images.html" />
-    <link rel="prev" title="Zonal Statistics with XArray" href="xarray_zonal_stats.html" />
+    <link rel="next" title="Downloading Images with XEE" href="xee_downloading_images.html" />
+    <link rel="prev" title="Creating Spatial Data" href="dask_creating_spatial_data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -228,11 +228,20 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li class="toctree-l1"><a class="reference internal" href="xarray_mosaic_and_clip.html">Raster Mosaicing and Clipping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_raster_sampling.html">Sampling Raster Data with XArray</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_zonal_stats.html">Zonal Statistics with XArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_extracting_time_series.html">Extracting a Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_wrap_longitude.html">Transform Longitude Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_climate_anomaly.html">Calculating Climate Anomaly</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xarray_create_raster.html">Create Raster from Array</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dask</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="dask_creating_spatial_data.html">Creating Spatial Data</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">XEE (XArray + Google Earth Engine)</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Exporting an ImageCollection to NetCDF</a></li>
-<li class="toctree-l1"><a class="reference internal" href="xee_downloading_images.html">Extracting Raster Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xee_downloading_images.html">Downloading Images with XEE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">OpenRouteService</span></p>
 <ul class="nav bd-sidenav">
@@ -1283,12 +1292,12 @@ Wall time: 6.76 s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="xarray_zonal_stats.html"
+       href="dask_creating_spatial_data.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Zonal Statistics with XArray</p>
+        <p class="prev-next-title">Creating Spatial Data</p>
       </div>
     </a>
     <a class="right-next"
@@ -1296,7 +1305,7 @@ Wall time: 6.76 s
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Extracting Raster Data</p>
+        <p class="prev-next-title">Downloading Images with XEE</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
