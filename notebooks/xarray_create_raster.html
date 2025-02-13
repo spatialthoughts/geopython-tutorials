@@ -232,9 +232,6 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li class="toctree-l1"><a class="reference internal" href="xarray_wrap_longitude.html">Transform Longitude Values</a></li>
 <li class="toctree-l1"><a class="reference internal" href="xarray_climate_anomaly.html">Calculating Climate Anomaly</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Raster from Array</a></li>
-
-
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Dask</span></p>
 <ul class="nav bd-sidenav">
@@ -471,12 +468,10 @@ commentsRunWhenDOMLoaded(addUtterances);
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create a Raster from Array</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -489,13 +484,12 @@ commentsRunWhenDOMLoaded(addUtterances);
                   
   <section id="create-a-raster-from-array">
 <h1>Create a Raster from Array<a class="headerlink" href="#create-a-raster-from-array" title="Link to this heading">#</a></h1>
-</section>
 <section id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>It is sometimes useful to create a test image of known pixel values for testing geospatial algorithms. Other times, you may have an array of pixels from a non-spatial packag that needs to be turned into a georeferenced raster. In this tutorial, we will see how XArray and <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> can be used to accomplish this.</p>
 </section>
 <section id="overview-of-the-task">
-<h1>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h1>
+<h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
 <p>We use xarray to create a DataArray from an array of pixels and use <code class="docutils literal notranslate"><span class="pre">rioxarray</span></code> to assign a CRS and create a GeoTIFF image.</p>
 <p><strong>Inputs</strong>:</p>
 <ul class="simple">
@@ -507,7 +501,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </ul>
 </section>
 <section id="setup-and-data-download">
-<h1>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h1>
+<h2>Setup and Data Download<a class="headerlink" href="#setup-and-data-download" title="Link to this heading">#</a></h2>
 <p>The following blocks of code will install the required packages and download the datasets to your Colab environment.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -538,7 +532,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 </div>
 </div>
-<p>We want to create an image with a resolution of <code class="docutils literal notranslate"><span class="pre">1000</span></code> meters with the upper-left pixel at coordinates <code class="docutils literal notranslate"><span class="pre">(780850,1432187)</span></code> in the CRS <code class="docutils literal notranslate"><span class="pre">EPSG:32643</span> </code>(WGS84 / UTM Zone 43N).</p>
+<p>We want to create an image with a resolution of <code class="docutils literal notranslate"><span class="pre">100</span></code> meters with the upper-left pixel at coordinates <code class="docutils literal notranslate"><span class="pre">(780850,1432187)</span></code> in the CRS <code class="docutils literal notranslate"><span class="pre">EPSG:32643</span> </code>(WGS84 / UTM Zone 43N).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">upper_left_x</span><span class="p">,</span> <span class="n">upper_left_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">780850</span><span class="p">,</span><span class="mi">1432187</span><span class="p">)</span>
@@ -1394,6 +1388,7 @@ Coordinates:
 </div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1460,12 +1455,10 @@ Coordinates:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create a Raster from Array</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-data-download">Setup and Data Download</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
