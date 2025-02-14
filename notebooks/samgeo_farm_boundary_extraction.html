@@ -473,9 +473,11 @@ commentsRunWhenDOMLoaded(addUtterances);
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#segmenting-the-image">Segmenting the Image</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polygonize-the-raster-data">Polygonize the raster data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-image">Load the Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#segment-the-image">Segment the Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polygonize-the-results">Polygonize the Results</a></li>
 </ul>
             </nav>
         </div>
@@ -489,13 +491,28 @@ commentsRunWhenDOMLoaded(addUtterances);
                   
   <section id="extracting-farm-boundaries-using-segment-geospatial">
 <h1>Extracting Farm Boundaries using Segment Geospatial<a class="headerlink" href="#extracting-farm-boundaries-using-segment-geospatial" title="Link to this heading">#</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>We use the <a class="reference external" href="https://samgeo.gishub.org/">samgeo</a> package to automatically segment a GeoTIFF image and extract the farm boundaries as a vector layer.</p>
-<p>The image used here is a colorized image of NDVI derived from a Landsat image. The image has been exported from Google Earth Engine. See <a class="reference external" href="https://code.earthengine.google.co.in/7a1225b1f6eab201e4794f85dcc415a3">reference script</a>.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>We use the <a class="reference external" href="https://samgeo.gishub.org/">samgeo</a> package to automatically segment a GeoTIFF image and extract the farm boundaries as a vector layer. This is an example of zero-shot learning where we are able to extract the boundaries without providing any training samples or prompts.</p>
+</section>
+<section id="overview-of-the-task">
+<h2>Overview of the Task<a class="headerlink" href="#overview-of-the-task" title="Link to this heading">#</a></h2>
+<p>The Segment Anything model requires 3-band color imagery as the input. We take colorized image of NDVI derived from a Landsat image and use it to extract the boundaries of central-pivot irrigation farms present in the image.</p>
+<p><strong>Input Layers</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">central_pivot_ndvi.tif</span></code>: A GeoTIFF image of NDVI computed from a Landsat-8 composite. The image has been exported from Google Earth Engine. See <a class="reference external" href="https://code.earthengine.google.co.in/7a1225b1f6eab201e4794f85dcc415a3">reference script</a>.</p></li>
+</ul>
+<p><strong>Output Layers</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">segment.shp</span></code>: A shapefile containing polygons of centroal-pivot irrigated farms.</p></li>
+</ul>
+<p><strong>Data Credit</strong></p>
+<ul class="simple">
+<li><p>Landsat-8 image courtesy of the U.S. Geological Survey</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Installlation of segment-geospatial can take a few minutes. Please be patient</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Installation of segment-geospatial can take a few minutes. Please be patient</span>
 <span class="o">%%capture</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
     <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">segment</span><span class="o">-</span><span class="n">geospatial</span>
@@ -505,9 +522,11 @@ commentsRunWhenDOMLoaded(addUtterances);
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">leafmap</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">samgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">SamGeo</span><span class="p">,</span> <span class="n">tms_to_geotiff</span><span class="p">,</span> <span class="n">get_basemaps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">samgeo</span><span class="w"> </span><span class="kn">import</span> <span class="n">SamGeo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 </pre></div>
 </div>
 </div>
@@ -534,7 +553,7 @@ commentsRunWhenDOMLoaded(addUtterances);
         <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Downloaded &#39;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
 
-<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://storage.googleapis.com/spatialthoughts-public-data/landsat/&#39;</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/spatialthoughts/geopython-tutorials/releases/download/data/&#39;</span>
 
 <span class="n">image</span> <span class="o">=</span> <span class="s1">&#39;central_pivot_ndvi.tif&#39;</span>
 
@@ -542,28 +561,36 @@ commentsRunWhenDOMLoaded(addUtterances);
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloaded data/central_pivot_ndvi.tif
+</pre></div>
 </div>
+</div>
+</div>
+</section>
+<section id="load-the-image">
+<h2>Load the Image<a class="headerlink" href="#load-the-image" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">add_raster</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s2">&quot;Image&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_raster</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;Image&#39;</span><span class="p">)</span>
 <span class="n">m</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "91d768ad2184404386263e394bafc16d"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "afd1671ed14e490ab58bf3ab26564fd2"}</script></div>
 </div>
 </section>
-<section id="segmenting-the-image">
-<h2>Segmenting the Image<a class="headerlink" href="#segmenting-the-image" title="Link to this heading">#</a></h2>
+<section id="segment-the-image">
+<h2>Segment the Image<a class="headerlink" href="#segment-the-image" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sam</span> <span class="o">=</span> <span class="n">SamGeo</span><span class="p">(</span>
-    <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;vit_h&quot;</span><span class="p">,</span>
-    <span class="n">checkpoint</span><span class="o">=</span><span class="s2">&quot;sam_vit_h_4b8939.pth&quot;</span><span class="p">,</span>
+    <span class="n">model_type</span><span class="o">=</span><span class="s1">&#39;vit_h&#39;</span><span class="p">,</span>
+    <span class="c1">#checkpoint=&#39;sam_vit_h_4b8939.pth&#39;,</span>
     <span class="n">sam_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
@@ -574,9 +601,348 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="s1">&#39;segment.tif&#39;</span>
 <span class="n">mask_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
-<span class="n">sam</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-    <span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">erosion_kernel</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">mask_multiplier</span><span class="o">=</span><span class="mi">255</span>
-<span class="p">)</span>
+<span class="n">sam</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="polygonize-the-results">
+<h2>Polygonize the Results<a class="headerlink" href="#polygonize-the-results" title="Link to this heading">#</a></h2>
+<p>Save the segmentation results as a shapefile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shapefile</span> <span class="o">=</span> <span class="s1">&#39;segment.shp&#39;</span>
+<span class="n">shapefile_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span>
+<span class="n">sam</span><span class="o">.</span><span class="n">tiff_to_shp</span><span class="p">(</span><span class="n">mask_path</span><span class="p">,</span> <span class="n">shapefile_path</span><span class="p">,</span> <span class="n">simplify_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Visualize the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">add_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;Polygons&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">zoom_to_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+<span class="n">m</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "ee0af27136eb46d6bee2e1efe88af992"}</script></div>
+</div>
+<p>The shapefile contains farm boundaries along with background polygon covering the entire region. As we had specified <code class="docutils literal notranslate"><span class="pre">unique=True</span></code> when generating the mask polygons, each polygon contains a unique id which is proporation to its area. The larger <em>values</em> indicate large polygons.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">shapefile_path</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-9965c294-3da3-4cbe-bf74-2890c30e0def" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>value</th>
+      <th>geometry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>127</th>
+      <td>630.0</td>
+      <td>POLYGON ((38.28386 30.27098, 38.28386 30.26963...</td>
+    </tr>
+    <tr>
+      <th>937</th>
+      <td>629.0</td>
+      <td>POLYGON ((38.42669 30.06212, 38.42669 30.06185...</td>
+    </tr>
+    <tr>
+      <th>930</th>
+      <td>629.0</td>
+      <td>POLYGON ((38.42723 30.06266, 38.42723 30.06239...</td>
+    </tr>
+    <tr>
+      <th>932</th>
+      <td>629.0</td>
+      <td>POLYGON ((38.42696 30.06239, 38.42696 30.06212...</td>
+    </tr>
+    <tr>
+      <th>956</th>
+      <td>629.0</td>
+      <td>POLYGON ((38.42642 30.05754, 38.42642 30.05727...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>592</th>
+      <td>5.0</td>
+      <td>POLYGON ((38.16582 30.13381, 38.16582 30.13354...</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>4.0</td>
+      <td>POLYGON ((38.151 30.20307, 38.151 30.2028, 38....</td>
+    </tr>
+    <tr>
+      <th>485</th>
+      <td>3.0</td>
+      <td>POLYGON ((38.19682 30.15591, 38.19682 30.15564...</td>
+    </tr>
+    <tr>
+      <th>333</th>
+      <td>2.0</td>
+      <td>POLYGON ((38.38816 30.18393, 38.38816 30.18312...</td>
+    </tr>
+    <tr>
+      <th>321</th>
+      <td>1.0</td>
+      <td>POLYGON ((38.40028 30.18474, 38.40028 30.1842,...</td>
+    </tr>
+  </tbody>
+</table>
+<p>982 rows × 2 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-9965c294-3da3-4cbe-bf74-2890c30e0def')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-9965c294-3da3-4cbe-bf74-2890c30e0def button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-9965c294-3da3-4cbe-bf74-2890c30e0def');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-afc45831-7a24-4bbd-b8cc-dada811fcb4e">
+  <button class="colab-df-quickchart" onclick="quickchart('df-afc45831-7a24-4bbd-b8cc-dada811fcb4e')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-afc45831-7a24-4bbd-b8cc-dada811fcb4e button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<p>We select a threshold and remove larger polygons.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">629</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -584,35 +950,45 @@ commentsRunWhenDOMLoaded(addUtterances);
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">leafmap</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">add_raster</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s2">&quot;Image&quot;</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">add_raster</span><span class="p">(</span><span class="n">mask_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;segments&#39;</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">m</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="polygonize-the-raster-data">
-<h2>Polygonize the raster data<a class="headerlink" href="#polygonize-the-raster-data" title="Link to this heading">#</a></h2>
-<p>Save the segmentation results as a shapefile</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span> <span class="o">=</span> <span class="s1">&#39;segment.shp&#39;</span>
-<span class="n">vector_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span>
-<span class="n">sam</span><span class="o">.</span><span class="n">tiff_to_shp</span><span class="p">(</span><span class="n">mask_path</span><span class="p">,</span> <span class="n">vector_path</span><span class="p">,</span> <span class="n">simplify_tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">add_vector</span><span class="p">(</span><span class="n">vector_path</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;Polygons&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">add_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">layer_name</span><span class="o">=</span><span class="s1">&#39;Polygons&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">zoom_to_gdf</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
 <span class="n">m</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "f7b31312d8334dd98d5338eff568ec47"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d244a5fa40c4448a9bc49a11a54e7391"}</script></div>
+</div>
+<p>Save the results as a zipped shapefile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edited_shapefile</span> <span class="o">=</span> <span class="s1">&#39;segmentation_results.shp&#39;</span>
+<span class="n">edited_shapefile_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">edited_shapefile</span><span class="p">)</span>
+<span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">edited_shapefile_path</span><span class="p">)</span>
+
+<span class="n">zipfile_name</span> <span class="o">=</span> <span class="s1">&#39;segmentation_results.zip&#39;</span>
+
+<span class="n">shapefile_base</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">edited_shapefile_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">zipfile_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">zipfile_name</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zipfile_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zipf</span><span class="p">:</span>
+  <span class="c1"># Add the shapefile and its associated files</span>
+  <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;.shp&#39;</span><span class="p">,</span> <span class="s1">&#39;.shx&#39;</span><span class="p">,</span> <span class="s1">&#39;.dbf&#39;</span><span class="p">,</span> <span class="s1">&#39;.prj&#39;</span><span class="p">]:</span>
+      <span class="n">file_path</span> <span class="o">=</span> <span class="n">shapefile_base</span> <span class="o">+</span> <span class="n">ext</span>
+      <span class="nb">print</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+          <span class="n">zipf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>output/segmentation_results.shp
+output/segmentation_results.shx
+output/segmentation_results.dbf
+output/segmentation_results.prj
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -682,9 +1058,11 @@ commentsRunWhenDOMLoaded(addUtterances);
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#segmenting-the-image">Segmenting the Image</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polygonize-the-raster-data">Polygonize the raster data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-task">Overview of the Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-image">Load the Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#segment-the-image">Segment the Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polygonize-the-results">Polygonize the Results</a></li>
 </ul>
   </nav></div>
 
