@@ -27,7 +27,11 @@ parts:
       chapters:
           - file: notebooks/xee_ic_to_netcdf.ipynb    
           - file: notebooks/xee_downloading_images.ipynb
-    - caption: OpenRouteService
+    - caption: Segment Geospatial
+      chapters:
+          - file: notebooks/samgeo_farm_boundary_extraction.ipynb
+          - file: notebooks/samgeo_mine_perimeter_detection.ipynb
+    - caption: Web APIs
       chapters:
           - file: notebooks/ors_distance_matrix.ipynb
      
