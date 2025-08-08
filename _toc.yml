@@ -10,18 +10,22 @@ parts:
           - file: notebooks/geopandas_spatial_query.ipynb
           - file: notebooks/geopandas_extract_from_excel.ipynb
           - file: notebooks/geopandas_fuzzy_table_join.ipynb
-    - caption: XArray
+    - caption: XArray for Raster Data Processing
       chapters:
           - file: notebooks/xarray_raster_styling_analysis.ipynb
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
-          - file: notebooks/xarray_aggregating_time_series.ipynb
-          - file: notebooks/xarray_wrap_longitude.ipynb
-          - file: notebooks/xarray_climate_anomaly.ipynb
           - file: notebooks/xarray_create_raster.ipynb
-    - caption: Dask
+          - file: notebooks/xarray_aggregating_rasters.ipynb
+    - caption: XArray for Climate Data Processing
+      chapters:     
+          - file: notebooks/xarray_aggregating_time_series.ipynb
+          - file: notebooks/xarray_climate_anomaly.ipynb
+          - file: notebooks/xarray_climate_trends.ipynb
+          - file: notebooks/xarray_wrap_longitude.ipynb
+    - caption: Dask for Parallel Processing
       chapters:
           - file: notebooks/dask_creating_spatial_data.ipynb
           - file: notebooks/dask_median_composite.ipynb
