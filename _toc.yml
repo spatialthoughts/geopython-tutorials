@@ -19,6 +19,7 @@ parts:
           - file: notebooks/xarray_extracting_time_series.ipynb
           - file: notebooks/xarray_create_raster.ipynb
           - file: notebooks/xarray_aggregating_rasters.ipynb
+          - file: notebooks/xarray_processing_satellite_images.ipynb
     - caption: XArray for Climate Data Processing
       chapters:     
           - file: notebooks/xarray_aggregating_time_series.ipynb
