@@ -17,6 +17,7 @@ parts:
           - file: notebooks/xarray_raster_sampling.ipynb
           - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
+          - file: notebooks/xarray_extracting_time_series_multiple.ipynb
           - file: notebooks/xarray_create_raster.ipynb
           - file: notebooks/xarray_aggregating_rasters.ipynb
           - file: notebooks/xarray_processing_satellite_images.ipynb
