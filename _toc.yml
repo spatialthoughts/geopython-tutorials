@@ -18,7 +18,6 @@ parts:
           - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
           - file: notebooks/xarray_extracting_time_series_multiple.ipynb
-          - file: notebooks/xarray_create_raster.ipynb
           - file: notebooks/xarray_aggregating_rasters.ipynb
           - file: notebooks/xarray_processing_satellite_images.ipynb
     - caption: XArray for Climate Data Processing
@@ -26,6 +25,9 @@ parts:
           - file: notebooks/xarray_aggregating_time_series.ipynb
           - file: notebooks/xarray_climate_anomaly.ipynb
           - file: notebooks/xarray_climate_trends.ipynb
+    - caption: XArray Utilities
+      chapters:
+          - file: notebooks/xarray_create_raster.ipynb
           - file: notebooks/xarray_wrap_longitude.ipynb
     - caption: Dask for Parallel Processing
       chapters:
