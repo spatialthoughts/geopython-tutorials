@@ -15,10 +15,10 @@ parts:
           - file: notebooks/xarray_raster_styling_analysis.ipynb
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
-          - file: notebooks/xarray_zonal_stats.ipynb
-          - file: notebooks/xarray_zonal_stats_time_series.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
           - file: notebooks/xarray_extracting_time_series_multiple.ipynb
+          - file: notebooks/xarray_zonal_stats.ipynb
+          - file: notebooks/xarray_zonal_stats_time_series.ipynb
           - file: notebooks/xarray_aggregating_rasters.ipynb
           - file: notebooks/xarray_processing_satellite_images.ipynb
     - caption: XArray for Climate Data Processing
