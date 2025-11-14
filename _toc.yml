@@ -10,23 +10,23 @@ parts:
           - file: notebooks/geopandas_spatial_query.ipynb
           - file: notebooks/geopandas_extract_from_excel.ipynb
           - file: notebooks/geopandas_fuzzy_table_join.ipynb
-    - caption: XArray for Raster Data Processing
+    - caption: Xarray for Raster Data Processing
       chapters:
           - file: notebooks/xarray_raster_styling_analysis.ipynb
           - file: notebooks/xarray_mosaic_and_clip.ipynb
           - file: notebooks/xarray_raster_sampling.ipynb
+          - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_extracting_time_series.ipynb
           - file: notebooks/xarray_extracting_time_series_multiple.ipynb
-          - file: notebooks/xarray_zonal_stats.ipynb
           - file: notebooks/xarray_zonal_stats_time_series.ipynb
           - file: notebooks/xarray_aggregating_rasters.ipynb
           - file: notebooks/xarray_processing_satellite_images.ipynb
-    - caption: XArray for Climate Data Processing
+    - caption: Xarray for Climate Data Processing
       chapters:     
           - file: notebooks/xarray_aggregating_time_series.ipynb
           - file: notebooks/xarray_climate_anomaly.ipynb
           - file: notebooks/xarray_climate_trends.ipynb
-    - caption: XArray Utilities
+    - caption: Xarray Utilities
       chapters:
           - file: notebooks/xarray_create_raster.ipynb
           - file: notebooks/xarray_wrap_longitude.ipynb
@@ -34,7 +34,7 @@ parts:
       chapters:
           - file: notebooks/dask_creating_spatial_data.ipynb
           - file: notebooks/dask_median_composite.ipynb
-    - caption: XEE (XArray + Google Earth Engine)
+    - caption: XEE (Xarray + Google Earth Engine)
       chapters:
           - file: notebooks/xee_ic_to_netcdf.ipynb   
           - file: notebooks/xee_time_series_processing.ipynb 
