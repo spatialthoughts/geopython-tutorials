@@ -26,6 +26,9 @@ parts:
           - file: notebooks/xarray_aggregating_time_series.ipynb
           - file: notebooks/xarray_climate_anomaly.ipynb
           - file: notebooks/xarray_climate_trends.ipynb
+    - caption: Xarray for Machine Learning
+      chapters:
+          - file: notebooks/xarray_embeddings_similarity_search.ipynb
     - caption: Xarray Utilities
       chapters:
           - file: notebooks/xarray_create_raster.ipynb
