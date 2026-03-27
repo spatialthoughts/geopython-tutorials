@@ -10,6 +10,7 @@ parts:
           - file: notebooks/geopandas_spatial_query.ipynb
           - file: notebooks/geopandas_extract_from_excel.ipynb
           - file: notebooks/geopandas_fuzzy_table_join.ipynb
+          - file: notebooks/geopandas_flood_frequncy.ipynb
     - caption: Xarray for Raster Data Processing
       chapters:
           - file: notebooks/xarray_raster_styling_analysis.ipynb
