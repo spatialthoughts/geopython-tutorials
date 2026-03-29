@@ -24,8 +24,14 @@ jobs:
       - name: Build site
         run: |
           rm -rf _build/
-          jupyter-book build .
-          cp CNAME _build/html
+          jupyter-book build . 2>&1
+          if [ ! -d "_build/html" ]; then
+            echo "ERROR: _build/html directory not found — build likely failed"
+            exit 1
+          fi
+
+      - name: Copy CNAME
+        run: cp CNAME _build/html/
 
       - name: Deploy to GitHub Pages
         run: ghp-import -n -p -f _build/html
