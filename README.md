@@ -6,8 +6,11 @@ The website is a static website generated using the following technologies
 
 * All the content is based on Markdown files and Jupyter notebooks.
 * The HTML is generated using [Jupyterbook](https://jupyterbook.org/en/stable/intro.html).
-* The webpages are hosted on [Github Pages](https://pages.github.com/).
+* The webpages are hosted on [Github Pages](https://pages.github.com/). A GitHub action builds and writes the output to the `gh-pages` branch.
 * Comments are powered by [utterances](https://utteranc.es/).
+
+
+# Local Development
 
 ## Clone the Repository
 
