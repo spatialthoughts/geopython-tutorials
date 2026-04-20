@@ -38,6 +38,9 @@ parts:
       chapters:
           - file: notebooks/dask_creating_spatial_data.ipynb
           - file: notebooks/dask_median_composite.ipynb
+    - caption: STAC (SpatioTemporal Asset Catalog)
+      chapters:
+          - file: notebooks/stac_static_catalog.ipynb
     - caption: XEE (Xarray + Google Earth Engine)
       chapters:
           - file: notebooks/xee_ic_to_netcdf.ipynb   
