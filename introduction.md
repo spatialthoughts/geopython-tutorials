@@ -2,11 +2,7 @@
 
 Welcome to Spatial Analysis and Remote Sensing Tutorials by <a href='https://spatialthoughts.com/' target='_blank'>Spatial Thoughts</a>. These tutorials complement our Python courses and are suitable for learners who want to advance their skills. 
 
-We highly recommend completing the following courses before diving into these tutorials. All our courses are open-access and freely available for self-study.
-
-
-* <a href='https://spatialthoughts.com/courses/python-foundation-for-spatial-analysis/' target='_blank'>Python Foundation for Spatial Analysis ↗</a>
-* <a href='https://spatialthoughts.com/courses/python-dataviz/' target='_blank'>Mapping and Data Visualization with Python ↗</a>
+If you are new to Python, we highly recommend completing our introductory Python course <a href='https://spatialthoughts.com/courses/python-foundation-for-spatial-analysis/' target='_blank'>Python Foundation for Spatial Analysis ↗</a> before diving into these tutorials.
 
 ## Before you begin
 
