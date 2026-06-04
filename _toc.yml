@@ -43,9 +43,9 @@ parts:
           - file: notebooks/stac_static_catalog.ipynb
     - caption: XEE (Xarray + Google Earth Engine)
       chapters:
-          - file: notebooks/xee_ic_to_netcdf.ipynb   
-          - file: notebooks/xee_time_series_processing.ipynb 
           - file: notebooks/xee_downloading_images.ipynb
+          - file: notebooks/xee_time_series_processing.ipynb 
+          - file: notebooks/xee_ic_to_netcdf.ipynb   
           - file: notebooks/xee_calculating_spi.ipynb
     - caption: Segment Geospatial
       chapters:
